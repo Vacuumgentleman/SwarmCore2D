@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class SwarmRenderProfile : MonoBehaviour
+namespace SwarmCore2D.ScriptableObjects
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /// <summary>
+    /// Rendering configuration for swarm entities.
+    /// Controls instancing and visual settings.
+    /// </summary>
+    [CreateAssetMenu(
+        fileName = "SwarmRenderProfile",
+        menuName = "SwarmCore2D/Render Profile"
+    )]
+    public class SwarmRenderProfile : ScriptableObject
     {
-        
-    }
+        [Header("Instancing")]
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Tooltip("Enable GPU instancing.")]
+        public bool useInstancing = true;
+
+        [Tooltip("Maximum instances per batch.")]
+        public int batchSize = 1023;
+
+        [Header("Rendering")]
+
+        public Mesh entityMesh;
+
+        public Material entityMaterial;
+
+        [Header("Performance")]
+
+        [Tooltip("Enable frustum culling.")]
+        public bool useFrustumCulling = true;
+
+        [Tooltip("Maximum visible entities.")]
+        public int maxVisibleEntities = 2000;
     }
 }
