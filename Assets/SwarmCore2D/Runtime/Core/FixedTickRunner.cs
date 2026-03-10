@@ -37,7 +37,8 @@ namespace SwarmCore2D.Core
             while (accumulator >= TickDelta && tickCount < maxTicksPerFrame)
             {
                 OnTick?.Invoke(TickDelta);
-
+                SwarmTime.Step();
+                
                 accumulator -= TickDelta;
                 tickCount++;
             }

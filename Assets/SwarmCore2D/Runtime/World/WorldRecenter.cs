@@ -1,51 +1,34 @@
 using UnityEngine;
+using SwarmCore2D.Simulation;
 
 namespace SwarmCore2D.World
 {
     /// <summary>
-    /// Optional world limits.
-    /// Used when infinite world is disabled.
+    /// Keeps the world centered around origin
+    /// to avoid floating point precision problems.
     /// </summary>
-    public class WorldBounds
+    public class WorldRecenter
     {
-        public bool enabled;
+        const float RECENTER_DISTANCE = 500f;
 
-        public float minX;
-        public float maxX;
-        public float minY;
-        public float maxY;
-
-        public WorldBounds()
+        public bool ShouldRecenter(Vector2 playerPosition)
         {
-            enabled = false;
-
-            minX = -50;
-            maxX = 50;
-            minY = -50;
-            maxY = 50;
+            return playerPosition.magnitude > RECENTER_DISTANCE;
         }
 
-        public Vector2 Clamp(Vector2 position)
+        public void Apply(SwarmState state, Vector2 playerPosition)
         {
-            if (!enabled)
-                return position;
+            if (state == null || state.positions == null)
+                return;
 
-            position.x = Mathf.Clamp(position.x, minX, maxX);
-            position.y = Mathf.Clamp(position.y, minY, maxY);
+            Vector2 offset = playerPosition;
 
-            return position;
-        }
+            int count = state.positions.Length;
 
-        public bool IsInside(Vector2 position)
-        {
-            if (!enabled)
-                return true;
-
-            return
-                position.x >= minX &&
-                position.x <= maxX &&
-                position.y >= minY &&
-                position.y <= maxY;
+            for (int i = 0; i < count; i++)
+            {
+                state.positions[i] -= offset;
+            }
         }
     }
 }

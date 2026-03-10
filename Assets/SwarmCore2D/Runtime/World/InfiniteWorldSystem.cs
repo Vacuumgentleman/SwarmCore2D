@@ -12,7 +12,6 @@ namespace SwarmCore2D.World
         WorldRecenter recenter;
 
         Transform player;
-
         SwarmState state;
 
         public InfiniteWorldSystem(
@@ -52,7 +51,6 @@ namespace SwarmCore2D.World
             if (recenter.ShouldRecenter(playerPos))
             {
                 recenter.Apply(state, playerPos);
-
                 player.position = Vector3.zero;
             }
         }

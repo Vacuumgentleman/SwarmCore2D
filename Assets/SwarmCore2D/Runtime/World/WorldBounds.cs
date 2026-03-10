@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace SwarmCore2D.World
 {
-    /// <summary>
-    /// Optional world limits.
-    /// Used when infinite world is disabled.
-    /// </summary>
     public class WorldBounds
     {
         public bool enabled;
