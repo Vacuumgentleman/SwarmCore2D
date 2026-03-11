@@ -22,7 +22,17 @@ namespace SwarmCore2D.Simulation
 
             Vector2 spawnPos = playerPos + offset;
 
-            world.Spawn(spawnPos, 1);
+            SwarmEntity entity = world.Spawn(spawnPos, 1);
+
+            int id = entity.id;
+
+            if (id >= 0)
+            {
+                var state = world.state;
+
+                state.health[id] = 10f;
+                state.radius[id] = 0.6f;
+            }
         }
     }
 }

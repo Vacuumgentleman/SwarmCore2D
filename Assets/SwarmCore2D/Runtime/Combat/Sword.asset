@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  damage: 4
+  radius: 5
+  cooldown: 0.7
+  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
+  alternateLeftRight: 0
+  attackUp: 1
+  attackDown: 1
+  attackLeft: 1
+  attackRight: 1
+  attackAngle: 10
+  frames:
+  - {fileID: 2254864278230101663, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  - {fileID: -5325073635051452667, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  - {fileID: 5944631344604988282, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  - {fileID: 1784041864, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  - {fileID: 807704620, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  frameRate: 12
+  knockback: 1

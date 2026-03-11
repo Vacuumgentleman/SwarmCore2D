@@ -15,6 +15,10 @@ namespace SwarmCore2D.Simulation
 
         public int[] type;
 
+        // health
+        public float[] health;
+        public float[] hitFlash;
+
         // animation
         public int[] frame;
         public bool[] facingLeft;
@@ -37,6 +41,9 @@ namespace SwarmCore2D.Simulation
             mass = new float[Capacity];
 
             type = new int[Capacity];
+
+            health = new float[Capacity];
+            hitFlash = new float[Capacity];
 
             frame = new int[Capacity];
             facingLeft = new bool[Capacity];
@@ -102,6 +109,9 @@ namespace SwarmCore2D.Simulation
             System.Array.Clear(mass, 0, Capacity);
 
             System.Array.Clear(type, 0, Capacity);
+
+            System.Array.Clear(health, 0, Capacity);
+            System.Array.Clear(hitFlash, 0, Capacity);
 
             System.Array.Clear(frame, 0, Capacity);
             System.Array.Clear(facingLeft, 0, Capacity);

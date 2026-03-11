@@ -16,6 +16,8 @@ namespace SwarmCore2D.Simulation
         EnemyChaseSystem chase;
         EnemySeparationSystem separation;
 
+        SpatialHashGrid grid;
+
         public SwarmState WorldState => world.state;
 
         void Awake()
@@ -25,6 +27,9 @@ namespace SwarmCore2D.Simulation
             spawner = new EnemySpawnerSystem();
             chase = new EnemyChaseSystem();
             separation = new EnemySeparationSystem();
+
+            // grid usado por los sistemas de enemigos
+            grid = new SpatialHashGrid(1.2f);
 
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
@@ -39,13 +44,10 @@ namespace SwarmCore2D.Simulation
 
             Vector2 playerPos = player.position;
 
-            // spawn enemigos
             spawner.Update(world, playerPos);
 
-            // movimiento hacia el jugador
             chase.Update(world.state, playerPos);
 
-            // evitar que se acumulen
             separation.Update(world.state);
         }
     }
