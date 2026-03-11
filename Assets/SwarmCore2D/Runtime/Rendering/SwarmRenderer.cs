@@ -3,9 +3,6 @@ using SwarmCore2D.Simulation;
 
 namespace SwarmCore2D.Rendering
 {
-    /// <summary>
-    /// Bridge between simulation and GPU rendering.
-    /// </summary>
     public class SwarmRenderer : MonoBehaviour
     {
         [Header("Rendering")]
@@ -32,7 +29,12 @@ namespace SwarmCore2D.Rendering
 
             renderData.Build(state);
 
-            batcher.Draw(renderData.matrices, renderData.count);
+            batcher.Draw(
+                renderData.matrices,
+                renderData.frames,
+                renderData.flips,
+                renderData.count
+            );
         }
     }
 }

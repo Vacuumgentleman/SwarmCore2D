@@ -6,6 +6,7 @@ namespace SwarmCore2D.Simulation
     public class EnemyChaseSystem
     {
         float speed = 3f;
+        float animSpeed = 8f;
 
         public void Update(SwarmState state, Vector2 playerPos)
         {
@@ -26,8 +27,14 @@ namespace SwarmCore2D.Simulation
                 dir = SwarmMath.SafeNormalize(dir);
 
                 state.velocities[i] = dir * speed;
-
                 state.positions[i] += state.velocities[i] * SwarmTime.FixedDelta;
+
+                // flip
+                state.facingLeft[i] = dir.x < 0f;
+
+                // animación con desfase
+                float t = Time.time + state.animOffset[i];
+                state.frame[i] = (int)(t * animSpeed) % 7;
             }
         }
     }

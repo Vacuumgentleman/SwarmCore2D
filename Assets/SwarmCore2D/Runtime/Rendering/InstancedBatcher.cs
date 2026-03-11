@@ -2,9 +2,6 @@ using UnityEngine;
 
 namespace SwarmCore2D.Rendering
 {
-    /// <summary>
-    /// Handles GPU instanced rendering batches.
-    /// </summary>
     public class InstancedBatcher
     {
         const int BatchSize = 1023;
@@ -12,13 +9,17 @@ namespace SwarmCore2D.Rendering
         Mesh mesh;
         Material material;
 
+        MaterialPropertyBlock props;
+
         public InstancedBatcher(Mesh mesh, Material material)
         {
             this.mesh = mesh;
             this.material = material;
+
+            props = new MaterialPropertyBlock();
         }
 
-        public void Draw(Matrix4x4[] matrices, int count)
+        public void Draw(Matrix4x4[] matrices, float[] frames, float[] flips, int count)
         {
             int index = 0;
 
@@ -26,13 +27,16 @@ namespace SwarmCore2D.Rendering
             {
                 int batch = Mathf.Min(BatchSize, count - index);
 
+                props.SetFloatArray("_Frame", frames);
+                props.SetFloatArray("_Flip", flips);
+
                 Graphics.DrawMeshInstanced(
                     mesh,
                     0,
                     material,
                     matrices,
                     batch,
-                    null,
+                    props,
                     UnityEngine.Rendering.ShadowCastingMode.Off,
                     false
                 );

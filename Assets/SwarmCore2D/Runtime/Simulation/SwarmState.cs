@@ -3,15 +3,10 @@ using SwarmCore2D.Core;
 
 namespace SwarmCore2D.Simulation
 {
-    /// <summary>
-    /// Central data container for the swarm simulation.
-    /// Stores all entity data using Structure-of-Arrays layout.
-    /// </summary>
     public class SwarmState
     {
         public readonly int Capacity;
 
-        // core data
         public Vector2[] positions;
         public Vector2[] velocities;
 
@@ -20,7 +15,11 @@ namespace SwarmCore2D.Simulation
 
         public int[] type;
 
-        // optional flags
+        // animation
+        public int[] frame;
+        public bool[] facingLeft;
+        public float[] animOffset;
+
         public bool[] active;
 
         public SwarmState()
@@ -35,6 +34,10 @@ namespace SwarmCore2D.Simulation
 
             type = new int[Capacity];
 
+            frame = new int[Capacity];
+            facingLeft = new bool[Capacity];
+            animOffset = new float[Capacity];
+
             active = new bool[Capacity];
         }
 
@@ -44,6 +47,7 @@ namespace SwarmCore2D.Simulation
                 return;
 
             active[id] = true;
+            animOffset[id] = Random.value * 10f; // desfase animación
         }
 
         public void Deactivate(int id)
@@ -71,6 +75,11 @@ namespace SwarmCore2D.Simulation
             System.Array.Clear(mass, 0, Capacity);
 
             System.Array.Clear(type, 0, Capacity);
+
+            System.Array.Clear(frame, 0, Capacity);
+            System.Array.Clear(facingLeft, 0, Capacity);
+            System.Array.Clear(animOffset, 0, Capacity);
+
             System.Array.Clear(active, 0, Capacity);
         }
     }
