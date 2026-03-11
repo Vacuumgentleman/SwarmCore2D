@@ -18,12 +18,16 @@ namespace SwarmCore2D.Rendering
 
         SwarmState state;
 
+        Matrix4x4[] matrices;
+
         public void Initialize(SwarmState state)
         {
             this.state = state;
 
             renderData = new RenderData();
             batcher = new InstancedBatcher(mesh, material);
+
+            matrices = new Matrix4x4[10000];
         }
 
         void LateUpdate()
@@ -33,24 +37,29 @@ namespace SwarmCore2D.Rendering
 
             renderData.Build(state);
 
-            ApplyScale(renderData.matrices, renderData.count);
+            UpdateMatrices(renderData);
 
             batcher.Draw(
-                renderData.matrices,
+                matrices,
                 renderData.frames,
                 renderData.flips,
                 renderData.count
             );
         }
 
-        void ApplyScale(Matrix4x4[] matrices, int count)
+        void UpdateMatrices(RenderData data)
         {
             Vector3 scale = Vector3.one * spriteScale;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < data.count; i++)
             {
-                Vector3 pos = matrices[i].GetColumn(3);
-                matrices[i] = Matrix4x4.TRS(pos, Quaternion.identity, scale);
+                Vector3 pos = data.matrices[i].GetColumn(3);
+
+                matrices[i].SetTRS(
+                    pos,
+                    Quaternion.identity,
+                    scale
+                );
             }
         }
     }

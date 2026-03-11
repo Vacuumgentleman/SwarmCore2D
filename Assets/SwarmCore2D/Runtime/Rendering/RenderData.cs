@@ -10,7 +10,12 @@ namespace SwarmCore2D.Rendering
         public float[] frames;
         public float[] flips;
 
+        float[] animSpeed;
+
         public int count;
+
+        const int FrameCount = 7;
+        const float BaseAnimSpeed = 8f;
 
         public RenderData()
         {
@@ -19,6 +24,12 @@ namespace SwarmCore2D.Rendering
             matrices = new Matrix4x4[cap];
             frames = new float[cap];
             flips = new float[cap];
+            animSpeed = new float[cap];
+
+            for (int i = 0; i < cap; i++)
+            {
+                animSpeed[i] = Random.Range(0.8f, 1.2f);
+            }
 
             count = 0;
         }
@@ -28,6 +39,8 @@ namespace SwarmCore2D.Rendering
             count = 0;
 
             int capacity = state.Capacity;
+
+            float time = Time.time;
 
             for (int i = 0; i < capacity; i++)
             {
@@ -44,7 +57,10 @@ namespace SwarmCore2D.Rendering
                         new Vector3(r, r, 1f)
                     );
 
-                frames[count] = state.frame[i];
+                float anim = time * BaseAnimSpeed * animSpeed[i];
+
+                frames[count] = (int)anim % FrameCount;
+
                 flips[count] = state.facingLeft[i] ? 1f : 0f;
 
                 count++;
