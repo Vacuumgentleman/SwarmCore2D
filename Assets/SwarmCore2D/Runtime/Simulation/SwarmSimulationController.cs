@@ -14,6 +14,7 @@ namespace SwarmCore2D.Simulation
 
         EnemySpawnerSystem spawner;
         EnemyChaseSystem chase;
+        EnemySeparationSystem separation;
 
         public SwarmState WorldState => world.state;
 
@@ -23,6 +24,7 @@ namespace SwarmCore2D.Simulation
 
             spawner = new EnemySpawnerSystem();
             chase = new EnemyChaseSystem();
+            separation = new EnemySeparationSystem();
 
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
@@ -32,10 +34,19 @@ namespace SwarmCore2D.Simulation
         {
             SwarmTime.Step();
 
+            if (player == null)
+                return;
+
             Vector2 playerPos = player.position;
 
+            // spawn enemigos
             spawner.Update(world, playerPos);
+
+            // movimiento hacia el jugador
             chase.Update(world.state, playerPos);
+
+            // evitar que se acumulen
+            separation.Update(world.state);
         }
     }
 }
