@@ -10,12 +10,11 @@ namespace SwarmCore2D.Simulation
 
         public void Update(SwarmState state, Vector2 playerPos)
         {
-            int cap = state.Capacity;
+            int count = state.activeCount;
 
-            for (int i = 0; i < cap; i++)
+            for (int a = 0; a < count; a++)
             {
-                if (!state.active[i])
-                    continue;
+                int i = state.activeList[a];
 
                 if (state.type[i] != 1)
                     continue;
@@ -29,10 +28,8 @@ namespace SwarmCore2D.Simulation
                 state.velocities[i] = dir * speed;
                 state.positions[i] += state.velocities[i] * SwarmTime.FixedDelta;
 
-                // flip
                 state.facingLeft[i] = dir.x < 0f;
 
-                // animación con desfase
                 float t = Time.time + state.animOffset[i];
                 state.frame[i] = (int)(t * animSpeed) % 7;
             }

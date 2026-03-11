@@ -22,6 +22,10 @@ namespace SwarmCore2D.Simulation
 
         public bool[] active;
 
+        // active entity list (performance)
+        public int[] activeList;
+        public int activeCount;
+
         public SwarmState()
         {
             Capacity = SwarmConstants.MaxEntities;
@@ -39,6 +43,9 @@ namespace SwarmCore2D.Simulation
             animOffset = new float[Capacity];
 
             active = new bool[Capacity];
+
+            activeList = new int[Capacity];
+            activeCount = 0;
         }
 
         public void Activate(int id)
@@ -46,8 +53,15 @@ namespace SwarmCore2D.Simulation
             if (id < 0 || id >= Capacity)
                 return;
 
+            if (active[id])
+                return;
+
             active[id] = true;
-            animOffset[id] = Random.value * 10f; // desfase animación
+
+            animOffset[id] = Random.value * 10f;
+
+            activeList[activeCount] = id;
+            activeCount++;
         }
 
         public void Deactivate(int id)
@@ -55,7 +69,20 @@ namespace SwarmCore2D.Simulation
             if (id < 0 || id >= Capacity)
                 return;
 
+            if (!active[id])
+                return;
+
             active[id] = false;
+
+            for (int i = 0; i < activeCount; i++)
+            {
+                if (activeList[i] == id)
+                {
+                    activeList[i] = activeList[activeCount - 1];
+                    activeCount--;
+                    break;
+                }
+            }
         }
 
         public bool IsActive(int id)
@@ -81,6 +108,8 @@ namespace SwarmCore2D.Simulation
             System.Array.Clear(animOffset, 0, Capacity);
 
             System.Array.Clear(active, 0, Capacity);
+
+            activeCount = 0;
         }
     }
 }
