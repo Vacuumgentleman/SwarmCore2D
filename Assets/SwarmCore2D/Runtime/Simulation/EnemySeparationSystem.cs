@@ -8,9 +8,26 @@ namespace SwarmCore2D.Simulation
         float separationRadius = 0.6f;
         float separationForce = 2f;
 
+        SpatialHashGrid grid;
+
+        public EnemySeparationSystem()
+        {
+            grid = new SpatialHashGrid(1.2f);
+        }
+
         public void Update(SwarmState state)
         {
+            grid.Clear();
+
             int cap = state.Capacity;
+
+            for (int i = 0; i < cap; i++)
+            {
+                if (!state.active[i])
+                    continue;
+
+                grid.Add(i, state.positions[i]);
+            }
 
             float radiusSq = separationRadius * separationRadius;
 
@@ -26,12 +43,11 @@ namespace SwarmCore2D.Simulation
 
                 Vector2 push = Vector2.zero;
 
-                for (int j = 0; j < cap; j++)
+                var neighbors = grid.Query(posA);
+
+                foreach (int j in neighbors)
                 {
                     if (i == j)
-                        continue;
-
-                    if (!state.active[j])
                         continue;
 
                     Vector2 posB = state.positions[j];
@@ -40,7 +56,7 @@ namespace SwarmCore2D.Simulation
 
                     float distSq = diff.sqrMagnitude;
 
-                    if (distSq > radiusSq || distSq == 0f)
+                    if (distSq > radiusSq || distSq == 0)
                         continue;
 
                     float dist = Mathf.Sqrt(distSq);
