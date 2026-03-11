@@ -21,14 +21,16 @@ namespace SwarmCore2D.Rendering
 
         public void Draw(Matrix4x4[] matrices, float[] frames, float[] flips, int count)
         {
+            props.Clear();
+
+            props.SetFloatArray("_Frame", frames);
+            props.SetFloatArray("_Flip", flips);
+
             int index = 0;
 
             while (index < count)
             {
                 int batch = Mathf.Min(BatchSize, count - index);
-
-                props.SetFloatArray("_Frame", frames);
-                props.SetFloatArray("_Flip", flips);
 
                 Graphics.DrawMeshInstanced(
                     mesh,
@@ -38,7 +40,11 @@ namespace SwarmCore2D.Rendering
                     batch,
                     props,
                     UnityEngine.Rendering.ShadowCastingMode.Off,
-                    false
+                    false,
+                    0,
+                    null,
+                    UnityEngine.Rendering.LightProbeUsage.Off,
+                    null
                 );
 
                 index += batch;

@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Rendering.SwarmRenderer
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: fdb146ef58f72257bbcde85004b05a98, type: 2}
+  spriteScale: 1
 --- !u!114 &134599281
 MonoBehaviour:
   m_ObjectHideFlags: 0
