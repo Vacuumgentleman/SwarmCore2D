@@ -10,6 +10,10 @@ namespace SwarmCore2D.Rendering
         public float[] frames;
         public float[] flips;
 
+        public float[] hitFlash;
+
+        public Vector4[] tint;
+
         public int count;
 
         public RenderData()
@@ -19,6 +23,9 @@ namespace SwarmCore2D.Rendering
             matrices = new Matrix4x4[cap];
             frames = new float[cap];
             flips = new float[cap];
+            hitFlash = new float[cap];
+
+            tint = new Vector4[cap];
 
             count = 0;
         }
@@ -45,6 +52,14 @@ namespace SwarmCore2D.Rendering
 
                 frames[count] = state.frame[i];
                 flips[count] = state.facingLeft[i] ? 1f : 0f;
+
+                hitFlash[count] = state.hitFlash[i];
+
+                // COLOR PARA EL FLASH
+                if (state.hitFlash[i] > 0f)
+                    tint[count] = new Vector4(1f, 0.3f, 0.3f, 1f); // rojo
+                else
+                    tint[count] = Vector4.one; // normal
 
                 count++;
             }

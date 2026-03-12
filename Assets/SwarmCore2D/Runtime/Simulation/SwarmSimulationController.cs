@@ -38,11 +38,9 @@ namespace SwarmCore2D.Simulation
 
             projectileSystem = new ProjectileSystem(grid);
 
-            // renderer enemigos
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
 
-            // buscar renderer de proyectiles automáticamente
             if (projectileRenderer == null)
                 projectileRenderer = FindFirstObjectByType<ProjectileRenderer>();
 
@@ -61,16 +59,14 @@ namespace SwarmCore2D.Simulation
 
             Vector2 playerPos = player.position;
 
-            // spawn enemigos
             spawner.Update(world, playerPos);
 
-            // movimiento enemigos
             chase.Update(world.state, playerPos);
 
-            // separación
             separation.Update(world.state);
 
-            // rebuild spatial grid
+            UpdateHitFlash(world.state);
+
             grid.Clear();
 
             int count = world.state.activeCount;
@@ -85,8 +81,22 @@ namespace SwarmCore2D.Simulation
                 );
             }
 
-            // proyectiles
             projectileSystem.Update(world.state);
+        }
+
+        void UpdateHitFlash(SwarmState state)
+        {
+            float dt = SwarmTime.FixedDelta;
+
+            int count = state.activeCount;
+
+            for (int i = 0; i < count; i++)
+            {
+                int id = state.activeList[i];
+
+                if (state.hitFlash[id] > 0f)
+                    state.hitFlash[id] -= dt;
+            }
         }
     }
 }

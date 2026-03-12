@@ -20,6 +20,8 @@ namespace SwarmCore2D.Rendering
 
         Matrix4x4[] matrices;
 
+        MaterialPropertyBlock props;
+
         public void Initialize(SwarmState state)
         {
             this.state = state;
@@ -28,6 +30,8 @@ namespace SwarmCore2D.Rendering
             batcher = new InstancedBatcher(mesh, material);
 
             matrices = new Matrix4x4[10000];
+
+            props = new MaterialPropertyBlock();
         }
 
         void LateUpdate()
@@ -39,10 +43,13 @@ namespace SwarmCore2D.Rendering
 
             UpdateMatrices(renderData);
 
+            props.SetFloatArray("_HitFlash", renderData.hitFlash);
+
             batcher.Draw(
                 matrices,
                 renderData.frames,
                 renderData.flips,
+                renderData.tint,
                 renderData.count
             );
         }

@@ -11,7 +11,6 @@ namespace SwarmCore2D.Simulation
 
             state.health[id] -= damage;
 
-            // activar flash rojo
             state.hitFlash[id] = 0.15f;
 
             if (state.health[id] <= 0f)

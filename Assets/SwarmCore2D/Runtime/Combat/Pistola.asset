@@ -25,12 +25,7 @@ MonoBehaviour:
   projectileCount: 1
   directionMode: 1
   attackAngle: 40
-  frames:
-  - {fileID: 2254864278230101663, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
-  - {fileID: -5325073635051452667, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
-  - {fileID: 5944631344604988282, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
-  - {fileID: 1784041864, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
-  - {fileID: 807704620, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
+  frames: []
   frameRate: 12
   knockback: 1
   maxDistance: 100

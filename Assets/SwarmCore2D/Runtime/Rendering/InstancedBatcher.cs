@@ -19,18 +19,24 @@ namespace SwarmCore2D.Rendering
             props = new MaterialPropertyBlock();
         }
 
-        public void Draw(Matrix4x4[] matrices, float[] frames, float[] flips, int count)
+        public void Draw(
+            Matrix4x4[] matrices,
+            float[] frames,
+            float[] flips,
+            Vector4[] tint,
+            int count)
         {
-            props.Clear();
-
-            props.SetFloatArray("_Frame", frames);
-            props.SetFloatArray("_Flip", flips);
-
             int index = 0;
 
             while (index < count)
             {
                 int batch = Mathf.Min(BatchSize, count - index);
+
+                props.Clear();
+
+                props.SetFloatArray("_Frame", frames);
+                props.SetFloatArray("_Flip", flips);
+                props.SetVectorArray("_Tint", tint);
 
                 Graphics.DrawMeshInstanced(
                     mesh,
