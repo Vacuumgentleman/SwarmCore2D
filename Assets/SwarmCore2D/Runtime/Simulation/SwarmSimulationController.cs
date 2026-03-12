@@ -1,6 +1,7 @@
 using UnityEngine;
 using SwarmCore2D.Core;
 using SwarmCore2D.Rendering;
+using SwarmCore2D.Combat;
 
 namespace SwarmCore2D.Simulation
 {
@@ -18,7 +19,11 @@ namespace SwarmCore2D.Simulation
 
         SpatialHashGrid grid;
 
+        ProjectileSystem projectileSystem;
+
         public SwarmState WorldState => world.state;
+
+        public ProjectileSystem ProjectileSystem => projectileSystem;
 
         void Awake()
         {
@@ -28,8 +33,9 @@ namespace SwarmCore2D.Simulation
             chase = new EnemyChaseSystem();
             separation = new EnemySeparationSystem();
 
-            // grid usado por los sistemas de enemigos
             grid = new SpatialHashGrid(1.2f);
+
+            projectileSystem = new ProjectileSystem(grid);
 
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
@@ -49,6 +55,24 @@ namespace SwarmCore2D.Simulation
             chase.Update(world.state, playerPos);
 
             separation.Update(world.state);
+
+            // actualizar grid para colisiones
+            grid.Clear();
+
+            int count = world.state.activeCount;
+
+            for (int i = 0; i < count; i++)
+            {
+                int id = world.state.activeList[i];
+
+                grid.Add(
+                    id,
+                    world.state.positions[id]
+                );
+            }
+
+            // actualizar proyectiles
+            projectileSystem.Update(world.state);
         }
     }
 }
