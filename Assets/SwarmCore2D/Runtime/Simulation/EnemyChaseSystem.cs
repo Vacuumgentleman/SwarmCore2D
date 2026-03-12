@@ -16,11 +16,8 @@ namespace SwarmCore2D.Simulation
             {
                 int i = state.activeList[a];
 
-                // actualizar flash de daño
                 if (state.hitFlash[i] > 0f)
-                {
                     state.hitFlash[i] -= SwarmTime.FixedDelta;
-                }
 
                 if (state.type[i] != 1)
                     continue;

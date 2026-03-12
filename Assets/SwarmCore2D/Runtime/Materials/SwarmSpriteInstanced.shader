@@ -4,6 +4,7 @@ Shader "Swarm/SpriteInstanced"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _FrameCount ("Frame Count", Float) = 7
+        _Tint ("Tint", Color) = (1,1,1,1)
     }
 
     SubShader
@@ -49,6 +50,7 @@ Shader "Swarm/SpriteInstanced"
 
                 UNITY_DEFINE_INSTANCED_PROP(float, _Frame)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Flip)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _Tint)
 
             UNITY_INSTANCING_BUFFER_END(Props)
 
@@ -71,6 +73,7 @@ Shader "Swarm/SpriteInstanced"
 
                 float frame = UNITY_ACCESS_INSTANCED_PROP(Props, _Frame);
                 float flip = UNITY_ACCESS_INSTANCED_PROP(Props, _Flip);
+                float4 tint = UNITY_ACCESS_INSTANCED_PROP(Props, _Tint);
 
                 float2 uv = IN.uv;
 
@@ -81,7 +84,7 @@ Shader "Swarm/SpriteInstanced"
 
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
-                return col;
+                return col * tint;
             }
 
             ENDHLSL

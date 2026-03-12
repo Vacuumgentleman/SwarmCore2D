@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
-  m_Name: Sword
+  m_Name: Pistola
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
-  attackType: 0
+  attackType: 1
   damage: 4
   radius: 3
   cooldown: 0.7
-  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
-  attackUp: 1
-  attackDown: 0
-  attackLeft: 1
+  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
+  attackUp: 0
+  attackDown: 1
+  attackLeft: 0
   attackRight: 1
   allowDiagonals: 0
   projectileCount: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
   - {fileID: 807704620, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
   frameRate: 12
   knockback: 1
-  maxDistance: 0
-  maxLifetime: 5
+  maxDistance: 100
+  maxLifetime: 10
   pierceEnemies: 0
   projectileSize: 0.5
