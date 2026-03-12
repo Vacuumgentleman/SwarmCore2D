@@ -15,6 +15,8 @@ namespace SwarmCore2D.Combat
 
         float hitRadius = 0.5f;
 
+        public ProjectileState State => projectiles;
+
         public ProjectileSystem(SpatialHashGrid grid)
         {
             projectiles = new ProjectileState();
@@ -28,7 +30,7 @@ namespace SwarmCore2D.Combat
         {
             projectiles.Spawn(
                 pos,
-                dir,
+                dir.normalized,
                 12f,
                 weapon.damage,
                 weapon.maxLifetime,
@@ -53,25 +55,26 @@ namespace SwarmCore2D.Combat
 
                 projectiles.lifetime[i] -= dt;
 
-                float dist =
-                    Vector2.Distance(
-                        projectiles.startPos[i],
-                        pos);
+                float dist = Vector2.Distance(
+                    projectiles.startPos[i],
+                    pos
+                );
 
-                if (projectiles.lifetime[i] <= 0 ||
+                if (projectiles.lifetime[i] <= 0f ||
                     dist >= projectiles.maxDistance[i])
                 {
                     projectiles.Remove(i);
                     continue;
                 }
 
-                CheckHit(state, i);
+                if (CheckHit(state, i))
+                    continue;
 
                 i++;
             }
         }
 
-        void CheckHit(SwarmState state, int p)
+        bool CheckHit(SwarmState state, int p)
         {
             Vector2 pos = projectiles.position[p];
 
@@ -85,25 +88,28 @@ namespace SwarmCore2D.Combat
                 if (state.type[id] != 1)
                     continue;
 
-                float dist =
-                    Vector2.Distance(
-                        pos,
-                        state.positions[id]);
+                float dist = Vector2.Distance(
+                    pos,
+                    state.positions[id]
+                );
 
                 if (dist <= state.radius[id] + hitRadius)
                 {
                     healthSystem.Damage(
                         state,
                         id,
-                        projectiles.damage[p]);
+                        projectiles.damage[p]
+                    );
 
                     if (!projectiles.pierce[p])
                     {
                         projectiles.Remove(p);
-                        return;
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
     }
 }

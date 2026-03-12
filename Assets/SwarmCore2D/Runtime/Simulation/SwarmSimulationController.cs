@@ -10,6 +10,7 @@ namespace SwarmCore2D.Simulation
         [Header("Scene References")]
         public Transform player;
         public SwarmRenderer swarmRenderer;
+        public ProjectileRenderer projectileRenderer;
 
         SwarmWorld world;
 
@@ -37,8 +38,18 @@ namespace SwarmCore2D.Simulation
 
             projectileSystem = new ProjectileSystem(grid);
 
+            // renderer enemigos
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
+
+            // buscar renderer de proyectiles automáticamente
+            if (projectileRenderer == null)
+                projectileRenderer = FindFirstObjectByType<ProjectileRenderer>();
+
+            if (projectileRenderer != null)
+                projectileRenderer.Initialize(projectileSystem);
+            else
+                Debug.LogWarning("ProjectileRenderer no encontrado en la escena");
         }
 
         void Update()
@@ -50,13 +61,16 @@ namespace SwarmCore2D.Simulation
 
             Vector2 playerPos = player.position;
 
+            // spawn enemigos
             spawner.Update(world, playerPos);
 
+            // movimiento enemigos
             chase.Update(world.state, playerPos);
 
+            // separación
             separation.Update(world.state);
 
-            // actualizar grid para colisiones
+            // rebuild spatial grid
             grid.Clear();
 
             int count = world.state.activeCount;
@@ -71,7 +85,7 @@ namespace SwarmCore2D.Simulation
                 );
             }
 
-            // actualizar proyectiles
+            // proyectiles
             projectileSystem.Update(world.state);
         }
     }
