@@ -13,8 +13,15 @@ public class PlayerHealth : MonoBehaviour
     public SpriteRenderer sprite;
     public Color hitColor = Color.red;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip damageSound;
+
     [Header("Death")]
     public ParticleSystem deathParticles;
+
+    [Header("Scene Transition")]
+    public ScreenFadeToMenu screenFade;
 
     float invulTimer;
     Color originalColor;
@@ -25,6 +32,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (sprite != null)
             originalColor = sprite.color;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -52,14 +62,30 @@ public class PlayerHealth : MonoBehaviour
 
         invulTimer = invulnerabilityTime;
 
+        PlayDamageSound();
+
         if (currentHealth <= 0f)
             Die();
+    }
+
+    void PlayDamageSound()
+    {
+        if (audioSource == null)
+            return;
+
+        if (damageSound == null)
+            return;
+
+        audioSource.PlayOneShot(damageSound);
     }
 
     void Die()
     {
         if (deathParticles != null)
             Instantiate(deathParticles, transform.position, Quaternion.identity);
+
+        if (screenFade != null)
+            screenFade.FadeToMenu();
 
         gameObject.SetActive(false);
     }
