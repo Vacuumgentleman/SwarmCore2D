@@ -1,4 +1,6 @@
 using UnityEngine;
+using SwarmCore2D.Core;
+using System.Collections.Generic;
 
 namespace SwarmCore2D.Simulation
 {
@@ -6,20 +8,49 @@ namespace SwarmCore2D.Simulation
     {
         float damage = 5f;
 
-        public void Update(SwarmState state, Vector2 playerPos, PlayerHealth player)
+        float playerRadius = 0.6f;
+
+        SpatialHashGrid grid;
+
+        public EnemyContactDamageSystem(SpatialHashGrid grid)
         {
-            int count = state.activeCount;
+            this.grid = grid;
+        }
 
-            for (int a = 0; a < count; a++)
+        public void Update(
+            SwarmState state,
+            Vector2 playerPos,
+            PlayerHealth player)
+        {
+            if (grid == null)
+                return;
+
+            if (player == null)
+                return;
+
+            List<int> nearby = grid.Query(playerPos);
+
+            if (nearby == null || nearby.Count == 0)
+                return;
+
+            int count = nearby.Count;
+
+            for (int n = 0; n < count; n++)
             {
-                int i = state.activeList[a];
+                int id = nearby[n];
 
-                if (state.type[i] != 1)
+                if (id < 0 || id >= state.Capacity)
                     continue;
 
-                Vector2 pos = state.positions[i];
+                if (!state.active[id])
+                    continue;
 
-                float radius = state.radius[i] + 0.6f;
+                if (state.type[id] != 1)
+                    continue;
+
+                Vector2 pos = state.positions[id];
+
+                float radius = state.radius[id] + playerRadius;
 
                 float dist =
                     Vector2.SqrMagnitude(playerPos - pos);

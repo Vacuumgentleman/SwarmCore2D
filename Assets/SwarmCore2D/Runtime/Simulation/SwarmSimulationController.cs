@@ -12,7 +12,6 @@ namespace SwarmCore2D.Simulation
         public Transform player;
         public SwarmRenderer swarmRenderer;
         public ProjectileRenderer projectileRenderer;
-
         public WorldRenderer worldRenderer;
 
         SwarmWorld world;
@@ -44,11 +43,11 @@ namespace SwarmCore2D.Simulation
             chase = new EnemyChaseSystem();
             separation = new EnemySeparationSystem();
 
-            contactDamage = new EnemyContactDamageSystem();
-
             grid = new SpatialHashGrid(1.2f);
 
             projectileSystem = new ProjectileSystem(grid);
+
+            contactDamage = new EnemyContactDamageSystem(grid);
 
             infiniteWorld = new InfiniteWorldSystem(world.state, player);
             chunkSystem = new WorldChunkSystem();
@@ -83,7 +82,7 @@ namespace SwarmCore2D.Simulation
             // mundo infinito
             infiniteWorld.Update();
 
-            // chunks del mundo
+            // chunks
             chunkSystem.Update(playerPos);
 
             // spawn enemigos
@@ -92,23 +91,13 @@ namespace SwarmCore2D.Simulation
             // movimiento enemigos
             chase.Update(world.state, playerPos);
 
-            // separación enemigos
+            // separación
             separation.Update(world.state);
-
-            // daño por contacto al jugador
-            if (playerHealth != null)
-            {
-                contactDamage.Update(
-                    world.state,
-                    playerPos,
-                    playerHealth
-                );
-            }
 
             // actualizar hit flash enemigos
             UpdateHitFlash(world.state);
 
-            // actualizar spatial grid
+            // reconstruir grid espacial
             grid.Clear();
 
             int count = world.state.activeCount;
@@ -120,6 +109,16 @@ namespace SwarmCore2D.Simulation
                 grid.Add(
                     id,
                     world.state.positions[id]
+                );
+            }
+
+            // daño por contacto
+            if (playerHealth != null)
+            {
+                contactDamage.Update(
+                    world.state,
+                    playerPos,
+                    playerHealth
                 );
             }
 
