@@ -181,7 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Simulation.SwarmSimulationController
   player: {fileID: 1352700341}
   swarmRenderer: {fileID: 134599280}
-  projectileRenderer: {fileID: 0}
+  projectileRenderer: {fileID: 2046009531}
+  worldRenderer: {fileID: 1716173057}
 --- !u!114 &134599282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,6 +701,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2219512595602369150, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
   m_PrefabInstance: {fileID: 5114003235895855612}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1716173054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1716173056}
+  - component: {fileID: 1716173057}
+  m_Layer: 0
+  m_Name: WorldRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1716173056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716173054}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.99132, y: -53.29857, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1716173057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716173054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87228d6e0a2cedd198e9bb5901da5f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldRenderer
+  tileMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  groundMaterial: {fileID: 2100000, guid: 71e69baa94cbdffdd8bf05a950f17096, type: 2}
+  propMaterial: {fileID: 2100000, guid: 4f71968306700e43fb5092c7536e9f75, type: 2}
 --- !u!1 &1939505887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,3 +1057,4 @@ SceneRoots:
   - {fileID: 5886085632615920554}
   - {fileID: 418706108}
   - {fileID: 2046009532}
+  - {fileID: 1716173056}

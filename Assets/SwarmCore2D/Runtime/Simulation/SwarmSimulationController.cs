@@ -2,6 +2,7 @@ using UnityEngine;
 using SwarmCore2D.Core;
 using SwarmCore2D.Rendering;
 using SwarmCore2D.Combat;
+using SwarmCore2D.World;
 
 namespace SwarmCore2D.Simulation
 {
@@ -22,6 +23,10 @@ namespace SwarmCore2D.Simulation
 
         ProjectileSystem projectileSystem;
 
+        InfiniteWorldSystem infiniteWorld;
+        WorldChunkSystem chunkSystem;
+        public WorldRenderer worldRenderer;
+
         public SwarmState WorldState => world.state;
 
         public ProjectileSystem ProjectileSystem => projectileSystem;
@@ -38,6 +43,12 @@ namespace SwarmCore2D.Simulation
 
             projectileSystem = new ProjectileSystem(grid);
 
+            infiniteWorld = new InfiniteWorldSystem(world.state, player);
+            chunkSystem = new WorldChunkSystem();
+
+            if (worldRenderer != null)
+                worldRenderer.Initialize(chunkSystem);
+                
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
 
@@ -58,6 +69,10 @@ namespace SwarmCore2D.Simulation
                 return;
 
             Vector2 playerPos = player.position;
+
+            infiniteWorld.Update();
+
+            chunkSystem.Update(playerPos);
 
             spawner.Update(world, playerPos);
 
