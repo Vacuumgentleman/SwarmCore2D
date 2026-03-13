@@ -13,11 +13,15 @@ namespace SwarmCore2D.Simulation
         public SwarmRenderer swarmRenderer;
         public ProjectileRenderer projectileRenderer;
 
+        public WorldRenderer worldRenderer;
+
         SwarmWorld world;
 
         EnemySpawnerSystem spawner;
         EnemyChaseSystem chase;
         EnemySeparationSystem separation;
+
+        EnemyContactDamageSystem contactDamage;
 
         SpatialHashGrid grid;
 
@@ -25,7 +29,8 @@ namespace SwarmCore2D.Simulation
 
         InfiniteWorldSystem infiniteWorld;
         WorldChunkSystem chunkSystem;
-        public WorldRenderer worldRenderer;
+
+        PlayerHealth playerHealth;
 
         public SwarmState WorldState => world.state;
 
@@ -39,6 +44,8 @@ namespace SwarmCore2D.Simulation
             chase = new EnemyChaseSystem();
             separation = new EnemySeparationSystem();
 
+            contactDamage = new EnemyContactDamageSystem();
+
             grid = new SpatialHashGrid(1.2f);
 
             projectileSystem = new ProjectileSystem(grid);
@@ -46,9 +53,12 @@ namespace SwarmCore2D.Simulation
             infiniteWorld = new InfiniteWorldSystem(world.state, player);
             chunkSystem = new WorldChunkSystem();
 
+            if (player != null)
+                playerHealth = player.GetComponent<PlayerHealth>();
+
             if (worldRenderer != null)
                 worldRenderer.Initialize(chunkSystem);
-                
+
             if (swarmRenderer != null)
                 swarmRenderer.Initialize(world.state);
 
@@ -70,18 +80,35 @@ namespace SwarmCore2D.Simulation
 
             Vector2 playerPos = player.position;
 
+            // mundo infinito
             infiniteWorld.Update();
 
+            // chunks del mundo
             chunkSystem.Update(playerPos);
 
+            // spawn enemigos
             spawner.Update(world, playerPos);
 
+            // movimiento enemigos
             chase.Update(world.state, playerPos);
 
+            // separación enemigos
             separation.Update(world.state);
 
+            // daño por contacto al jugador
+            if (playerHealth != null)
+            {
+                contactDamage.Update(
+                    world.state,
+                    playerPos,
+                    playerHealth
+                );
+            }
+
+            // actualizar hit flash enemigos
             UpdateHitFlash(world.state);
 
+            // actualizar spatial grid
             grid.Clear();
 
             int count = world.state.activeCount;
@@ -96,6 +123,7 @@ namespace SwarmCore2D.Simulation
                 );
             }
 
+            // proyectiles
             projectileSystem.Update(world.state);
         }
 

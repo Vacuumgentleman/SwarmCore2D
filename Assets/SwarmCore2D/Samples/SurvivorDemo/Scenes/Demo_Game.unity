@@ -701,6 +701,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2219512595602369150, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
   m_PrefabInstance: {fileID: 5114003235895855612}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1535942870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3585398966436583909, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
+  m_PrefabInstance: {fileID: 5114003235895855612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1535942875 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 375922211966395504, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
+  m_PrefabInstance: {fileID: 5114003235895855612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1535942876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535942870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72105418c57c2553b9759de4b60a274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 100
+  invulnerabilityTime: 0.5
+  sprite: {fileID: 1535942875}
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  deathParticles: {fileID: 0}
 --- !u!1 &1716173054
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,12 +1000,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8560408354402261126, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
       propertyPath: moveSpeed
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560408354402261126, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
+      propertyPath: rotationMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3585398966436583909, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1535942876}
   m_SourcePrefab: {fileID: 100100000, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
 --- !u!1001 &5886085632615920554
 PrefabInstance:
