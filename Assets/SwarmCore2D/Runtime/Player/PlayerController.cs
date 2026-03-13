@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using SwarmCore2D.Core;
 
-public class DemoPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 6f;
 
