@@ -879,12 +879,6 @@ MonoBehaviour:
   tileMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   groundMaterials:
   - {fileID: 2100000, guid: 71e69baa94cbdffdd8bf05a950f17096, type: 2}
-  - {fileID: 2100000, guid: 8e9cc0db7c86a0764a72d1b5b55afe9d, type: 2}
-  propMaterials:
-  - {fileID: 2100000, guid: 7edf3e6834bc2fe3a84be129becd07b8, type: 2}
-  - {fileID: 2100000, guid: 0bf95a177d85c50d79a192a85781af74, type: 2}
-  - {fileID: 2100000, guid: cd28d1ea1c341551cb0257c60263a16f, type: 2}
-  - {fileID: 2100000, guid: 063b540a9af73bb9483059bb8d5ee431, type: 2}
 --- !u!1 &1738237918
 GameObject:
   m_ObjectHideFlags: 0

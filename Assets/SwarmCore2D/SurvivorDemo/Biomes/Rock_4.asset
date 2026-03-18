@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rock_4
   m_EditorClassIdentifier: Assembly-CSharp::PropData
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  material: {fileID: 2100000, guid: 7edf3e6834bc2fe3a84be129becd07b8, type: 2}
+  material: {fileID: 2100000, guid: 063b540a9af73bb9483059bb8d5ee431, type: 2}
   spawnChance: 0.1
   minNoise: 0.5
   noiseScale: 0.1

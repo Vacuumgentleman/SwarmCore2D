@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: b3a114431c1d75ad496b38120c2797bf
+guid: 00fd13985e16574f987de864eebe9350
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4142361202728878420
-    second: My Rotten Ponies_0
+      213: -9155835471117988647
+    second: My_Rotten_Ponies_0
   - first:
-      213: -1911324305454720968
-    second: My Rotten Ponies_1
+      213: 8750013623535452509
+    second: My_Rotten_Ponies_1
   - first:
-      213: 6175782700246630018
-    second: My Rotten Ponies_2
+      213: 9112722402123120176
+    second: My_Rotten_Ponies_2
+  - first:
+      213: 9092098069790267770
+    second: My_Rotten_Ponies_3
+  - first:
+      213: -6006430141313704009
+    second: My_Rotten_Ponies_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -43,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -132,13 +138,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: My Rotten Ponies_0
+      name: My_Rotten_Ponies_0
       rect:
         serializedVersion: 2
-        x: 151
-        y: 167
-        width: 98
-        height: 50
+        x: 43
+        y: 116
+        width: 1199
+        height: 620
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 451c304119f9c7930800000000000000
-      internalID: 4142361202728878420
+      spriteID: 9dc47121620ffe080800000000000000
+      internalID: -9155835471117988647
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: My Rotten Ponies_1
+      name: My_Rotten_Ponies_1
       rect:
         serializedVersion: 2
-        x: 175
-        y: 28
-        width: 1074
-        height: 701
+        x: 350
+        y: 31
+        width: 362
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +175,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8381dcabbac9975e0800000000000000
-      internalID: -1911324305454720968
+      spriteID: d51c8a2f70b4e6970800000000000000
+      internalID: 8750013623535452509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: My Rotten Ponies_2
+      name: My_Rotten_Ponies_2
       rect:
         serializedVersion: 2
-        x: 375
-        y: 23
-        width: 10
-        height: 7
+        x: 730
+        y: 38
+        width: 133
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +197,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 28ef33a25a9c4b550800000000000000
-      internalID: 6175782700246630018
+      spriteID: 03efa435eb4e67e70800000000000000
+      internalID: 9112722402123120176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: My_Rotten_Ponies_3
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 43
+        width: 50
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a791dd0c50f9d2e70800000000000000
+      internalID: 9092098069790267770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: My_Rotten_Ponies_4
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 34
+        width: 127
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bf1cc22c9fd4aca0800000000000000
+      internalID: -6006430141313704009
       vertices: []
       indices: 
       edges: []
@@ -211,9 +261,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      My Rotten Ponies_0: 4142361202728878420
-      My Rotten Ponies_1: -1911324305454720968
-      My Rotten Ponies_2: 6175782700246630018
+      My_Rotten_Ponies_0: -9155835471117988647
+      My_Rotten_Ponies_1: 8750013623535452509
+      My_Rotten_Ponies_2: 9112722402123120176
+      My_Rotten_Ponies_3: 9092098069790267770
+      My_Rotten_Ponies_4: -6006430141313704009
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
