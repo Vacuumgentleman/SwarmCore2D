@@ -1,17 +1,14 @@
 using UnityEngine;
 using SwarmCore2D.World;
+using System.Collections.Generic;
 
 namespace SwarmCore2D.Rendering
 {
     public class WorldRenderer : MonoBehaviour
     {
+        [Header("Ground")]
         public Mesh tileMesh;
-
-        [Header("Ground (Biomes)")]
-        public Material[] groundMaterials; 
-        
-        [Header("Props (Multi Layer)")]
-        public Material[] propMaterials;
+        public Material[] groundMaterials;
 
         const int BatchSize = 1023;
 
@@ -31,41 +28,41 @@ namespace SwarmCore2D.Rendering
 
             foreach (var chunk in chunkSystem.GetChunks())
             {
-                Material groundMat = GetGroundMaterial(chunk.biomeIndex);
+                DrawGround(chunk);
+                DrawProps(chunk);
+            }
+        }
 
-                if (groundMat != null && chunk.groundCount > 0)
-                {
-                    DrawBatch(
-                        tileMesh,
-                        groundMat,
-                        chunk.groundMatrices,
-                        chunk.groundCount
-                    );
-                }
+        void DrawGround(WorldChunk chunk)
+        {
+            Material groundMat = GetGroundMaterial(chunk.biomeIndex);
 
-                for (int i = 0; i < chunk.propLayers; i++)
-                {
-                    if (propMaterials == null)
-                        continue;
+            if (groundMat == null || chunk.groundCount == 0)
+                return;
 
-                    if (i >= propMaterials.Length)
-                        continue;
+            DrawBatch(
+                tileMesh,
+                groundMat,
+                chunk.groundMatrices,
+                chunk.groundCount
+            );
+        }
 
-                    var mat = propMaterials[i];
+        void DrawProps(WorldChunk chunk)
+        {
+            foreach (var pair in chunk.propBatches)
+            {
+                var prop = pair.Key;
+                var matrices = pair.Value;
 
-                    if (mat == null)
-                        continue;
+                if (prop.mesh == null || prop.material == null)
+                    continue;
 
-                    if (chunk.propCounts[i] == 0)
-                        continue;
-
-                    DrawBatch(
-                        tileMesh,
-                        mat,
-                        chunk.propMatrices[i],
-                        chunk.propCounts[i]
-                    );
-                }
+                DrawBatch(
+                    prop.mesh,
+                    prop.material,
+                    matrices
+                );
             }
         }
 
@@ -86,6 +83,33 @@ namespace SwarmCore2D.Rendering
             Matrix4x4[] matrices,
             int count)
         {
+            int index = 0;
+
+            while (index < count)
+            {
+                int size = Mathf.Min(BatchSize, count - index);
+
+                for (int i = 0; i < size; i++)
+                    batch[i] = matrices[index + i];
+
+                Graphics.DrawMeshInstanced(
+                    mesh,
+                    0,
+                    material,
+                    batch,
+                    size
+                );
+
+                index += size;
+            }
+        }
+
+        void DrawBatch(
+            Mesh mesh,
+            Material material,
+            List<Matrix4x4> matrices)
+        {
+            int count = matrices.Count;
             int index = 0;
 
             while (index < count)

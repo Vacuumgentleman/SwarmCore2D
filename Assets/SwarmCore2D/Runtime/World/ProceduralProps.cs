@@ -5,15 +5,12 @@ namespace SwarmCore2D.World
 {
     public class ProceduralProps
     {
-        Dictionary<PropData, List<Vector3>> placed =
-            new Dictionary<PropData, List<Vector3>>();
+        List<Vector3> allPlaced = new List<Vector3>();
 
         public void Generate(WorldChunk chunk, int chunkSize, BiomeSystem biomeSystem)
         {
-            placed.Clear();
-
-            for (int i = 0; i < chunk.propLayers; i++)
-                chunk.propCounts[i] = 0;
+            allPlaced.Clear();
+            chunk.propBatches.Clear();
 
             Vector2 basePos = new Vector2(
                 chunk.coord.x * chunkSize,
@@ -33,21 +30,18 @@ namespace SwarmCore2D.World
 
                 foreach (var prop in biome.props)
                 {
-                    if (!placed.ContainsKey(prop))
-                        placed[prop] = new List<Vector3>();
-
                     float noise = Mathf.PerlinNoise(
                         (worldPos.x + prop.noiseOffset.x) * prop.noiseScale,
                         (worldPos.y + prop.noiseOffset.y) * prop.noiseScale
                     );
-                    
+
                     if (noise < prop.minNoise)
                         continue;
 
                     if (Random.value > prop.spawnChance)
                         continue;
 
-                    if (IsTooClose(prop, worldPos))
+                    if (IsTooClose(worldPos, prop.minDistance))
                         continue;
 
                     float scale = Random.Range(
@@ -57,34 +51,27 @@ namespace SwarmCore2D.World
 
                     Vector3 pos = new Vector3(worldPos.x, worldPos.y, 0);
 
-                    int layer = prop.layerIndex;
+                    var matrix = Matrix4x4.TRS(
+                        pos,
+                        Quaternion.identity,
+                        Vector3.one * scale
+                    );
 
-                    if (layer < 0 || layer >= chunk.propLayers)
-                        continue;
+                    if (!chunk.propBatches.ContainsKey(prop))
+                        chunk.propBatches[prop] = new List<Matrix4x4>();
 
-                    int index = chunk.propCounts[layer];
+                    chunk.propBatches[prop].Add(matrix);
 
-                    if (index >= chunk.propMatrices[layer].Length)
-                        continue;
-
-                    chunk.propMatrices[layer][index] =
-                        Matrix4x4.TRS(pos, Quaternion.identity, Vector3.one * scale);
-
-                    chunk.propCounts[layer]++;
-
-                    placed[prop].Add(pos);
+                    allPlaced.Add(pos);
                 }
             }
         }
 
-        bool IsTooClose(PropData prop, Vector2 pos)
+        bool IsTooClose(Vector2 pos, float minDistance)
         {
-            if (!placed.ContainsKey(prop))
-                return false;
-
-            foreach (var p in placed[prop])
+            for (int i = 0; i < allPlaced.Count; i++)
             {
-                if (Vector2.Distance(p, pos) < prop.minDistance)
+                if (Vector2.Distance(allPlaced[i], pos) < minDistance)
                     return true;
             }
 

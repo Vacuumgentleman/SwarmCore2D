@@ -1,26 +1,21 @@
 using UnityEngine;
 
-[System.Serializable]
-public class PropData
+[CreateAssetMenu(menuName = "SwarmCore2D/Prop")]
+public class PropData : ScriptableObject
 {
-    public string name;
-
+    [Header("Rendering")]
+    public Mesh mesh;
     public Material material;
-    public Vector2 noiseOffset;
-
-    [Header("Layer")]
-    public int layerIndex; 
 
     [Header("Spawn")]
-    [Range(0f, 1f)]
-    public float spawnChance = 0.5f;
-
-    public float noiseScale = 0.1f;
+    public float spawnChance = 0.1f;
     public float minNoise = 0.5f;
+    public float noiseScale = 0.1f;
+    public Vector2 noiseOffset;
 
-    [Header("Spacing")]
-    public float minDistance = 1.5f;
+    [Header("Placement")]
+    public float minDistance = 1.0f;
 
     [Header("Scale")]
-    public Vector2 scaleRange = new Vector2(1f, 1.5f);
+    public Vector2 scaleRange = new Vector2(1f, 1f);
 }

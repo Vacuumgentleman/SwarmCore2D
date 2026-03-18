@@ -75,11 +75,7 @@ namespace SwarmCore2D.World
         {
             int propLayers = 8;
 
-            WorldChunk chunk = new WorldChunk(
-                1024,
-                propLayers,
-                512
-            );
+            WorldChunk chunk = new WorldChunk(1024);
 
             chunk.coord = coord;
 
