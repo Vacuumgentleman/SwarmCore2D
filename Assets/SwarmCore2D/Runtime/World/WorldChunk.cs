@@ -7,15 +7,38 @@ namespace SwarmCore2D.World
         public Vector2Int coord;
 
         public Matrix4x4[] groundMatrices;
-        public Matrix4x4[] propMatrices;
-
         public int groundCount;
-        public int propCount;
 
-        public WorldChunk(int groundCap, int propCap)
+        public Matrix4x4[][] propMatrices;
+        public int[] propCounts;
+
+        public int propLayers;
+
+        public int biomeIndex;
+
+        public WorldChunk(int groundCap, int propLayers, int propCapPerLayer)
         {
             groundMatrices = new Matrix4x4[groundCap];
-            propMatrices = new Matrix4x4[propCap];
+            groundCount = 0;
+
+            this.propLayers = propLayers;
+
+            propMatrices = new Matrix4x4[propLayers][];
+            propCounts = new int[propLayers];
+
+            for (int i = 0; i < propLayers; i++)
+            {
+                propMatrices[i] = new Matrix4x4[propCapPerLayer];
+                propCounts[i] = 0;
+            }
+        }
+
+        public void Clear()
+        {
+            groundCount = 0;
+
+            for (int i = 0; i < propLayers; i++)
+                propCounts[i] = 0;
         }
     }
 }

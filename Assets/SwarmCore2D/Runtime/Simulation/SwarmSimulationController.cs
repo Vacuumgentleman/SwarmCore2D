@@ -14,6 +14,9 @@ namespace SwarmCore2D.Simulation
         public ProjectileRenderer projectileRenderer;
         public WorldRenderer worldRenderer;
 
+        [Header("World")]
+        public BiomeData[] biomes;
+
         SwarmWorld world;
 
         EnemySpawnerSystem spawner;
@@ -32,7 +35,6 @@ namespace SwarmCore2D.Simulation
         PlayerHealth playerHealth;
 
         public SwarmState WorldState => world.state;
-
         public ProjectileSystem ProjectileSystem => projectileSystem;
 
         void Awake()
@@ -50,7 +52,8 @@ namespace SwarmCore2D.Simulation
             contactDamage = new EnemyContactDamageSystem(grid);
 
             infiniteWorld = new InfiniteWorldSystem(world.state, player);
-            chunkSystem = new WorldChunkSystem();
+
+            chunkSystem = new WorldChunkSystem(biomes);
 
             if (player != null)
                 playerHealth = player.GetComponent<PlayerHealth>();
@@ -79,25 +82,18 @@ namespace SwarmCore2D.Simulation
 
             Vector2 playerPos = player.position;
 
-            // mundo infinito
             infiniteWorld.Update();
 
-            // chunks
             chunkSystem.Update(playerPos);
 
-            // spawn enemigos
             spawner.Update(world, playerPos);
 
-            // movimiento enemigos
             chase.Update(world.state, playerPos);
 
-            // separación
             separation.Update(world.state);
 
-            // actualizar hit flash enemigos
             UpdateHitFlash(world.state);
 
-            // reconstruir grid espacial
             grid.Clear();
 
             int count = world.state.activeCount;
@@ -112,7 +108,6 @@ namespace SwarmCore2D.Simulation
                 );
             }
 
-            // daño por contacto
             if (playerHealth != null)
             {
                 contactDamage.Update(
@@ -122,7 +117,6 @@ namespace SwarmCore2D.Simulation
                 );
             }
 
-            // proyectiles
             projectileSystem.Update(world.state);
         }
 

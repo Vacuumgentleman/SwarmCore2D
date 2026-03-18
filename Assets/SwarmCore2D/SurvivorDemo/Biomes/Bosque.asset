@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437e4262ad4f33312be038738deddced, type: 3}
+  m_Name: Bosque
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeData
+  biomeName: Bosque
+  groundMaterial: {fileID: 2100000, guid: 71e69baa94cbdffdd8bf05a950f17096, type: 2}
+  noiseScale: 0.05
+  thresholdMin: 5
+  thresholdMax: 10
+  props:
+  - name: Roca 1
+    material: {fileID: 2100000, guid: 7edf3e6834bc2fe3a84be129becd07b8, type: 2}
+    layerIndex: 1
+    spawnChance: 0.01
+    noiseScale: 0.5
+    minNoise: 0
+    minDistance: 4
+    scaleRange: {x: 1, y: 1}
+  - name: Roca 2
+    material: {fileID: 2100000, guid: 0bf95a177d85c50d79a192a85781af74, type: 2}
+    layerIndex: 1
+    spawnChance: 0.01
+    noiseScale: 0.4
+    minNoise: 0
+    minDistance: 4
+    scaleRange: {x: 1, y: 1}
+  - name: Roca 3
+    material: {fileID: 2100000, guid: cd28d1ea1c341551cb0257c60263a16f, type: 2}
+    layerIndex: 1
+    spawnChance: 0.01
+    noiseScale: 0.3
+    minNoise: 0
+    minDistance: 4
+    scaleRange: {x: 1, y: 1}
+  - name: Roca 4
+    material: {fileID: 2100000, guid: 063b540a9af73bb9483059bb8d5ee431, type: 2}
+    layerIndex: 1
+    spawnChance: 0.01
+    noiseScale: 0.2
+    minNoise: 0
+    minDistance: 4
+    scaleRange: {x: 1, y: 1}

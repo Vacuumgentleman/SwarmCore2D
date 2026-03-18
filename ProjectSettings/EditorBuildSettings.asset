@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SwarmCore2D/Samples/SurvivorDemo/Scenes/Demo_Menu.unity
+    path: Assets/SwarmCore2D/SurvivorDemo/Scenes/Demo_Menu.unity
     guid: 6ee667d28f0a7d9ed8b785890bd87335
   - enabled: 1
-    path: Assets/SwarmCore2D/Samples/SurvivorDemo/Scenes/Demo_Game.unity
+    path: Assets/SwarmCore2D/SurvivorDemo/Scenes/Demo_Game.unity
     guid: e83b7c423c63ff4a49449323448b32b5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

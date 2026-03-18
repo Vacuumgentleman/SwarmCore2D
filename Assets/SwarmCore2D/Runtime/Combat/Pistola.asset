@@ -17,10 +17,10 @@ MonoBehaviour:
   radius: 3
   cooldown: 0.7
   attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
-  attackUp: 0
+  attackUp: 1
   attackDown: 1
   attackLeft: 0
-  attackRight: 1
+  attackRight: 0
   allowDiagonals: 0
   projectileCount: 1
   directionMode: 1

@@ -6,8 +6,12 @@ namespace SwarmCore2D.Rendering
     public class WorldRenderer : MonoBehaviour
     {
         public Mesh tileMesh;
-        public Material groundMaterial;
-        public Material propMaterial;
+
+        [Header("Ground (Biomes)")]
+        public Material[] groundMaterials; 
+        
+        [Header("Props (Multi Layer)")]
+        public Material[] propMaterials;
 
         const int BatchSize = 1023;
 
@@ -27,20 +31,53 @@ namespace SwarmCore2D.Rendering
 
             foreach (var chunk in chunkSystem.GetChunks())
             {
-                DrawBatch(
-                    tileMesh,
-                    groundMaterial,
-                    chunk.groundMatrices,
-                    chunk.groundCount
-                );
+                Material groundMat = GetGroundMaterial(chunk.biomeIndex);
 
-                DrawBatch(
-                    tileMesh,
-                    propMaterial,
-                    chunk.propMatrices,
-                    chunk.propCount
-                );
+                if (groundMat != null && chunk.groundCount > 0)
+                {
+                    DrawBatch(
+                        tileMesh,
+                        groundMat,
+                        chunk.groundMatrices,
+                        chunk.groundCount
+                    );
+                }
+
+                for (int i = 0; i < chunk.propLayers; i++)
+                {
+                    if (propMaterials == null)
+                        continue;
+
+                    if (i >= propMaterials.Length)
+                        continue;
+
+                    var mat = propMaterials[i];
+
+                    if (mat == null)
+                        continue;
+
+                    if (chunk.propCounts[i] == 0)
+                        continue;
+
+                    DrawBatch(
+                        tileMesh,
+                        mat,
+                        chunk.propMatrices[i],
+                        chunk.propCounts[i]
+                    );
+                }
             }
+        }
+
+        Material GetGroundMaterial(int biomeIndex)
+        {
+            if (groundMaterials == null || groundMaterials.Length == 0)
+                return null;
+
+            if (biomeIndex < 0 || biomeIndex >= groundMaterials.Length)
+                return groundMaterials[0];
+
+            return groundMaterials[biomeIndex];
         }
 
         void DrawBatch(

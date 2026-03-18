@@ -13,11 +13,13 @@ namespace SwarmCore2D.World
 
         ProceduralGround groundGen;
         ProceduralProps propGen;
+        BiomeSystem biomeSystem;
 
-        public WorldChunkSystem()
+        public WorldChunkSystem(BiomeData[] biomes)
         {
             groundGen = new ProceduralGround();
             propGen = new ProceduralProps();
+            biomeSystem = new BiomeSystem(biomes);
         }
 
         Vector2Int GetChunk(Vector2 pos)
@@ -71,12 +73,25 @@ namespace SwarmCore2D.World
 
         void CreateChunk(Vector2Int coord)
         {
-            WorldChunk chunk = new WorldChunk(1024, 128);
+            int propLayers = 8;
+
+            WorldChunk chunk = new WorldChunk(
+                1024,
+                propLayers,
+                512
+            );
 
             chunk.coord = coord;
 
+            Vector2 centerPos = new Vector2(
+                coord.x * chunkSize,
+                coord.y * chunkSize
+            );
+
+            biomeSystem.GetBiome(centerPos, out chunk.biomeIndex);
+
             groundGen.Generate(chunk, chunkSize);
-            propGen.Generate(chunk, chunkSize);
+            propGen.Generate(chunk, chunkSize, biomeSystem);
 
             chunks.Add(coord, chunk);
         }
