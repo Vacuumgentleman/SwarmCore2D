@@ -94,4 +94,4 @@ Shader "Swarm/SpriteInstanced"
             ENDHLSL
         }
     }
-} 
+}

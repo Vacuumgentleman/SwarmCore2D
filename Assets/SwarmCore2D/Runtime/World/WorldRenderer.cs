@@ -6,6 +6,7 @@ namespace SwarmCore2D.Rendering
 {
     public class WorldRenderer : MonoBehaviour
     {
+        [Header("Ground")]
         public Mesh tileMesh;
         public Material[] groundMaterials;
 
@@ -13,14 +14,11 @@ namespace SwarmCore2D.Rendering
 
         Matrix4x4[] batch = new Matrix4x4[BatchSize];
 
-        MaterialPropertyBlock mpb;
-
         WorldChunkSystem chunkSystem;
 
         public void Initialize(WorldChunkSystem system)
         {
             chunkSystem = system;
-            mpb = new MaterialPropertyBlock();
         }
 
         void LateUpdate()
@@ -37,15 +35,14 @@ namespace SwarmCore2D.Rendering
 
         void DrawGround(WorldChunk chunk)
         {
-            Material mat = groundMaterials[chunk.biomeIndex];
+            Material groundMat = GetGroundMaterial(chunk.biomeIndex);
 
-            if (mat == null || chunk.groundCount == 0)
+            if (groundMat == null || chunk.groundCount == 0)
                 return;
 
-            Graphics.DrawMeshInstanced(
+            DrawBatch(
                 tileMesh,
-                0,
-                mat,
+                groundMat,
                 chunk.groundMatrices,
                 chunk.groundCount
             );
@@ -56,50 +53,78 @@ namespace SwarmCore2D.Rendering
             foreach (var pair in chunk.propBatches)
             {
                 var prop = pair.Key;
-                var list = pair.Value;
+                var matrices = pair.Value;
 
                 if (prop.mesh == null || prop.material == null)
                     continue;
 
-                DrawBatch(prop, list);
+                DrawBatch(
+                    prop.mesh,
+                    prop.material,
+                    matrices
+                );
             }
         }
 
-        void DrawBatch(PropData prop, List<PropInstance> list)
+        Material GetGroundMaterial(int biomeIndex)
         {
-            int count = list.Count;
+            if (groundMaterials == null || groundMaterials.Length == 0)
+                return null;
+
+            if (biomeIndex < 0 || biomeIndex >= groundMaterials.Length)
+                return groundMaterials[0];
+
+            return groundMaterials[biomeIndex];
+        }
+
+        void DrawBatch(
+            Mesh mesh,
+            Material material,
+            Matrix4x4[] matrices,
+            int count)
+        {
             int index = 0;
 
             while (index < count)
             {
                 int size = Mathf.Min(BatchSize, count - index);
 
-                float[] frames = new float[size];
-                float[] flips = new float[size];
-                Vector4[] tints = new Vector4[size];
-
                 for (int i = 0; i < size; i++)
-                {
-                    var inst = list[index + i];
-
-                    batch[i] = inst.matrix;
-                    frames[i] = inst.frame;
-                    flips[i] = inst.flip;
-                    tints[i] = inst.tint;
-                }
-
-                mpb.Clear();
-                mpb.SetFloatArray("_Frame", frames);
-                mpb.SetFloatArray("_Flip", flips);
-                mpb.SetVectorArray("_Tint", tints);
+                    batch[i] = matrices[index + i];
 
                 Graphics.DrawMeshInstanced(
-                    prop.mesh,
+                    mesh,
                     0,
-                    prop.material,
+                    material,
                     batch,
-                    size,
-                    mpb
+                    size
+                );
+
+                index += size;
+            }
+        }
+
+        void DrawBatch(
+            Mesh mesh,
+            Material material,
+            List<Matrix4x4> matrices)
+        {
+            int count = matrices.Count;
+            int index = 0;
+
+            while (index < count)
+            {
+                int size = Mathf.Min(BatchSize, count - index);
+
+                for (int i = 0; i < size; i++)
+                    batch[i] = matrices[index + i];
+
+                Graphics.DrawMeshInstanced(
+                    mesh,
+                    0,
+                    material,
+                    batch,
+                    size
                 );
 
                 index += size;
