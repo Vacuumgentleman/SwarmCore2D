@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bush
   m_EditorClassIdentifier: Assembly-CSharp::PropData
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  material: {fileID: 2100000, guid: 063b540a9af73bb9483059bb8d5ee431, type: 2}
+  material: {fileID: 2100000, guid: 8a95f8982833b6d0ab7cf2f96a75b540, type: 2}
   spawnChance: 0.1
   minNoise: 0.5
   noiseScale: 0.1

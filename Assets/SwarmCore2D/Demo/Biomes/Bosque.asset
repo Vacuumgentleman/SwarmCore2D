@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437e4262ad4f33312be038738deddced, type: 3}
+  m_Name: Bosque
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeData
+  biomeName: Bosque
+  groundMaterial: {fileID: 2100000, guid: 71e69baa94cbdffdd8bf05a950f17096, type: 2}
+  noiseScale: 0.05
+  thresholdMin: 5
+  thresholdMax: 10
+  props:
+  - {fileID: 11400000, guid: ca3624df60665070181d4b32dba0346f, type: 2}
+  - {fileID: 11400000, guid: a9dcff80cd248dc638839d759c0df653, type: 2}
+  - {fileID: 11400000, guid: 80ab6b6019057c5d18bee5605ff56bbf, type: 2}
+  - {fileID: 11400000, guid: 687207b8b154a14b29d0f5d9511950e7, type: 2}
+  - {fileID: 11400000, guid: f0c69c82d5e37ba47931d5c2e7d1f10d, type: 2}
