@@ -28,8 +28,14 @@ namespace SwarmCore2D.World
 
                 var biome = biomeSystem.GetBiome(worldPos, out _);
 
+                if (biome == null || biome.props == null)
+                    continue;
+
                 foreach (var prop in biome.props)
                 {
+                    if (prop == null)
+                        continue;
+
                     float noise = Mathf.PerlinNoise(
                         (worldPos.x + prop.noiseOffset.x) * prop.noiseScale,
                         (worldPos.y + prop.noiseOffset.y) * prop.noiseScale
@@ -51,17 +57,37 @@ namespace SwarmCore2D.World
 
                     Vector3 pos = new Vector3(worldPos.x, worldPos.y, 0);
 
-                    var matrix = Matrix4x4.TRS(
+                    Matrix4x4 matrix = Matrix4x4.TRS(
                         pos,
                         Quaternion.identity,
                         Vector3.one * scale
                     );
 
                     if (!chunk.propBatches.ContainsKey(prop))
-                        chunk.propBatches[prop] = new List<Matrix4x4>();
+                        chunk.propBatches[prop] = new List<PropInstance>();
 
-                    chunk.propBatches[prop].Add(matrix);
+                    PropInstance inst = new PropInstance();
+                    inst.matrix = matrix;
+                    inst.flip = Random.value > 0.5f ? 1f : 0f;
 
+                    if (prop.animated)
+                    {
+                        inst.frame = -1f;
+
+                        inst.tint = new Vector4(
+                            Random.Range(0f, 10f), // offset
+                            Random.Range(prop.animSpeedRange.x, prop.animSpeedRange.y), // speed
+                            0,
+                            1
+                        );
+                    }
+                    else
+                    {
+                        inst.frame = 0f;
+                        inst.tint = Vector4.one;
+                    }
+
+                    chunk.propBatches[prop].Add(inst);
                     allPlaced.Add(pos);
                 }
             }

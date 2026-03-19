@@ -10,7 +10,7 @@ namespace SwarmCore2D.World
         public Matrix4x4[] groundMatrices;
         public int groundCount;
 
-        public Dictionary<PropData, List<Matrix4x4>> propBatches;
+        public Dictionary<PropData, List<PropInstance>> propBatches;
 
         public int biomeIndex;
 
@@ -19,7 +19,7 @@ namespace SwarmCore2D.World
             groundMatrices = new Matrix4x4[groundCap];
             groundCount = 0;
 
-            propBatches = new Dictionary<PropData, List<Matrix4x4>>();
+            propBatches = new Dictionary<PropData, List<PropInstance>>();
         }
 
         public void Clear()

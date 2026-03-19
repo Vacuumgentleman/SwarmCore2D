@@ -6,7 +6,6 @@ namespace SwarmCore2D.Rendering
 {
     public class WorldRenderer : MonoBehaviour
     {
-        [Header("Ground")]
         public Mesh tileMesh;
         public Material[] groundMaterials;
 
@@ -14,11 +13,14 @@ namespace SwarmCore2D.Rendering
 
         Matrix4x4[] batch = new Matrix4x4[BatchSize];
 
+        MaterialPropertyBlock mpb;
+
         WorldChunkSystem chunkSystem;
 
         public void Initialize(WorldChunkSystem system)
         {
             chunkSystem = system;
+            mpb = new MaterialPropertyBlock();
         }
 
         void LateUpdate()
@@ -35,14 +37,15 @@ namespace SwarmCore2D.Rendering
 
         void DrawGround(WorldChunk chunk)
         {
-            Material groundMat = GetGroundMaterial(chunk.biomeIndex);
+            Material mat = groundMaterials[chunk.biomeIndex];
 
-            if (groundMat == null || chunk.groundCount == 0)
+            if (mat == null || chunk.groundCount == 0)
                 return;
 
-            DrawBatch(
+            Graphics.DrawMeshInstanced(
                 tileMesh,
-                groundMat,
+                0,
+                mat,
                 chunk.groundMatrices,
                 chunk.groundCount
             );
@@ -53,78 +56,50 @@ namespace SwarmCore2D.Rendering
             foreach (var pair in chunk.propBatches)
             {
                 var prop = pair.Key;
-                var matrices = pair.Value;
+                var list = pair.Value;
 
                 if (prop.mesh == null || prop.material == null)
                     continue;
 
-                DrawBatch(
+                DrawBatch(prop, list);
+            }
+        }
+
+        void DrawBatch(PropData prop, List<PropInstance> list)
+        {
+            int count = list.Count;
+            int index = 0;
+
+            while (index < count)
+            {
+                int size = Mathf.Min(BatchSize, count - index);
+
+                float[] frames = new float[size];
+                float[] flips = new float[size];
+                Vector4[] tints = new Vector4[size];
+
+                for (int i = 0; i < size; i++)
+                {
+                    var inst = list[index + i];
+
+                    batch[i] = inst.matrix;
+                    frames[i] = inst.frame;
+                    flips[i] = inst.flip;
+                    tints[i] = inst.tint;
+                }
+
+                mpb.Clear();
+                mpb.SetFloatArray("_Frame", frames);
+                mpb.SetFloatArray("_Flip", flips);
+                mpb.SetVectorArray("_Tint", tints);
+
+                Graphics.DrawMeshInstanced(
                     prop.mesh,
+                    0,
                     prop.material,
-                    matrices
-                );
-            }
-        }
-
-        Material GetGroundMaterial(int biomeIndex)
-        {
-            if (groundMaterials == null || groundMaterials.Length == 0)
-                return null;
-
-            if (biomeIndex < 0 || biomeIndex >= groundMaterials.Length)
-                return groundMaterials[0];
-
-            return groundMaterials[biomeIndex];
-        }
-
-        void DrawBatch(
-            Mesh mesh,
-            Material material,
-            Matrix4x4[] matrices,
-            int count)
-        {
-            int index = 0;
-
-            while (index < count)
-            {
-                int size = Mathf.Min(BatchSize, count - index);
-
-                for (int i = 0; i < size; i++)
-                    batch[i] = matrices[index + i];
-
-                Graphics.DrawMeshInstanced(
-                    mesh,
-                    0,
-                    material,
                     batch,
-                    size
-                );
-
-                index += size;
-            }
-        }
-
-        void DrawBatch(
-            Mesh mesh,
-            Material material,
-            List<Matrix4x4> matrices)
-        {
-            int count = matrices.Count;
-            int index = 0;
-
-            while (index < count)
-            {
-                int size = Mathf.Min(BatchSize, count - index);
-
-                for (int i = 0; i < size; i++)
-                    batch[i] = matrices[index + i];
-
-                Graphics.DrawMeshInstanced(
-                    mesh,
-                    0,
-                    material,
-                    batch,
-                    size
+                    size,
+                    mpb
                 );
 
                 index += size;
