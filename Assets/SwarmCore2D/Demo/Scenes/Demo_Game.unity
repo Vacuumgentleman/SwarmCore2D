@@ -729,8 +729,10 @@ MonoBehaviour:
   projectileRenderer: {fileID: 2046009531}
   worldRenderer: {fileID: 1716173057}
   biomes:
-  - {fileID: 11400000, guid: bd543e5c2c82040e6a7b18055de5f6c9, type: 2}
+  - {fileID: 11400000, guid: 3eeb584ad340b395aa4896cfa956042a, type: 2}
   - {fileID: 11400000, guid: 4dd0fef71389e59dfb97888b9898961b, type: 2}
+  - {fileID: 11400000, guid: ad2dd45aea87bb3618e705002a66f31e, type: 2}
+  - {fileID: 11400000, guid: bd543e5c2c82040e6a7b18055de5f6c9, type: 2}
 --- !u!114 &134599282
 MonoBehaviour:
   m_ObjectHideFlags: 0

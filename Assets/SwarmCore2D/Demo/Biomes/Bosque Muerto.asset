@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bosque Muerto
   m_EditorClassIdentifier: Assembly-CSharp::BiomeData
   biomeName: Bosque Muerto
-  groundMaterial: {fileID: 2100000, guid: fd33bc1c10671c4f9831a32b54970aad, type: 2}
+  groundMaterial: {fileID: 2100000, guid: 40988123fd8fcd4e884c82825d379273, type: 2}
   noiseScale: 0.05
   thresholdMin: 5
   thresholdMax: 10

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Bush_M1
-  m_Shader: {fileID: 4800000, guid: 89896b96edcf1453b9ef7985a82810f2, type: 3}
+  m_Shader: {fileID: 4800000, guid: e95f6060af69894a393e07dc9d265e79, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
