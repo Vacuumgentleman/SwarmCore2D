@@ -18,9 +18,9 @@ MonoBehaviour:
   cooldown: 0.7
   attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
   attackUp: 0
-  attackDown: 1
+  attackDown: 0
   attackLeft: 1
-  attackRight: 0
+  attackRight: 1
   allowDiagonals: 0
   projectileCount: 1
   directionMode: 1
