@@ -18,7 +18,7 @@ MonoBehaviour:
   thresholdMin: 5
   thresholdMax: 10
   props:
-  - {fileID: 11400000, guid: f0c69c82d5e37ba47931d5c2e7d1f10d, type: 2}
-  - {fileID: 11400000, guid: 84e32ba73186b34e9a9fc71e707b9380, type: 2}
-  - {fileID: 11400000, guid: 19ee8c7930e687b3a9f68787e1a30e02, type: 2}
-  - {fileID: 11400000, guid: 12dad8839bb51a165b1aea04eaa938c4, type: 2}
+  - {fileID: 11400000, guid: 4ef4118ad57852be69100c581d1f80d1, type: 2}
+  - {fileID: 11400000, guid: 2db943f519aca03f59e06cd97efa2233, type: 2}
+  - {fileID: 11400000, guid: 0bc73e6198dd2fe93b0f076ac9330429, type: 2}
+  - {fileID: 11400000, guid: 67ab2ac2d4f63002980793c578ee6244, type: 2}

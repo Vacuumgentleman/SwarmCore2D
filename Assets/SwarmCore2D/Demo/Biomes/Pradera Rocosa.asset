@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 437e4262ad4f33312be038738deddced, type: 3}
-  m_Name: Bosque Muerto
+  m_Name: Pradera Rocosa
   m_EditorClassIdentifier: Assembly-CSharp::BiomeData
-  biomeName: Bosque Muerto
+  biomeName: Pradera Rocosa
   groundMaterial: {fileID: 2100000, guid: fd33bc1c10671c4f9831a32b54970aad, type: 2}
   noiseScale: 0.05
   thresholdMin: 5
   thresholdMax: 10
   props:
-  - {fileID: 11400000, guid: e9e8df30317690fdc93f8fdae7d380d9, type: 2}
-  - {fileID: 11400000, guid: c0ffed869b8946c3cbc4e36e43dae13a, type: 2}
-  - {fileID: 11400000, guid: 1193327160b47c036bfe348f0e24964b, type: 2}
-  - {fileID: 11400000, guid: adbf2990c556c463b859ed9a048f14be, type: 2}
+  - {fileID: 11400000, guid: ca3624df60665070181d4b32dba0346f, type: 2}
+  - {fileID: 11400000, guid: a9dcff80cd248dc638839d759c0df653, type: 2}
+  - {fileID: 11400000, guid: 80ab6b6019057c5d18bee5605ff56bbf, type: 2}
+  - {fileID: 11400000, guid: 687207b8b154a14b29d0f5d9511950e7, type: 2}
