@@ -84,7 +84,8 @@ namespace SwarmCore2D.World
                 coord.y * chunkSize
             );
 
-            biomeSystem.GetBiome(centerPos, out chunk.biomeIndex);
+            var biome = biomeSystem.GetBiome(centerPos, out chunk.biomeIndex);
+            chunk.groundMaterial = biome.groundMaterial;
 
             groundGen.Generate(chunk, chunkSize);
             propGen.Generate(chunk, chunkSize, biomeSystem);

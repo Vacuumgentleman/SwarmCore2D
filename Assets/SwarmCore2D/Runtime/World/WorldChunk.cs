@@ -14,6 +14,8 @@ namespace SwarmCore2D.World
 
         public int biomeIndex;
 
+        public Material groundMaterial; // NUEVO
+
         public WorldChunk(int groundCap)
         {
             groundMatrices = new Matrix4x4[groundCap];

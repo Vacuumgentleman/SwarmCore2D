@@ -8,7 +8,6 @@ namespace SwarmCore2D.Rendering
     {
         [Header("Ground")]
         public Mesh tileMesh;
-        public Material[] groundMaterials;
 
         const int BatchSize = 1023;
 
@@ -35,7 +34,7 @@ namespace SwarmCore2D.Rendering
 
         void DrawGround(WorldChunk chunk)
         {
-            Material groundMat = GetGroundMaterial(chunk.biomeIndex);
+            Material groundMat = chunk.groundMaterial;
 
             if (groundMat == null || chunk.groundCount == 0)
                 return;
@@ -66,16 +65,6 @@ namespace SwarmCore2D.Rendering
             }
         }
 
-        Material GetGroundMaterial(int biomeIndex)
-        {
-            if (groundMaterials == null || groundMaterials.Length == 0)
-                return null;
-
-            if (biomeIndex < 0 || biomeIndex >= groundMaterials.Length)
-                return groundMaterials[0];
-
-            return groundMaterials[biomeIndex];
-        }
 
         void DrawBatch(
             Mesh mesh,
