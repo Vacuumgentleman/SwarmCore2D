@@ -80,19 +80,18 @@ namespace SwarmCore2D.World
             chunk.coord = coord;
 
             Vector2 centerPos = new Vector2(
-                coord.x * chunkSize,
-                coord.y * chunkSize
+                (coord.x + 0.5f) * chunkSize,
+                (coord.y + 0.5f) * chunkSize
             );
 
             var biome = biomeSystem.GetBiome(centerPos, out chunk.biomeIndex);
-            chunk.groundMaterial = biome.groundMaterial;
 
-            groundGen.Generate(chunk, chunkSize);
-            propGen.Generate(chunk, chunkSize, biomeSystem);
+
+            groundGen.Generate(chunk, chunkSize, biomeSystem);
+            propGen.Generate(chunk, chunkSize, biome);
 
             chunks.Add(coord, chunk);
         }
-
         public IEnumerable<WorldChunk> GetChunks()
         {
             return chunks.Values;

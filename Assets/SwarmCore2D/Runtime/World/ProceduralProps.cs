@@ -7,7 +7,7 @@ namespace SwarmCore2D.World
     {
         List<Vector3> allPlaced = new List<Vector3>();
 
-        public void Generate(WorldChunk chunk, int chunkSize, BiomeSystem biomeSystem)
+        public void Generate(WorldChunk chunk, int chunkSize, BiomeData biome)
         {
             allPlaced.Clear();
             chunk.propBatches.Clear();
@@ -25,8 +25,6 @@ namespace SwarmCore2D.World
                 float py = Random.value * chunkSize;
 
                 Vector2 worldPos = basePos + new Vector2(px, py);
-
-                var biome = biomeSystem.GetBiome(worldPos, out _);
 
                 foreach (var prop in biome.props)
                 {

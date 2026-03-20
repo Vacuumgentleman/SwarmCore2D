@@ -729,8 +729,8 @@ MonoBehaviour:
   projectileRenderer: {fileID: 2046009531}
   worldRenderer: {fileID: 1716173057}
   biomes:
-  - {fileID: 11400000, guid: 4dd0fef71389e59dfb97888b9898961b, type: 2}
   - {fileID: 11400000, guid: bd543e5c2c82040e6a7b18055de5f6c9, type: 2}
+  - {fileID: 11400000, guid: 4dd0fef71389e59dfb97888b9898961b, type: 2}
 --- !u!114 &134599282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1583,7 +1583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &253277462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7220,8 +7220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldRenderer
   tileMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  groundMaterials:
-  - {fileID: 2100000, guid: 8e9cc0db7c86a0764a72d1b5b55afe9d, type: 2}
 --- !u!1 &1723604775
 GameObject:
   m_ObjectHideFlags: 0

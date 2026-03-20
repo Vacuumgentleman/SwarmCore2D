@@ -5,33 +5,36 @@ namespace SwarmCore2D.World
     public class BiomeSystem
     {
         BiomeData[] biomes;
-        float globalScale = 0.02f;
+        float globalScale = 0.005f;
+
+        float offsetX;
+        float offsetY;
 
         public BiomeSystem(BiomeData[] biomes)
         {
             this.biomes = biomes;
+
+            // 🔴 Offset aleatorio para romper patrones de grilla
+            offsetX = Random.Range(-10000f, 10000f);
+            offsetY = Random.Range(-10000f, 10000f);
         }
 
         public BiomeData GetBiome(Vector2 worldPos, out int index)
         {
             float noise = Mathf.PerlinNoise(
-                worldPos.x * globalScale,
-                worldPos.y * globalScale
+                (worldPos.x + offsetX) * globalScale,
+                (worldPos.y + offsetY) * globalScale
             );
 
-            for (int i = 0; i < biomes.Length; i++)
-            {
-                var b = biomes[i];
+            // suavizado leve
+            noise = Mathf.Pow(noise, 1.5f);
 
-                if (noise >= b.thresholdMin && noise <= b.thresholdMax)
-                {
-                    index = i;
-                    return b;
-                }
-            }
+            index = Mathf.FloorToInt(noise * biomes.Length);
 
-            index = 0;
-            return biomes[0];
+            if (index >= biomes.Length)
+                index = biomes.Length - 1;
+
+            return biomes[index];
         }
     }
 }

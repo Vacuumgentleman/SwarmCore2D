@@ -25,28 +25,52 @@ namespace SwarmCore2D.Rendering
             if (chunkSystem == null)
                 return;
 
+            Dictionary<Material, List<Matrix4x4>> globalBatches =
+                new Dictionary<Material, List<Matrix4x4>>();
+
             foreach (var chunk in chunkSystem.GetChunks())
             {
-                DrawGround(chunk);
-                DrawProps(chunk);
+                foreach (var pair in chunk.groundBatches)
+                {
+                    var mat = pair.Key;
+                    var matrices = pair.Value;
+
+                    if (!globalBatches.ContainsKey(mat))
+                        globalBatches[mat] = new List<Matrix4x4>();
+
+                    globalBatches[mat].AddRange(matrices);
+                }
+
+                DrawProps(chunk); 
+            }
+
+            foreach (var pair in globalBatches)
+            {
+                DrawBatch(
+                    tileMesh,
+                    pair.Key,
+                    pair.Value
+                );
             }
         }
 
         void DrawGround(WorldChunk chunk)
         {
-            Material groundMat = chunk.groundMaterial;
+            foreach (var pair in chunk.groundBatches)
+            {
+                var material = pair.Key;
+                var matrices = pair.Value;
 
-            if (groundMat == null || chunk.groundCount == 0)
-                return;
+                if (material == null || matrices.Count == 0)
+                    continue;
 
-            DrawBatch(
-                tileMesh,
-                groundMat,
-                chunk.groundMatrices,
-                chunk.groundCount
-            );
+                DrawBatch(
+                    tileMesh,
+                    material,
+                    matrices
+                );
+            }
         }
-
         void DrawProps(WorldChunk chunk)
         {
             foreach (var pair in chunk.propBatches)

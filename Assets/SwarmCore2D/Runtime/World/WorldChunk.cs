@@ -7,26 +7,21 @@ namespace SwarmCore2D.World
     {
         public Vector2Int coord;
 
-        public Matrix4x4[] groundMatrices;
-        public int groundCount;
+        public Dictionary<Material, List<Matrix4x4>> groundBatches;
 
         public Dictionary<PropData, List<Matrix4x4>> propBatches;
 
         public int biomeIndex;
 
-        public Material groundMaterial; // NUEVO
-
-        public WorldChunk(int groundCap)
+        public WorldChunk(int capacity)
         {
-            groundMatrices = new Matrix4x4[groundCap];
-            groundCount = 0;
-
+            groundBatches = new Dictionary<Material, List<Matrix4x4>>();
             propBatches = new Dictionary<PropData, List<Matrix4x4>>();
         }
 
         public void Clear()
         {
-            groundCount = 0;
+            groundBatches.Clear();
             propBatches.Clear();
         }
     }
