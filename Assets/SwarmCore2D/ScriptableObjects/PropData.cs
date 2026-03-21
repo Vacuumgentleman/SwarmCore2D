@@ -7,6 +7,9 @@ public class PropData : ScriptableObject
     public Mesh mesh;
     public Material material;
 
+    [Header("Sorting")]
+    public int baseSorting = 0;
+
     [Header("Spawn")]
     public float spawnChance = 0.1f;
     public float minNoise = 0.5f;

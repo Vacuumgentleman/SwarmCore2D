@@ -15,6 +15,9 @@ namespace SwarmCore2D.Rendering
 
         WorldChunkSystem chunkSystem;
 
+        Dictionary<(Material, int), Material> materialCache =
+            new Dictionary<(Material, int), Material>();
+
         public void Initialize(WorldChunkSystem system)
         {
             chunkSystem = system;
@@ -41,7 +44,7 @@ namespace SwarmCore2D.Rendering
                     globalBatches[mat].AddRange(matrices);
                 }
 
-                DrawProps(chunk); 
+                DrawProps(chunk);
             }
 
             foreach (var pair in globalBatches)
@@ -54,67 +57,42 @@ namespace SwarmCore2D.Rendering
             }
         }
 
-        void DrawGround(WorldChunk chunk)
-        {
-            foreach (var pair in chunk.groundBatches)
-            {
-                var material = pair.Key;
-                var matrices = pair.Value;
-
-                if (material == null || matrices.Count == 0)
-                    continue;
-
-                DrawBatch(
-                    tileMesh,
-                    material,
-                    matrices
-                );
-            }
-        }
         void DrawProps(WorldChunk chunk)
         {
             foreach (var pair in chunk.propBatches)
             {
-                var prop = pair.Key;
+                var key = pair.Key;
                 var matrices = pair.Value;
 
-                if (prop.mesh == null || prop.material == null)
+                if (key.mesh == null || key.material == null)
                     continue;
 
+                Material mat = GetMaterialWithSorting(
+                    key.material,
+                    key.sortingOrder
+                );
+
                 DrawBatch(
-                    prop.mesh,
-                    prop.material,
+                    key.mesh,
+                    mat,
                     matrices
                 );
             }
         }
 
-
-        void DrawBatch(
-            Mesh mesh,
-            Material material,
-            Matrix4x4[] matrices,
-            int count)
+        Material GetMaterialWithSorting(Material baseMat, int sortingOrder)
         {
-            int index = 0;
+            var cacheKey = (baseMat, sortingOrder);
 
-            while (index < count)
-            {
-                int size = Mathf.Min(BatchSize, count - index);
+            if (materialCache.TryGetValue(cacheKey, out var mat))
+                return mat;
 
-                for (int i = 0; i < size; i++)
-                    batch[i] = matrices[index + i];
+            mat = new Material(baseMat);
+            mat.renderQueue = 3000 + sortingOrder;
 
-                Graphics.DrawMeshInstanced(
-                    mesh,
-                    0,
-                    material,
-                    batch,
-                    size
-                );
+            materialCache[cacheKey] = mat;
 
-                index += size;
-            }
+            return mat;
         }
 
         void DrawBatch(

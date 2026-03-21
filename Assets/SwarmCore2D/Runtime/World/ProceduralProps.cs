@@ -19,6 +19,9 @@ namespace SwarmCore2D.World
 
             int samples = chunkSize * chunkSize;
 
+            const float sortingFactor = 10f;
+            const int sortingStep = 5;
+
             for (int i = 0; i < samples; i++)
             {
                 float px = Random.value * chunkSize;
@@ -55,10 +58,23 @@ namespace SwarmCore2D.World
                         Vector3.one * scale
                     );
 
-                    if (!chunk.propBatches.ContainsKey(prop))
-                        chunk.propBatches[prop] = new List<Matrix4x4>();
+                    // 🔴 SORTING POR Y (CUANTIZADO)
+                    int ySort = -Mathf.RoundToInt(worldPos.y * sortingFactor);
+                    ySort = (ySort / sortingStep) * sortingStep;
 
-                    chunk.propBatches[prop].Add(matrix);
+                    int finalSorting = prop.baseSorting + ySort;
+
+                    PropBatchKey key = new PropBatchKey
+                    {
+                        mesh = prop.mesh,
+                        material = prop.material,
+                        sortingOrder = finalSorting
+                    };
+
+                    if (!chunk.propBatches.ContainsKey(key))
+                        chunk.propBatches[key] = new List<Matrix4x4>();
+
+                    chunk.propBatches[key].Add(matrix);
 
                     allPlaced.Add(pos);
                 }
