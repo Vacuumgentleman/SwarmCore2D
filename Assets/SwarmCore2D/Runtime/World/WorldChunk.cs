@@ -3,19 +3,11 @@ using System.Collections.Generic;
 
 namespace SwarmCore2D.World
 {
-    public struct PropBatchKey
-    {
-        public Mesh mesh;
-        public Material material;
-        public int sortingOrder;
-    }
-
     public class WorldChunk
     {
         public Vector2Int coord;
 
         public Dictionary<Material, List<Matrix4x4>> groundBatches;
-
         public Dictionary<PropBatchKey, List<Matrix4x4>> propBatches;
 
         public int biomeIndex;

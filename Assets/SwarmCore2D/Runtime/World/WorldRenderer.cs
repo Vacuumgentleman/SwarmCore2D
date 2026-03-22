@@ -14,112 +14,102 @@ namespace SwarmCore2D.Rendering
         Matrix4x4[] batch = new Matrix4x4[BatchSize];
 
         WorldChunkSystem chunkSystem;
-
-        Dictionary<(Material, int), Material> materialCache =
-            new Dictionary<(Material, int), Material>();
+        Camera cam;
 
         public void Initialize(WorldChunkSystem system)
         {
             chunkSystem = system;
+            cam = Camera.main;
         }
 
         void LateUpdate()
         {
-            if (chunkSystem == null)
+            if (chunkSystem == null || cam == null)
                 return;
 
-            Dictionary<Material, List<Matrix4x4>> globalBatches =
-                new Dictionary<Material, List<Matrix4x4>>();
+            Rect view = GetCameraRect();
+            view = ExpandRect(view, 2f);
 
             foreach (var chunk in chunkSystem.GetChunks())
             {
-                foreach (var pair in chunk.groundBatches)
-                {
-                    var mat = pair.Key;
-                    var matrices = pair.Value;
-
-                    if (!globalBatches.ContainsKey(mat))
-                        globalBatches[mat] = new List<Matrix4x4>();
-
-                    globalBatches[mat].AddRange(matrices);
-                }
-
-                DrawProps(chunk);
-            }
-
-            foreach (var pair in globalBatches)
-            {
-                DrawBatch(
-                    tileMesh,
-                    pair.Key,
-                    pair.Value
-                );
+                DrawGround(chunk, view);
+                DrawProps(chunk, view);
             }
         }
 
-        void DrawProps(WorldChunk chunk)
+        Rect GetCameraRect()
+        {
+            float height = cam.orthographicSize * 2f;
+            float width = height * cam.aspect;
+
+            Vector3 pos = cam.transform.position;
+
+            return new Rect(
+                pos.x - width * 0.5f,
+                pos.y - height * 0.5f,
+                width,
+                height
+            );
+        }
+
+        void DrawGround(WorldChunk chunk, Rect view)
+        {
+            foreach (var pair in chunk.groundBatches)
+            {
+                DrawVisible(tileMesh, pair.Key, pair.Value, view);
+            }
+        }
+
+        void DrawProps(WorldChunk chunk, Rect view)
         {
             foreach (var pair in chunk.propBatches)
             {
                 var key = pair.Key;
-                var matrices = pair.Value;
 
                 if (key.mesh == null || key.material == null)
                     continue;
 
-                Material mat = GetMaterialWithSorting(
-                    key.material,
-                    key.sortingOrder
-                );
-
-                DrawBatch(
-                    key.mesh,
-                    mat,
-                    matrices
-                );
+                DrawVisible(key.mesh, key.material, pair.Value, view);
             }
         }
 
-        Material GetMaterialWithSorting(Material baseMat, int sortingOrder)
-        {
-            var cacheKey = (baseMat, sortingOrder);
-
-            if (materialCache.TryGetValue(cacheKey, out var mat))
-                return mat;
-
-            mat = new Material(baseMat);
-            mat.renderQueue = 3000 + sortingOrder;
-
-            materialCache[cacheKey] = mat;
-
-            return mat;
-        }
-
-        void DrawBatch(
+        void DrawVisible(
             Mesh mesh,
             Material material,
-            List<Matrix4x4> matrices)
+            List<Matrix4x4> matrices,
+            Rect view)
         {
-            int count = matrices.Count;
-            int index = 0;
+            int visibleCount = 0;
 
-            while (index < count)
+            for (int i = 0; i < matrices.Count; i++)
             {
-                int size = Mathf.Min(BatchSize, count - index);
+                Vector3 pos = matrices[i].GetColumn(3);
 
-                for (int i = 0; i < size; i++)
-                    batch[i] = matrices[index + i];
+                if (!view.Contains(new Vector2(pos.x, pos.y)))
+                    continue;
 
-                Graphics.DrawMeshInstanced(
-                    mesh,
-                    0,
-                    material,
-                    batch,
-                    size
-                );
+                batch[visibleCount++] = matrices[i];
 
-                index += size;
+                if (visibleCount == BatchSize)
+                {
+                    Graphics.DrawMeshInstanced(mesh, 0, material, batch, visibleCount);
+                    visibleCount = 0;
+                }
             }
+
+            if (visibleCount > 0)
+            {
+                Graphics.DrawMeshInstanced(mesh, 0, material, batch, visibleCount);
+            }
+        }
+
+        Rect ExpandRect(Rect r, float padding)
+        {
+            r.xMin -= padding;
+            r.xMax += padding;
+            r.yMin -= padding;
+            r.yMax += padding;
+            return r;
         }
     }
 }

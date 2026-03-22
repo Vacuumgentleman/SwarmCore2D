@@ -24,13 +24,21 @@ namespace SwarmCore2D.World
 
             for (int i = 0; i < samples; i++)
             {
-                float px = Random.value * chunkSize;
-                float py = Random.value * chunkSize;
+                int h = Hash(i, chunk.coord.x, chunk.coord.y);
+
+                float rx = Frac(Hash(h, 1, 0) * 0.0001f);
+                float ry = Frac(Hash(h, 2, 0) * 0.0001f);
+                float rs = Frac(Hash(h, 4, 0) * 0.0001f);
+
+                float px = rx * chunkSize;
+                float py = ry * chunkSize;
 
                 Vector2 worldPos = basePos + new Vector2(px, py);
 
                 foreach (var prop in biome.props)
                 {
+                    float propRand = Frac(Hash(h, prop.GetInstanceID(), 0) * 0.0001f);
+
                     float noise = Mathf.PerlinNoise(
                         (worldPos.x + prop.noiseOffset.x) * prop.noiseScale,
                         (worldPos.y + prop.noiseOffset.y) * prop.noiseScale
@@ -39,15 +47,16 @@ namespace SwarmCore2D.World
                     if (noise < prop.minNoise)
                         continue;
 
-                    if (Random.value > prop.spawnChance)
+                    if (propRand > prop.spawnChance)
                         continue;
 
                     if (IsTooClose(worldPos, prop.minDistance))
                         continue;
 
-                    float scale = Random.Range(
+                    float scale = Mathf.Lerp(
                         prop.scaleRange.x,
-                        prop.scaleRange.y
+                        prop.scaleRange.y,
+                        rs
                     );
 
                     Vector3 pos = new Vector3(worldPos.x, worldPos.y, 0);
@@ -58,18 +67,16 @@ namespace SwarmCore2D.World
                         Vector3.one * scale
                     );
 
-                    // 🔴 SORTING POR Y (CUANTIZADO)
                     int ySort = -Mathf.RoundToInt(worldPos.y * sortingFactor);
                     ySort = (ySort / sortingStep) * sortingStep;
 
                     int finalSorting = prop.baseSorting + ySort;
 
-                    PropBatchKey key = new PropBatchKey
-                    {
-                        mesh = prop.mesh,
-                        material = prop.material,
-                        sortingOrder = finalSorting
-                    };
+                    PropBatchKey key = new PropBatchKey(
+                        prop.mesh,
+                        prop.material,
+                        finalSorting
+                    );
 
                     if (!chunk.propBatches.ContainsKey(key))
                         chunk.propBatches[key] = new List<Matrix4x4>();
@@ -78,7 +85,20 @@ namespace SwarmCore2D.World
 
                     allPlaced.Add(pos);
                 }
-            }
+        }
+    }
+        int Hash(int a, int b, int c)
+        {
+            int h = a;
+            h ^= b * 374761393;
+            h ^= c * 668265263;
+            h = (h ^ (h >> 13)) * 1274126177;
+            return h;
+        }
+
+        float Frac(float v)
+        {
+            return v - Mathf.Floor(v);
         }
 
         bool IsTooClose(Vector2 pos, float minDistance)
