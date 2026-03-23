@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2219512595602369150}
   - component: {fileID: 375922211966395504}
   - component: {fileID: 7458513168878813473}
+  - component: {fileID: 1399631222358149370}
   - component: {fileID: 8560408354402261126}
   - component: {fileID: 2033224510865945811}
-  - component: {fileID: 1399631222358149370}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -131,6 +131,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.45, y: 0.01}
   m_Radius: 3
+--- !u!95 &1399631222358149370
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585398966436583909}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e10c61dba95bd4945bb6a2f7a7f3a8a9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8560408354402261126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,25 +181,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
   weapon: {fileID: 11400000, guid: 9e5511e2ae34aab5cb650b60137145a2, type: 2}
   simulation: {fileID: 0}
---- !u!95 &1399631222358149370
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3585398966436583909}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e10c61dba95bd4945bb6a2f7a7f3a8a9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
