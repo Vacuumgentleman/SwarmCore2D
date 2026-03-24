@@ -73,7 +73,6 @@ namespace SwarmCore2D.World
 
         void CreateChunk(Vector2Int coord)
         {
-            int propLayers = 8;
 
             WorldChunk chunk = new WorldChunk(1024);
 

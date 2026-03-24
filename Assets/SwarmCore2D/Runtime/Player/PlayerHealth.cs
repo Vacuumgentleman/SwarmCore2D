@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
     [Header("Scene Transition")]
     public ScreenFadeToMenu screenFade;
 
+    public event Action OnHealthChanged;
+
     float invulTimer;
     Color originalColor;
 
@@ -35,6 +38,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        OnHealthChanged?.Invoke();
     }
 
     void Update()
@@ -60,20 +65,26 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= dmg;
 
+        currentHealth = Mathf.Max(currentHealth, 0f);
+
         invulTimer = invulnerabilityTime;
 
         PlayDamageSound();
+
+        OnHealthChanged?.Invoke();
 
         if (currentHealth <= 0f)
             Die();
     }
 
+    public float GetHealthPercent()
+    {
+        return currentHealth / maxHealth;
+    }
+
     void PlayDamageSound()
     {
-        if (audioSource == null)
-            return;
-
-        if (damageSound == null)
+        if (audioSource == null || damageSound == null)
             return;
 
         audioSource.PlayOneShot(damageSound);
