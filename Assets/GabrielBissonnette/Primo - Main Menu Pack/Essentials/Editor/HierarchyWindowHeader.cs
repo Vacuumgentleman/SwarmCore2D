@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-//Simply re-styles a gameObject name in the Hiearchy window to be black and all caps.
-
 namespace GabrielBissonnette.Primo
 {
     [InitializeOnLoad]
@@ -15,12 +13,23 @@ namespace GabrielBissonnette.Primo
 
         static void HierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
         {
-            var gameObject = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+            var obj = EditorUtility.InstanceIDToObject(instanceID);
 
-            if (gameObject != null && gameObject.name.StartsWith("//", System.StringComparison.Ordinal))
+            if (obj == null)
+                return;
+
+            GameObject gameObject = obj as GameObject;
+
+            if (gameObject == null)
+                return;
+
+            if (gameObject.name.StartsWith("//", System.StringComparison.Ordinal))
             {
                 EditorGUI.DrawRect(selectionRect, Color.black);
-                EditorGUI.DropShadowLabel(selectionRect, gameObject.name.Replace("/", "").ToUpperInvariant());
+                EditorGUI.DropShadowLabel(
+                    selectionRect,
+                    gameObject.name.Replace("/", "").ToUpperInvariant()
+                );
             }
         }
     }

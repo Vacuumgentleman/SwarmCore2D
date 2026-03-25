@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PropData
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: 0987e76f76f8ea9a18fccda4d1584c23, type: 2}
-  baseSorting: 0
+  baseSorting: 1
   spawnChance: 0.1
   minNoise: 0.5
   noiseScale: 0.1

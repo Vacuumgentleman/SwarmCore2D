@@ -11,7 +11,7 @@ public class UILevelXP : MonoBehaviour
 
     void Start()
     {
-        progress = FindObjectOfType<PlayerProgress>();
+        progress = Object.FindFirstObjectByType<PlayerProgress>();
 
         if (progress == null)
         {

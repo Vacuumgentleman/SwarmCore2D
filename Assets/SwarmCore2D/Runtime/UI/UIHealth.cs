@@ -9,7 +9,7 @@ public class UIHealth : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<PlayerHealth>();
+        player = Object.FindFirstObjectByType<PlayerHealth>();
 
         if (player == null)
         {

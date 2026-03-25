@@ -10,11 +10,22 @@ public class ScreenFadeToMenu : MonoBehaviour
 
     bool isFading;
 
+    void Awake()
+    {
+        if (fadeImage != null)
+        {
+            Color c = fadeImage.color;
+            c.a = 0f;
+            fadeImage.color = c;
+        }
+    }
+
     public void FadeToMenu()
     {
-        if (isFading)
+        if (isFading || fadeImage == null)
             return;
 
+        gameObject.SetActive(true); 
         StartCoroutine(FadeRoutine());
     }
 
@@ -23,7 +34,6 @@ public class ScreenFadeToMenu : MonoBehaviour
         isFading = true;
 
         float t = 0f;
-        Color c = fadeImage.color;
 
         while (t < fadeDuration)
         {
@@ -31,11 +41,14 @@ public class ScreenFadeToMenu : MonoBehaviour
 
             float a = Mathf.Clamp01(t / fadeDuration);
 
+            Color c = fadeImage.color;
             c.a = a;
             fadeImage.color = c;
 
             yield return null;
         }
+
+        yield return new WaitForSeconds(0.2f); 
 
         int current = SceneManager.GetActiveScene().buildIndex;
         int previous = Mathf.Max(0, current - 1);
