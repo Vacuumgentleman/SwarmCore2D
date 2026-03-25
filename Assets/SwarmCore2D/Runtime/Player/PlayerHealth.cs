@@ -95,19 +95,13 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("MURIO");
 
         if (deathParticles != null)
             Instantiate(deathParticles, transform.position, Quaternion.identity);
 
         if (screenFade != null)
         {
-            Debug.Log("FADE OK");
             screenFade.FadeToMenu();
-        }
-        else
-        {
-            Debug.LogError("screenFade ES NULL");
         }
 
         gameObject.SetActive(false);
