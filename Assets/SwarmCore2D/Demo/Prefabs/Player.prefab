@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1399631222358149370}
   - component: {fileID: 8560408354402261126}
   - component: {fileID: 2033224510865945811}
+  - component: {fileID: 4939760453334187961}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,9 +84,9 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5256797443682519146, guid: 3908d28e9ed59614ca406776a4afc3ab, type: 3}
+  m_Sprite: {fileID: 4723107735738678597, guid: d69e3be544b764174a6deb465428148d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,7 +130,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.45, y: 0.01}
+  m_Offset: {x: 0, y: 0}
   m_Radius: 3
 --- !u!95 &1399631222358149370
 Animator:
@@ -141,7 +142,7 @@ Animator:
   m_GameObject: {fileID: 3585398966436583909}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e10c61dba95bd4945bb6a2f7a7f3a8a9, type: 2}
+  m_Controller: {fileID: 9100000, guid: a37b64730560b804d89d5759bb566655, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -165,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ee157460a3f5f199562f0ac4fd328e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DemoPlayerController
-  moveSpeed: 6
-  rotationMode: 0
+  moveSpeed: 5
+  spriteRenderer: {fileID: 375922211966395504}
 --- !u!114 &2033224510865945811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +182,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
   weapon: {fileID: 11400000, guid: 9e5511e2ae34aab5cb650b60137145a2, type: 2}
   simulation: {fileID: 0}
+--- !u!114 &4939760453334187961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585398966436583909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72105418c57c2553b9759de4b60a274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 0
+  invulnerabilityTime: 0.5
+  sprite: {fileID: 375922211966395504}
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  audioSource: {fileID: 0}
+  damageSound: {fileID: 8300000, guid: 937603ec17f28062a9665a3103ae6a61, type: 3}
+  deathParticles: {fileID: 0}
+  screenFade: {fileID: 0}

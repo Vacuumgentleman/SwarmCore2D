@@ -6,14 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 6f;
 
-    public enum RotationMode
-    {
-        Flip,
-        FourDirections
-    }
-
-    [Header("Rotation")]
-    public RotationMode rotationMode = RotationMode.Flip;
+    [Header("Referencias")]
+    public SpriteRenderer spriteRenderer;
 
     Vector2 input;
     Vector3 velocity;
@@ -21,7 +15,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         ReadInput();
-        UpdateRotation();
+        UpdateVisual();
     }
 
     void FixedUpdate()
@@ -52,34 +46,18 @@ public class PlayerController : MonoBehaviour
         transform.position += velocity * SwarmTime.FixedDelta;
     }
 
-    void UpdateRotation()
+    void UpdateVisual()
     {
-        if (input == Vector2.zero)
+        if (spriteRenderer == null)
             return;
 
-        if (rotationMode == RotationMode.Flip)
+        if (input.x < -0.01f)
         {
-            if (input.x < -0.01f)
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            else if (input.x > 0.01f)
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+            spriteRenderer.flipX = true;   
         }
-        else if (rotationMode == RotationMode.FourDirections)
+        else if (input.x > 0.01f)
         {
-            if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
-            {
-                if (input.x > 0)
-                    transform.rotation = Quaternion.Euler(0, 0, -90);     // derecha
-                else
-                    transform.rotation = Quaternion.Euler(0, 0, 90);   // izquierda
-            }
-            else
-            {
-                if (input.y > 0)
-                    transform.rotation = Quaternion.Euler(0, 0, 0);    // arriba
-                else
-                    transform.rotation = Quaternion.Euler(0, 0, 180);   // abajo
-            }
+            spriteRenderer.flipX = false;  
         }
     }
 }
