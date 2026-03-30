@@ -4533,6 +4533,7 @@ GameObject:
   - component: {fileID: 779686568}
   - component: {fileID: 779686569}
   - component: {fileID: 779686570}
+  - component: {fileID: 779686571}
   m_Layer: 0
   m_Name: ProgressSystem
   m_TagString: Untagged
@@ -4600,6 +4601,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeToMenu
   fadeImage: {fileID: 1818580627}
   fadeDuration: 1
+--- !u!114 &779686571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779686566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045f943b05d1a5ee0b3b17a6b680655f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  kills: 0
 --- !u!1 &780157136
 GameObject:
   m_ObjectHideFlags: 0
@@ -4687,6 +4701,7 @@ GameObject:
   - component: {fileID: 795273673}
   - component: {fileID: 795273674}
   - component: {fileID: 795273675}
+  - component: {fileID: 795273676}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -4749,6 +4764,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITimer
   timerText: {fileID: 1115290884}
+--- !u!114 &795273676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795273671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a237447d2cf0c84aa8349c608089ac3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIKills
+  text: {fileID: 1695130180}
 --- !u!1 &807850674
 GameObject:
   m_ObjectHideFlags: 0

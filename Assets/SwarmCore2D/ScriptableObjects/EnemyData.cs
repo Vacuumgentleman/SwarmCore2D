@@ -9,6 +9,9 @@ public class EnemyData : ScriptableObject
     public float damage = 5f;
     public float radius = 0.6f;
 
+    [Header("Rewards")]
+    public float xpReward = 5f;
+
     [Header("Animation")]
     public int frameCount = 7;
     public float animSpeed = 8f;

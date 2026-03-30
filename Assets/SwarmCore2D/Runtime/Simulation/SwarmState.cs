@@ -13,24 +13,19 @@ namespace SwarmCore2D.Simulation
         public float[] radius;
         public float[] mass;
 
-        // legacy (puedes eliminarlo después si quieres)
         public int[] type;
 
-        // 🔥 NUEVO: índice al EnemyData
         public int[] enemyType;
 
-        // health
         public float[] health;
         public float[] hitFlash;
 
-        // animation
         public int[] frame;
         public bool[] facingLeft;
         public float[] animOffset;
 
         public bool[] active;
 
-        // active entity list (performance)
         public int[] activeList;
         public int activeCount;
 
@@ -44,8 +39,8 @@ namespace SwarmCore2D.Simulation
             radius = new float[Capacity];
             mass = new float[Capacity];
 
-            type = new int[Capacity];        // legacy
-            enemyType = new int[Capacity];   // 🔥 nuevo
+            type = new int[Capacity];     
+            enemyType = new int[Capacity];   
 
             health = new float[Capacity];
             hitFlash = new float[Capacity];
@@ -70,7 +65,7 @@ namespace SwarmCore2D.Simulation
 
             active[id] = true;
 
-            animOffset[id] = Random.value * 10f;
+            animOffset[id] = UnityEngine.Random.value * 10f;
 
             activeList[activeCount] = id;
             activeCount++;
@@ -113,8 +108,8 @@ namespace SwarmCore2D.Simulation
             System.Array.Clear(radius, 0, Capacity);
             System.Array.Clear(mass, 0, Capacity);
 
-            System.Array.Clear(type, 0, Capacity);        // legacy
-            System.Array.Clear(enemyType, 0, Capacity);   // 🔥 importante
+            System.Array.Clear(type, 0, Capacity);        
+            System.Array.Clear(enemyType, 0, Capacity);   
 
             System.Array.Clear(health, 0, Capacity);
             System.Array.Clear(hitFlash, 0, Capacity);
