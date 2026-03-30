@@ -16,23 +16,31 @@ namespace SwarmCore2D.Simulation
 
             spawnTimer = 0f;
 
+            if (EnemyDatabase.Instance == null || EnemyDatabase.Instance.enemies.Length == 0)
+                return;
+
             DeterministicRNG rng = new DeterministicRNG((uint)SwarmTime.Tick);
 
             Vector2 offset = rng.Direction() * 10f;
-
             Vector2 spawnPos = playerPos + offset;
 
-            SwarmEntity entity = world.Spawn(spawnPos, 1);
+            int enemyIndex = rng.Range(0, EnemyDatabase.Instance.enemies.Length);
+
+            EnemyData data = EnemyDatabase.Instance.Get(enemyIndex);
+
+            SwarmEntity entity = world.Spawn(spawnPos);
 
             int id = entity.id;
 
-            if (id >= 0)
-            {
-                var state = world.state;
+            if (id < 0 || data == null)
+                return;
 
-                state.health[id] = 10f;
-                state.radius[id] = 0.6f;
-            }
+            var state = world.state;
+
+            state.enemyType[id] = enemyIndex; // 🔥 clave
+
+            state.health[id] = data.maxHealth;
+            state.radius[id] = data.radius;
         }
     }
 }

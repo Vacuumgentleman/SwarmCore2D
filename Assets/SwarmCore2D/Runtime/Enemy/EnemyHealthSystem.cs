@@ -10,7 +10,6 @@ namespace SwarmCore2D.Simulation
                 return;
 
             state.health[id] -= damage;
-
             state.hitFlash[id] = 0.15f;
 
             if (state.health[id] <= 0f)

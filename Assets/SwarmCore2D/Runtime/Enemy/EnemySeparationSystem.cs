@@ -19,25 +19,20 @@ namespace SwarmCore2D.Simulation
         {
             grid.Clear();
 
-            int cap = state.Capacity;
+            int count = state.activeCount;
 
-            for (int i = 0; i < cap; i++)
+            for (int a = 0; a < count; a++)
             {
-                if (!state.active[i])
-                    continue;
+                int i = state.activeList[a];
 
                 grid.Add(i, state.positions[i]);
             }
 
             float radiusSq = separationRadius * separationRadius;
 
-            for (int i = 0; i < cap; i++)
+            for (int a = 0; a < count; a++)
             {
-                if (!state.active[i])
-                    continue;
-
-                if (state.type[i] != 1)
-                    continue;
+                int i = state.activeList[a];
 
                 Vector2 posA = state.positions[i];
 
@@ -45,8 +40,10 @@ namespace SwarmCore2D.Simulation
 
                 var neighbors = grid.Query(posA);
 
-                foreach (int j in neighbors)
+                for (int n = 0; n < neighbors.Count; n++)
                 {
+                    int j = neighbors[n];
+
                     if (i == j)
                         continue;
 

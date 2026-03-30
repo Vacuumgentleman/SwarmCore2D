@@ -1,5 +1,15 @@
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="AssetInventory.Editor.csproj" />
+  <Project Path="Automator.Editor.csproj" />
+  <Project Path="ImpossibleRobert.Common.Editor.csproj" />
+  <Project Path="Database.Editor.csproj" />
   <Project Path="VoxelLabs.UltimatePreview.Lib.csproj" />
+  <Project Path="AudioTool.JD.EditorAudioUtils.Editor.csproj" />
+  <Project Path="AudioTool.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="CodeStage.Package2Folder.csproj" />
+  <Project Path="Brain.Editor.csproj" />
+  <Project Path="AssetInventory.Examples.csproj" />
+  <Project Path="AssetInventory.Examples.Editor.csproj" />
 </Solution>

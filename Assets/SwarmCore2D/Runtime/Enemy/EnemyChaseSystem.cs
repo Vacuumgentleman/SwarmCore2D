@@ -5,9 +5,6 @@ namespace SwarmCore2D.Simulation
 {
     public class EnemyChaseSystem
     {
-        float speed = 3f;
-        float animSpeed = 8f;
-
         public void Update(SwarmState state, Vector2 playerPos)
         {
             int count = state.activeCount;
@@ -16,25 +13,28 @@ namespace SwarmCore2D.Simulation
             {
                 int i = state.activeList[a];
 
-                if (state.hitFlash[i] > 0f)
-                    state.hitFlash[i] -= SwarmTime.FixedDelta;
+                int type = state.enemyType[i];
 
-                if (state.type[i] != 1)
+                var data = EnemyDatabase.Instance.Get(type);
+
+                if (data == null)
+                    continue;
+
+                if (data.behavior != EnemyBehaviorType.Chase)
                     continue;
 
                 Vector2 pos = state.positions[i];
 
                 Vector2 dir = playerPos - pos;
-
                 dir = SwarmMath.SafeNormalize(dir);
 
-                state.velocities[i] = dir * speed;
+                state.velocities[i] = dir * data.speed;
                 state.positions[i] += state.velocities[i] * SwarmTime.FixedDelta;
 
                 state.facingLeft[i] = dir.x < 0f;
 
                 float t = Time.time + state.animOffset[i];
-                state.frame[i] = (int)(t * animSpeed) % 7;
+                state.frame[i] = (int)(t * data.animSpeed) % 7;
             }
         }
     }

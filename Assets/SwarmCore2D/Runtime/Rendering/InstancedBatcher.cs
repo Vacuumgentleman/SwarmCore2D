@@ -1,60 +1,66 @@
 using UnityEngine;
 
-namespace SwarmCore2D.Rendering
+public class InstancedBatcher
 {
-    public class InstancedBatcher
+    const int BATCH_SIZE = 1023;
+
+    Mesh mesh;
+
+    Matrix4x4[] batchMatrices;
+    float[] batchFrames;
+    float[] batchFlips;
+    Vector4[] batchTint;
+
+    public InstancedBatcher(Mesh mesh)
     {
-        const int BatchSize = 1023;
+        this.mesh = mesh;
 
-        Mesh mesh;
-        Material material;
+        batchMatrices = new Matrix4x4[BATCH_SIZE];
+        batchFrames = new float[BATCH_SIZE];
+        batchFlips = new float[BATCH_SIZE];
+        batchTint = new Vector4[BATCH_SIZE];
+    }
 
-        MaterialPropertyBlock props;
+    public void Draw(
+        Material material,
+        Matrix4x4[] matrices,
+        float[] frames,
+        float[] flips,
+        Vector4[] tint,
+        int count,
+        MaterialPropertyBlock props
+    )
+    {
+        int index = 0;
 
-        public InstancedBatcher(Mesh mesh, Material material)
+        while (index < count)
         {
-            this.mesh = mesh;
-            this.material = material;
+            int batchCount = Mathf.Min(BATCH_SIZE, count - index);
 
-            props = new MaterialPropertyBlock();
-        }
-
-        public void Draw(
-            Matrix4x4[] matrices,
-            float[] frames,
-            float[] flips,
-            Vector4[] tint,
-            int count)
-        {
-            int index = 0;
-
-            while (index < count)
+            for (int i = 0; i < batchCount; i++)
             {
-                int batch = Mathf.Min(BatchSize, count - index);
-
-                props.Clear();
-
-                props.SetFloatArray("_Frame", frames);
-                props.SetFloatArray("_Flip", flips);
-                props.SetVectorArray("_Tint", tint);
-
-                Graphics.DrawMeshInstanced(
-                    mesh,
-                    0,
-                    material,
-                    matrices,
-                    batch,
-                    props,
-                    UnityEngine.Rendering.ShadowCastingMode.Off,
-                    false,
-                    0,
-                    null,
-                    UnityEngine.Rendering.LightProbeUsage.Off,
-                    null
-                );
-
-                index += batch;
+                batchMatrices[i] = matrices[index + i];
+                batchFrames[i] = frames[index + i];
+                batchFlips[i] = flips[index + i];
+                batchTint[i] = tint[index + i];
             }
+
+            props.Clear();
+
+            props.SetFloatArray("_Frame", batchFrames);
+            props.SetFloatArray("_Flip", batchFlips);
+            props.SetVectorArray("_Tint", batchTint);
+
+            Graphics.DrawMeshInstanced(
+                mesh,
+                0,
+                material,
+                batchMatrices,
+                batchCount,
+                props
+            );
+
+            index += batchCount;
         }
     }
 }

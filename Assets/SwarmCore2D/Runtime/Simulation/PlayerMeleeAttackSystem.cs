@@ -26,7 +26,7 @@ namespace SwarmCore2D.Simulation
             {
                 int i = state.activeList[a];
 
-                if (state.type[i] != 1)
+                if (!state.active[i])
                     continue;
 
                 Vector2 enemyPos = state.positions[i];

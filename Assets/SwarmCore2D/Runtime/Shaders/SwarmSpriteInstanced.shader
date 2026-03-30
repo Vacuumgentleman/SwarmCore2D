@@ -55,6 +55,7 @@ Shader "Swarm/SpriteInstanced"
                 UNITY_DEFINE_INSTANCED_PROP(float, _Frame)
                 UNITY_DEFINE_INSTANCED_PROP(float, _Flip)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _Tint)
+                UNITY_DEFINE_INSTANCED_PROP(float, _AtlasOffset)
 
             UNITY_INSTANCING_BUFFER_END(Props)
 
@@ -78,13 +79,14 @@ Shader "Swarm/SpriteInstanced"
                 float frame = UNITY_ACCESS_INSTANCED_PROP(Props, _Frame);
                 float flip = UNITY_ACCESS_INSTANCED_PROP(Props, _Flip);
                 float4 tint = UNITY_ACCESS_INSTANCED_PROP(Props, _Tint);
+                float atlasOffset = UNITY_ACCESS_INSTANCED_PROP(Props, _AtlasOffset);
 
                 float2 uv = IN.uv;
 
                 if (flip > 0.5)
                     uv.x = 1 - uv.x;
 
-                uv.x = (uv.x + frame) / _FrameCount;
+                uv.x = (uv.x + frame + atlasOffset) / _FrameCount;
 
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
