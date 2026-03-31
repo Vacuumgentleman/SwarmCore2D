@@ -7,6 +7,9 @@ using System.Collections.Generic;
 public class PlayerWeaponController : MonoBehaviour
 {
     public WeaponStats weapon;
+
+    public WeaponRuntimeStats runtime;
+
     public SwarmSimulationController simulation;
 
     PlayerMeleeAttackSystem meleeSystem;
@@ -19,6 +22,11 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Start()
     {
+        if (runtime == null)
+            runtime = GetComponent<WeaponRuntimeStats>();
+
+        runtime.LoadFrom(weapon);
+
         if (simulation == null)
             simulation = FindFirstObjectByType<SwarmSimulationController>();
 
@@ -29,15 +37,11 @@ public class PlayerWeaponController : MonoBehaviour
             return;
         }
 
-        if (weapon.attackType == WeaponStats.AttackType.Melee)
-        {
+        if (runtime.attackType == WeaponStats.AttackType.Melee)
             meleeSystem = new PlayerMeleeAttackSystem(simulation.WorldState);
-        }
 
-        if (weapon.attackType == WeaponStats.AttackType.Ranged)
-        {
+        if (runtime.attackType == WeaponStats.AttackType.Ranged)
             projectileSystem = simulation.ProjectileSystem;
-        }
 
         BuildDirectionList();
     }
@@ -46,29 +50,24 @@ public class PlayerWeaponController : MonoBehaviour
     {
         directions.Clear();
 
-        bool up = weapon.attackUp;
-        bool down = weapon.attackDown;
-        bool left = weapon.attackLeft;
-        bool right = weapon.attackRight;
+        if (runtime.attackUp) directions.Add(Vector2.up);
 
-        if (up) directions.Add(Vector2.up);
-
-        if (weapon.allowDiagonals && up && right)
+        if (runtime.allowDiagonals && runtime.attackUp && runtime.attackRight)
             directions.Add((Vector2.up + Vector2.right).normalized);
 
-        if (right) directions.Add(Vector2.right);
+        if (runtime.attackRight) directions.Add(Vector2.right);
 
-        if (weapon.allowDiagonals && down && right)
+        if (runtime.allowDiagonals && runtime.attackDown && runtime.attackRight)
             directions.Add((Vector2.down + Vector2.right).normalized);
 
-        if (down) directions.Add(Vector2.down);
+        if (runtime.attackDown) directions.Add(Vector2.down);
 
-        if (weapon.allowDiagonals && down && left)
+        if (runtime.allowDiagonals && runtime.attackDown && runtime.attackLeft)
             directions.Add((Vector2.down + Vector2.left).normalized);
 
-        if (left) directions.Add(Vector2.left);
+        if (runtime.attackLeft) directions.Add(Vector2.left);
 
-        if (weapon.allowDiagonals && up && left)
+        if (runtime.allowDiagonals && runtime.attackUp && runtime.attackLeft)
             directions.Add((Vector2.up + Vector2.left).normalized);
 
         if (directions.Count == 0)
@@ -77,7 +76,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Update()
     {
-        if (weapon == null)
+        if (runtime == null)
             return;
 
         timer -= Time.deltaTime;
@@ -85,14 +84,14 @@ public class PlayerWeaponController : MonoBehaviour
         if (timer > 0)
             return;
 
-        timer = weapon.cooldown;
+        timer = runtime.cooldown;
 
         FireAttack();
     }
 
     void FireAttack()
     {
-        if (weapon.attackType == WeaponStats.AttackType.Melee)
+        if (runtime.attackType == WeaponStats.AttackType.Melee)
             FireMelee();
         else
             FireRanged();
@@ -106,18 +105,17 @@ public class PlayerWeaponController : MonoBehaviour
         Vector2 playerPos = transform.position;
 
         int dirCount = directions.Count;
-        int projectileCount = weapon.projectileCount;
 
-        for (int p = 0; p < projectileCount; p++)
+        for (int p = 0; p < runtime.projectileCount; p++)
         {
             int dirIndex =
-                weapon.directionMode == WeaponStats.AttackDirectionMode.Clockwise
+                runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
                 ? p % dirCount
                 : lastDirIndex++ % dirCount;
 
             Vector2 dir = directions[dirIndex];
 
-            meleeSystem.Attack(playerPos, weapon, dir);
+            meleeSystem.Attack(playerPos, ConvertToWeaponStats(), dir);
 
             SpawnAttackVisual(playerPos, dir);
         }
@@ -131,12 +129,11 @@ public class PlayerWeaponController : MonoBehaviour
         Vector2 playerPos = transform.position;
 
         int dirCount = directions.Count;
-        int projectileCount = weapon.projectileCount;
 
-        for (int p = 0; p < projectileCount; p++)
+        for (int p = 0; p < runtime.projectileCount; p++)
         {
             int dirIndex =
-                weapon.directionMode == WeaponStats.AttackDirectionMode.Clockwise
+                runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
                 ? p % dirCount
                 : lastDirIndex++ % dirCount;
 
@@ -145,17 +142,32 @@ public class PlayerWeaponController : MonoBehaviour
             projectileSystem.Spawn(
                 playerPos,
                 dir,
-                weapon
+                ConvertToWeaponStats()
             );
         }
     }
 
+    WeaponStats ConvertToWeaponStats()
+    {
+        weapon.damage = runtime.damage;
+        weapon.radius = runtime.radius;
+        weapon.knockback = runtime.knockback;
+        weapon.attackAngle = runtime.attackAngle;
+
+        weapon.maxDistance = runtime.maxDistance;
+        weapon.maxLifetime = runtime.maxLifetime;
+        weapon.pierceEnemies = runtime.pierceEnemies;
+        weapon.projectileSize = runtime.projectileSize;
+
+        return weapon;
+    }
+
     void SpawnAttackVisual(Vector2 playerPos, Vector2 dir)
     {
-        if (weapon.attackVisualPrefab == null)
+        if (runtime.attackVisualPrefab == null)
             return;
 
-        float offset = weapon.radius * 0.5f;
+        float offset = runtime.radius * 0.5f;
 
         Vector3 spawnPos = playerPos + dir * offset;
 
@@ -163,7 +175,7 @@ public class PlayerWeaponController : MonoBehaviour
             Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         GameObject obj = Instantiate(
-            weapon.attackVisualPrefab,
+            runtime.attackVisualPrefab,
             spawnPos,
             Quaternion.Euler(0, 0, angle)
         );
@@ -172,10 +184,12 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (visual != null)
         {
-            visual.Init(
-                weapon.frames,
-                weapon.frameRate
-            );
+            visual.Init(runtime.frames, runtime.frameRate);
         }
+    }
+
+    public void RebuildDirections()
+    {
+        BuildDirectionList();
     }
 }

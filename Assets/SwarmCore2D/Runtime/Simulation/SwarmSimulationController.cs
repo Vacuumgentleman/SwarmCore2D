@@ -34,6 +34,9 @@ namespace SwarmCore2D.Simulation
 
         PlayerHealth playerHealth;
 
+        // 🔥 NUEVO
+        bool isPaused = false;
+
         public SwarmState WorldState => world.state;
         public ProjectileSystem ProjectileSystem => projectileSystem;
 
@@ -75,6 +78,10 @@ namespace SwarmCore2D.Simulation
 
         void Update()
         {
+            // 🔥 NUEVO
+            if (isPaused)
+                return;
+
             SwarmTime.Step();
 
             if (player == null)
@@ -133,6 +140,12 @@ namespace SwarmCore2D.Simulation
                 if (state.hitFlash[id] > 0f)
                     state.hitFlash[id] -= dt;
             }
+        }
+
+        // 🔥 NUEVO
+        public void SetPaused(bool value)
+        {
+            isPaused = value;
         }
     }
 }
