@@ -8,8 +8,6 @@ public class UpgradeButton : MonoBehaviour
     public TextMeshProUGUI desc;
     public Image icon;
 
-    public UpgradeSystem system; // 🔥 referencia directa
-
     UpgradeData data;
 
     public void Setup(UpgradeData upgrade)
@@ -33,21 +31,24 @@ public class UpgradeButton : MonoBehaviour
 
         ApplyUpgrade();
 
+        // 🔥 ESTO ES CLAVE
+        var system = FindFirstObjectByType<UpgradeSystem>();
+
         if (system != null)
             system.CloseSelection();
         else
-            Debug.LogError("UpgradeSystem no asignado en botón");
+            Debug.LogError("UpgradeSystem no encontrado");
     }
 
     void ApplyUpgrade()
     {
-        var controller = FindFirstObjectByType<PlayerWeaponController>();
+        var weaponController = FindFirstObjectByType<PlayerWeaponController>();
         var player = FindFirstObjectByType<PlayerHealth>();
 
-        if (controller == null)
+        if (weaponController == null)
             return;
 
-        var runtime = controller.runtime;
+        var runtime = weaponController.runtime;
 
         switch (data.type)
         {
@@ -65,22 +66,18 @@ public class UpgradeButton : MonoBehaviour
 
             case UpgradeData.UpgradeType.UnlockDirectionUp:
                 runtime.attackUp = true;
-                controller.RebuildDirections();
                 break;
 
             case UpgradeData.UpgradeType.UnlockDirectionDown:
                 runtime.attackDown = true;
-                controller.RebuildDirections();
                 break;
 
             case UpgradeData.UpgradeType.UnlockDirectionLeft:
                 runtime.attackLeft = true;
-                controller.RebuildDirections();
                 break;
 
             case UpgradeData.UpgradeType.UnlockDirectionRight:
                 runtime.attackRight = true;
-                controller.RebuildDirections();
                 break;
 
             case UpgradeData.UpgradeType.Heal:
@@ -91,5 +88,7 @@ public class UpgradeButton : MonoBehaviour
                 }
                 break;
         }
+
+        weaponController.RebuildDirections();
     }
 }
