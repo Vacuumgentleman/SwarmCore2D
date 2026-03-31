@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class UpgradeButton : MonoBehaviour
 {
@@ -31,13 +32,10 @@ public class UpgradeButton : MonoBehaviour
 
         ApplyUpgrade();
 
-        // 🔥 ESTO ES CLAVE
         var system = FindFirstObjectByType<UpgradeSystem>();
 
         if (system != null)
             system.CloseSelection();
-        else
-            Debug.LogError("UpgradeSystem no encontrado");
     }
 
     void ApplyUpgrade()
@@ -64,20 +62,29 @@ public class UpgradeButton : MonoBehaviour
                 runtime.projectileCount += (int)data.value;
                 break;
 
-            case UpgradeData.UpgradeType.UnlockDirectionUp:
-                runtime.attackUp = true;
+            case UpgradeData.UpgradeType.AddDirectionRandom:
+                AddRandomDirection(runtime);
+                weaponController.RebuildDirections();
                 break;
 
-            case UpgradeData.UpgradeType.UnlockDirectionDown:
-                runtime.attackDown = true;
+            case UpgradeData.UpgradeType.ProjectileSize:
+                runtime.projectileSize += data.value;
                 break;
 
-            case UpgradeData.UpgradeType.UnlockDirectionLeft:
-                runtime.attackLeft = true;
+            case UpgradeData.UpgradeType.Area:
+                runtime.radius += data.value;
                 break;
 
-            case UpgradeData.UpgradeType.UnlockDirectionRight:
-                runtime.attackRight = true;
+            case UpgradeData.UpgradeType.Knockback:
+                runtime.knockback += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.MaxHealth:
+                if (player != null)
+                {
+                    player.maxHealth += data.value;
+                    player.currentHealth += data.value;
+                }
                 break;
 
             case UpgradeData.UpgradeType.Heal:
@@ -88,7 +95,28 @@ public class UpgradeButton : MonoBehaviour
                 }
                 break;
         }
+    }
 
-        weaponController.RebuildDirections();
+    void AddRandomDirection(WeaponRuntimeStats runtime)
+    {
+        List<System.Action> possible = new List<System.Action>();
+
+        if (!runtime.attackUp)
+            possible.Add(() => runtime.attackUp = true);
+
+        if (!runtime.attackDown)
+            possible.Add(() => runtime.attackDown = true);
+
+        if (!runtime.attackLeft)
+            possible.Add(() => runtime.attackLeft = true);
+
+        if (!runtime.attackRight)
+            possible.Add(() => runtime.attackRight = true);
+
+        if (possible.Count == 0)
+            return;
+
+        int index = Random.Range(0, possible.Count);
+        possible[index].Invoke();
     }
 }

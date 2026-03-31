@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff66c8f5cbedce34098a8bc3523d1c75, type: 3}
-  m_Name: Damage Upgrade 1
+  m_Name: Area Upgrade
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
-  upgradeName: Proyectile Count
-  description: Add More Proyectiles
-  icon: {fileID: 21300000, guid: c272e6d3dde6e4ad58af98df64cbaf46, type: 3}
-  type: 2
-  value: 1
+  upgradeName: Area Damage
+  description: Augment Damage Area
+  icon: {fileID: -6407341049617763974, guid: 0fb3704cb47b345c3bc3d5afcf150930, type: 3}
+  type: 7
+  value: 3

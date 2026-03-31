@@ -8083,9 +8083,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDatabase
   upgrades:
+  - {fileID: 11400000, guid: ecea29c3a85ff2b0eb8abb1b75b760ca, type: 2}
   - {fileID: 11400000, guid: a561c81695b683995adf89b79c3c7910, type: 2}
   - {fileID: 11400000, guid: c0277c0124a90d206872d1e86baf1b61, type: 2}
+  - {fileID: 11400000, guid: cbf258e3c8f39316db2d644f891811bd, type: 2}
+  - {fileID: 11400000, guid: 1602f25931dc546d590dc8d50421924b, type: 2}
+  - {fileID: 11400000, guid: 87f9ec5e1e90e299faf69b000b5ea948, type: 2}
+  - {fileID: 11400000, guid: 15081feb7cd1fc7ce8faac367c47d7f8, type: 2}
   - {fileID: 11400000, guid: b6f87bd873a6d71c0bedf7cfb453d62c, type: 2}
+  - {fileID: 11400000, guid: d81ec75a5f35c36ada6dca7960126efe, type: 2}
 --- !u!1 &1191801096
 GameObject:
   m_ObjectHideFlags: 0

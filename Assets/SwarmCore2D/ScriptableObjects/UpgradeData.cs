@@ -12,11 +12,14 @@ public class UpgradeData : ScriptableObject
         Damage,
         AttackSpeed,
         ProjectileCount,
-        UnlockDirectionUp,
-        UnlockDirectionDown,
-        UnlockDirectionLeft,
-        UnlockDirectionRight,
-        Heal
+
+        AddDirectionRandom,  
+
+        Heal,
+        MaxHealth,            
+        ProjectileSize,      
+        Area,                 
+        Knockback             
     }
 
     public UpgradeType type;
