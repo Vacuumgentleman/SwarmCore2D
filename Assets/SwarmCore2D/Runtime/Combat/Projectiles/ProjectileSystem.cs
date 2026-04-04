@@ -28,14 +28,15 @@ namespace SwarmCore2D.Combat
             Vector2 dir,
             WeaponStats weapon)
         {
-            projectiles.Spawn(
+            int id = projectiles.Spawn(
                 pos,
                 dir.normalized,
                 12f,
                 weapon.damage,
                 weapon.maxLifetime,
                 weapon.maxDistance == 0 ? Mathf.Infinity : weapon.maxDistance,
-                weapon.pierceEnemies
+                weapon.pierceEnemies,
+                weapon.projectileSize 
             );
         }
 
@@ -85,9 +86,6 @@ namespace SwarmCore2D.Combat
                 if (!state.active[id])
                     continue;
 
-                if (state.type[id] != 1)
-                    continue;
-
                 float dist = Vector2.Distance(
                     pos,
                     state.positions[id]
@@ -112,4 +110,6 @@ namespace SwarmCore2D.Combat
             return false;
         }
     }
+
+    
 }

@@ -17,8 +17,7 @@ public class UpgradeData : ScriptableObject
 
         Heal,
         MaxHealth,            
-        ProjectileSize,      
-        Area,                 
+        Size,      
         Knockback             
     }
 

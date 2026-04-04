@@ -34,11 +34,16 @@ namespace SwarmCore2D.Simulation
 
         PlayerHealth playerHealth;
 
-        // 🔥 NUEVO
         bool isPaused = false;
 
         public SwarmState WorldState => world.state;
         public ProjectileSystem ProjectileSystem => projectileSystem;
+
+        // 🔥 NUEVO: acceso limpio al estado de pausa
+        public bool IsPaused()
+        {
+            return isPaused;
+        }
 
         void Awake()
         {
@@ -78,7 +83,6 @@ namespace SwarmCore2D.Simulation
 
         void Update()
         {
-            // 🔥 NUEVO
             if (isPaused)
                 return;
 
@@ -90,13 +94,10 @@ namespace SwarmCore2D.Simulation
             Vector2 playerPos = player.position;
 
             infiniteWorld.Update();
-
             chunkSystem.Update(playerPos);
 
             spawner.Update(world, playerPos);
-
             chase.Update(world.state, playerPos);
-
             separation.Update(world.state);
 
             UpdateHitFlash(world.state);
@@ -109,10 +110,7 @@ namespace SwarmCore2D.Simulation
             {
                 int id = world.state.activeList[i];
 
-                grid.Add(
-                    id,
-                    world.state.positions[id]
-                );
+                grid.Add(id, world.state.positions[id]);
             }
 
             if (playerHealth != null)
@@ -142,7 +140,6 @@ namespace SwarmCore2D.Simulation
             }
         }
 
-        // 🔥 NUEVO
         public void SetPaused(bool value)
         {
             isPaused = value;

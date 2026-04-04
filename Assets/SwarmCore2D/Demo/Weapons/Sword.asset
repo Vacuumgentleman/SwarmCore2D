@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 0
-  damage: 4
-  radius: 3
+  damage: 5
+  radius: 13
   cooldown: 0.7
   attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
   attackUp: 0
@@ -34,6 +34,6 @@ MonoBehaviour:
   frameRate: 12
   knockback: 1
   maxDistance: 0
-  maxLifetime: 5
+  maxLifetime: 0
   pierceEnemies: 0
-  projectileSize: 0.5
+  projectileSize: 0

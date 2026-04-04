@@ -10,7 +10,7 @@ namespace SwarmCore2D.Core
         /// Current simulation tick.
         /// </summary>
         public static int Tick { get; private set; }
-
+        public static bool Paused = false;
         /// <summary>
         /// Fixed delta time used by the simulation.
         /// </summary>
@@ -26,6 +26,9 @@ namespace SwarmCore2D.Core
         /// </summary>
         public static void Step()
         {
+            if (Paused)
+                return;
+
             Tick++;
         }
 

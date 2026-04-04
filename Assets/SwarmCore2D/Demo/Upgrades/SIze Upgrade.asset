@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Augment Projectile SIze
   icon: {fileID: 1915886111900610273, guid: a14746fc3b7dd4c11b8ddfba1629a28d, type: 3}
   type: 6
-  value: 2
+  value: 10

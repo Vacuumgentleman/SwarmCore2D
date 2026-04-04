@@ -67,12 +67,9 @@ public class UpgradeButton : MonoBehaviour
                 weaponController.RebuildDirections();
                 break;
 
-            case UpgradeData.UpgradeType.ProjectileSize:
-                runtime.projectileSize += data.value;
-                break;
-
-            case UpgradeData.UpgradeType.Area:
-                runtime.radius += data.value;
+            case UpgradeData.UpgradeType.Size: // 🔥 UNIFICADO
+                runtime.radius += data.value;          // melee
+                runtime.projectileSize += data.value;  // proyectiles
                 break;
 
             case UpgradeData.UpgradeType.Knockback:

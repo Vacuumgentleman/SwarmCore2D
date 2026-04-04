@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using SwarmCore2D.Core;
+using SwarmCore2D.Simulation;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,14 +13,27 @@ public class PlayerController : MonoBehaviour
     Vector2 input;
     Vector3 velocity;
 
+    SwarmSimulationController sim;
+
+    void Start()
+    {
+        sim = FindFirstObjectByType<SwarmSimulationController>();
+    }
+
     void Update()
     {
+        if (sim != null && sim.IsPaused())
+            return;
+
         ReadInput();
         UpdateVisual();
     }
 
     void FixedUpdate()
     {
+        if (sim != null && sim.IsPaused())
+            return;
+
         Move();
     }
 
@@ -52,12 +66,8 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (input.x < -0.01f)
-        {
-            spriteRenderer.flipX = true;   
-        }
+            spriteRenderer.flipX = true;
         else if (input.x > 0.01f)
-        {
-            spriteRenderer.flipX = false;  
-        }
+            spriteRenderer.flipX = false;
     }
 }

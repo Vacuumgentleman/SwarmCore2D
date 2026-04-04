@@ -76,6 +76,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Update()
     {
+        if (SwarmTime.Paused)
+            return;
+
         if (runtime == null)
             return;
 

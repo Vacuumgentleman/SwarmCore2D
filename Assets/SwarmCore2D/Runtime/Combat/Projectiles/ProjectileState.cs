@@ -17,6 +17,7 @@ namespace SwarmCore2D.Combat
         public float[] lifetime = new float[MaxProjectiles];
         public float[] maxDistance = new float[MaxProjectiles];
 
+        public float[] size = new float[MaxProjectiles];
         public Vector2[] startPos = new Vector2[MaxProjectiles];
 
         public bool[] pierce = new bool[MaxProjectiles];
@@ -27,13 +28,15 @@ namespace SwarmCore2D.Combat
         }
 
         public int Spawn(
-            Vector2 pos,
-            Vector2 dir,
-            float spd,
-            float dmg,
-            float life,
-            float dist,
-            bool pierceEnemies)
+                Vector2 pos,
+                Vector2 dir,
+                float spd,
+                float dmg,
+                float life,
+                float dist,
+                bool pierceEnemies,
+                float projectileSize
+            )
         {
             if (count >= MaxProjectiles)
                 return -1;
@@ -48,6 +51,8 @@ namespace SwarmCore2D.Combat
             maxDistance[id] = dist;
             startPos[id] = pos;
             pierce[id] = pierceEnemies;
+
+            size[id] = projectileSize;
 
             return id;
         }

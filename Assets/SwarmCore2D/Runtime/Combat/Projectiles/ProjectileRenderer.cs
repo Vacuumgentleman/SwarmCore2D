@@ -13,7 +13,6 @@ namespace SwarmCore2D.Rendering
         public float frameRate = 12f;
 
         const int MaxBatch = 1023;
-
         Matrix4x4[] matrices = new Matrix4x4[MaxBatch];
 
         ProjectileSystem projectileSystem;
@@ -34,14 +33,10 @@ namespace SwarmCore2D.Rendering
 
         void LateUpdate()
         {
-            if (projectileSystem == null)
-                return;
-
-            if (material == null)
+            if (projectileSystem == null || material == null)
                 return;
 
             var state = projectileSystem.State;
-
             int count = state.count;
 
             if (count == 0)
@@ -50,11 +45,8 @@ namespace SwarmCore2D.Rendering
             animTimer += Time.deltaTime;
 
             int frame = 0;
-
             if (frameCount > 1)
-            {
                 frame = (int)(animTimer * frameRate) % frameCount;
-            }
 
             material.SetFloat("_Frame", frame);
 
@@ -73,12 +65,13 @@ namespace SwarmCore2D.Rendering
 
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                    matrices[i] =
-                        Matrix4x4.TRS(
-                            new Vector3(pos.x, pos.y, -1f),
-                            Quaternion.Euler(0, 0, angle),
-                            Vector3.one
-                        );
+                    float size = state.size[p];
+
+                    matrices[i] = Matrix4x4.TRS(
+                        new Vector3(pos.x, pos.y, -1f),
+                        Quaternion.Euler(0, 0, angle),
+                        Vector3.one * size 
+                    );
                 }
 
                 Graphics.DrawMeshInstanced(
