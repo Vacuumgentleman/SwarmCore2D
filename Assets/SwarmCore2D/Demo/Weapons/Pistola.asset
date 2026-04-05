@@ -13,22 +13,27 @@ MonoBehaviour:
   m_Name: Pistola
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
-  damage: 4
-  radius: 3
-  cooldown: 0.7
-  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
+  damage: 6
+  cooldown: 0.63
+  amount: 1
+  duration: 2
+  speed: 12
+  area: 1
+  pierce: 1
+  hitCooldown: 0.2
+  radius: 15.5
+  maxDistance: 15
+  maxLifetime: 3
+  projectileSize: 1
+  pierceEnemies: 0
   attackUp: 1
   attackDown: 1
   attackLeft: 0
   attackRight: 0
   allowDiagonals: 0
-  projectileCount: 1
   directionMode: 1
   attackAngle: 40
+  knockback: 5
+  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
   frames: []
   frameRate: 12
-  knockback: 1
-  maxDistance: 100
-  maxLifetime: 10
-  pierceEnemies: 0
-  projectileSize: 0.5

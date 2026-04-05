@@ -8090,6 +8090,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87f9ec5e1e90e299faf69b000b5ea948, type: 2}
   - {fileID: 11400000, guid: 15081feb7cd1fc7ce8faac367c47d7f8, type: 2}
   - {fileID: 11400000, guid: b6f87bd873a6d71c0bedf7cfb453d62c, type: 2}
+  - {fileID: 11400000, guid: d81ec75a5f35c36ada6dca7960126efe, type: 2}
 --- !u!1 &1191801096
 GameObject:
   m_ObjectHideFlags: 0

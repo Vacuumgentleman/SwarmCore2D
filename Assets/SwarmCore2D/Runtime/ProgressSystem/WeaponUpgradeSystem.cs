@@ -16,7 +16,7 @@ public class WeaponUpgradeSystem : MonoBehaviour
 
     public void AddProjectile()
     {
-        player.runtime.projectileCount++;
+        player.runtime.amount++; 
     }
 
     public void EnableDirectionUp()

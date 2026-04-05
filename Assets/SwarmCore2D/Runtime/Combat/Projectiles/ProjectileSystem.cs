@@ -13,7 +13,8 @@ namespace SwarmCore2D.Combat
 
         SpatialHashGrid grid;
 
-        float hitRadius = 0.5f;
+        // ✅ POOL LIMIT (ANTI EXPLOSIÓN)
+        int maxProjectiles = 2000;
 
         public ProjectileState State => projectiles;
 
@@ -28,15 +29,19 @@ namespace SwarmCore2D.Combat
             Vector2 dir,
             WeaponStats weapon)
         {
-            int id = projectiles.Spawn(
+            // ✅ LIMITADOR
+            if (projectiles.count >= maxProjectiles)
+                return;
+
+            projectiles.Spawn(
                 pos,
                 dir.normalized,
-                12f,
+                weapon.speed,
                 weapon.damage,
-                weapon.maxLifetime,
-                weapon.maxDistance == 0 ? Mathf.Infinity : weapon.maxDistance,
+                weapon.duration,
+                weapon.maxDistance <= 0 ? Mathf.Infinity : weapon.maxDistance,
                 weapon.pierceEnemies,
-                weapon.projectileSize 
+                weapon.projectileSize
             );
         }
 
@@ -91,8 +96,11 @@ namespace SwarmCore2D.Combat
                     state.positions[id]
                 );
 
-                if (dist <= state.radius[id] + hitRadius)
+                float size = projectiles.size[p];
+
+                if (dist <= state.radius[id] + size)
                 {
+                    // ✅ CORREGIDO
                     healthSystem.Damage(
                         state,
                         id,
@@ -109,7 +117,29 @@ namespace SwarmCore2D.Combat
 
             return false;
         }
-    }
 
-    
+        // ✅ MELEE REAL (NO PROYECTIL)
+        public void MeleeHit(
+            SwarmState state,
+            Vector2 center,
+            float radius,
+            float damage
+        )
+        {
+            var neighbors = grid.Query(center);
+
+            foreach (int id in neighbors)
+            {
+                if (!state.active[id])
+                    continue;
+
+                float dist = Vector2.Distance(center, state.positions[id]);
+
+                if (dist <= state.radius[id] + radius)
+                {
+                    healthSystem.Damage(state, id, damage);
+                }
+            }
+        }
+    }
 }

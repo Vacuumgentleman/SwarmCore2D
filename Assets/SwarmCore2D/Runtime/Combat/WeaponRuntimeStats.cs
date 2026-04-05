@@ -7,7 +7,7 @@ public class WeaponRuntimeStats
     public float radius;
     public float cooldown;
 
-    public int projectileCount;
+    public int amount; 
 
     public bool attackUp;
     public bool attackDown;
@@ -38,7 +38,7 @@ public class WeaponRuntimeStats
         radius = baseStats.radius;
         cooldown = baseStats.cooldown;
 
-        projectileCount = baseStats.projectileCount;
+        amount = baseStats.amount; 
 
         attackUp = baseStats.attackUp;
         attackDown = baseStats.attackDown;

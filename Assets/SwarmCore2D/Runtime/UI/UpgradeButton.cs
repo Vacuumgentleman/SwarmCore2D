@@ -59,8 +59,8 @@ public class UpgradeButton : MonoBehaviour
                 break;
 
             case UpgradeData.UpgradeType.ProjectileCount:
-                runtime.projectileCount += (int)data.value;
-                break;
+            runtime.amount += (int)data.value; 
+            break;
 
             case UpgradeData.UpgradeType.AddDirectionRandom:
                 AddRandomDirection(runtime);

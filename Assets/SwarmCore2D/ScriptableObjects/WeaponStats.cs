@@ -9,14 +9,62 @@ public class WeaponStats : ScriptableObject
         Ranged
     }
 
-    [Header("Attack Type")]
+    [Header("Type")]
     public AttackType attackType = AttackType.Melee;
 
-    [Header("Attack")]
+    // =========================
+    // BASE STATS (VS STYLE)
+    // =========================
+
+    [Header("Base Stats")]
     public float damage = 4f;
-    public float radius = 2.5f;
     public float cooldown = 0.7f;
-    public GameObject attackVisualPrefab;
+
+    [Tooltip("Cantidad de proyectiles por disparo")]
+    public int amount = 1;
+
+    [Tooltip("Duración del ataque (vida del proyectil o efecto)")]
+    public float duration = 2f;
+
+    [Tooltip("Velocidad del proyectil")]
+    public float speed = 12f;
+
+    [Tooltip("Área / tamaño del hitbox")]
+    public float area = 1f;
+
+    [Tooltip("Cuántos enemigos puede atravesar")]
+    public int pierce = 1;
+
+    [Tooltip("Tiempo entre impactos al mismo enemigo")]
+    public float hitCooldown = 0.2f;
+
+    // =========================
+    // MELEE
+    // =========================
+
+    [Header("Melee")]
+    public float radius = 2.5f;
+
+    // =========================
+    // RANGED
+    // =========================
+
+    [Header("Ranged")]
+    [Tooltip("Distancia máxima (0 = infinito)")]
+    public float maxDistance = 0f;
+
+    [Tooltip("Tiempo máximo de vida")]
+    public float maxLifetime = 5f;
+
+    [Tooltip("Tamaño del proyectil")]
+    public float projectileSize = 0.5f;
+
+    [Tooltip("Si atraviesa enemigos infinitamente")]
+    public bool pierceEnemies = false;
+
+    // =========================
+    // DIRECCIÓN
+    // =========================
 
     [Header("Direction")]
     public bool attackUp = false;
@@ -24,36 +72,33 @@ public class WeaponStats : ScriptableObject
     public bool attackLeft = true;
     public bool attackRight = true;
 
-    [Header("Advanced Direction")]
     public bool allowDiagonals = true;
-    [Tooltip("Número de proyectiles disparados por ataque")]
-    public int projectileCount = 1;
 
     public enum AttackDirectionMode
     {
         Clockwise,
         Alternating
     }
+
     public AttackDirectionMode directionMode = AttackDirectionMode.Clockwise;
 
     [Header("Arc")]
     [Range(10, 360)]
     public float attackAngle = 180f;
 
-    [Header("Visual")]
-    public Sprite[] frames;
-    public float frameRate = 12f;
+    // =========================
+    // EFECTOS
+    // =========================
 
-    [Header("Knockback")]
+    [Header("Effects")]
     public float knockback = 2f;
 
-    [Header("Ranged Settings (Solo si attackType == Ranged)")]
-    [Tooltip("Distancia máxima del proyectil. 0 = infinita")]
-    public float maxDistance = 0f;
-    [Tooltip("Tiempo máximo de vida del proyectil")]
-    public float maxLifetime = 5f;
-    [Tooltip("Si el proyectil atraviesa enemigos")]
-    public bool pierceEnemies = false;
-    [Tooltip("Tamaño del proyectil")]
-    public float projectileSize = 0.5f;
+    // =========================
+    // VISUAL
+    // =========================
+
+    [Header("Visual")]
+    public GameObject attackVisualPrefab;
+    public Sprite[] frames;
+    public float frameRate = 12f;
 }

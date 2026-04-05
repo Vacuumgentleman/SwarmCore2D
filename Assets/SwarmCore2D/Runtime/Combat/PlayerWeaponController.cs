@@ -109,7 +109,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         int dirCount = directions.Count;
 
-        for (int p = 0; p < runtime.projectileCount; p++)
+        for (int p = 0; p < runtime.amount; p++)
         {
             int dirIndex =
                 runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
@@ -133,7 +133,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         int dirCount = directions.Count;
 
-        for (int p = 0; p < runtime.projectileCount; p++)
+        for (int p = 0; p < runtime.amount; p++)
         {
             int dirIndex =
                 runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
@@ -154,13 +154,17 @@ public class PlayerWeaponController : MonoBehaviour
     {
         weapon.damage = runtime.damage;
         weapon.radius = runtime.radius;
+        weapon.cooldown = runtime.cooldown;
+
+        weapon.amount = runtime.amount;
+
         weapon.knockback = runtime.knockback;
         weapon.attackAngle = runtime.attackAngle;
 
         weapon.maxDistance = runtime.maxDistance;
         weapon.maxLifetime = runtime.maxLifetime;
-        weapon.pierceEnemies = runtime.pierceEnemies;
         weapon.projectileSize = runtime.projectileSize;
+        weapon.pierceEnemies = runtime.pierceEnemies;
 
         return weapon;
     }
