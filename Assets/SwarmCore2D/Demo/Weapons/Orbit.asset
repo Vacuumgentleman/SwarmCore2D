@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
   m_Name: Orbit
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
-  attackType: 1
+  attackType: 3
   damage: 4
   cooldown: 0.7
   amount: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
   effectDuration: 2
   pierceCount: 0
   knockback: 2
-  attackUp: 0
+  attackUp: 1
   attackDown: 0
   attackLeft: 1
   attackRight: 1
@@ -35,6 +35,6 @@ MonoBehaviour:
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
-  attackVisualPrefab: {fileID: 0}
+  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
   frames: []
   frameRate: 12

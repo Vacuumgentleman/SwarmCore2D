@@ -14,17 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 0
   damage: 5
-  radius: 13
   cooldown: 0.7
-  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
+  amount: 1
+  projectileSpeed: 12
+  projectileSize: 0
+  maxRange: 0
+  hitRadius: 2.5
+  effectDuration: 2
+  pierceCount: 0
+  knockback: 1
   attackUp: 0
   attackDown: 0
   attackLeft: 1
   attackRight: 1
   allowDiagonals: 0
-  projectileCount: 1
   directionMode: 1
   attackAngle: 40
+  scaledByMight: 1
+  scaledByArea: 1
+  scaledBySpeed: 1
+  scaledByDuration: 1
+  scaledByAmount: 1
+  attackVisualPrefab: {fileID: 518884929496358011, guid: 777670d491fa8bdb0b9f9c8af88aa1b9, type: 3}
   frames:
   - {fileID: 2254864278230101663, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
   - {fileID: -5325073635051452667, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
@@ -32,8 +43,3 @@ MonoBehaviour:
   - {fileID: 1784041864, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
   - {fileID: 807704620, guid: 587551d22974a320ca1b47ae7aeabc5c, type: 3}
   frameRate: 12
-  knockback: 1
-  maxDistance: 0
-  maxLifetime: 0
-  pierceEnemies: 0
-  projectileSize: 0

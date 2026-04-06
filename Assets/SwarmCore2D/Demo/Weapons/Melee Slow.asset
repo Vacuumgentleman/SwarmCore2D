@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
+  m_Name: Melee Slow
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  attackType: 0
+  damage: 10
+  cooldown: 1.5
+  amount: 1
+  projectileSpeed: 0
+  projectileSize: 0
+  maxRange: 0
+  hitRadius: 1
+  effectDuration: 1
+  pierceCount: 2
+  knockback: 4
+  attackUp: 0
+  attackDown: 0
+  attackLeft: 1
+  attackRight: 1
+  allowDiagonals: 0
+  directionMode: 1
+  attackAngle: 60
+  scaledByMight: 1
+  scaledByArea: 1
+  scaledBySpeed: 1
+  scaledByDuration: 0
+  scaledByAmount: 0
+  attackVisualPrefab: {fileID: 518884929496358011, guid: d0398a01e8d819995843873fca351bbf, type: 3}
+  frames:
+  - {fileID: 5550521924697024619, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: -7983151222187990412, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: -3078414893363241543, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 8189006651700893837, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 2770803503123058819, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 1067858422344453858, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: -6421735939145680508, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 7471215834859167893, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 2073238345441870467, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  - {fileID: 3410537430138208378, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
+  frameRate: 24

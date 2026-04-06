@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
-  m_Name: Projectile
+  m_Name: Bone Projectile
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
   damage: 6
@@ -35,10 +35,10 @@ MonoBehaviour:
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
-  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
+  attackVisualPrefab: {fileID: 2526173303498499291, guid: 3c192fb39c866ddd2b56e83e7b0eaa39, type: 3}
   frames:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7178713093860209260, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
+  - {fileID: 360680526231099707, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
+  - {fileID: 550268814474219417, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
+  - {fileID: 6362364807496379687, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
   frameRate: 12
