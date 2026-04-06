@@ -9,19 +9,35 @@ public class UpgradeData : ScriptableObject
 
     public enum UpgradeType
     {
+        // Weapon specific
         Damage,
         AttackSpeed,
-        ProjectileCount,
+        ProjectileAmount,
+        Size,
+        Knockback,
+        AddDirectionRandom,
+        Pierce,
 
-        AddDirectionRandom,  
+        // Global
+        GlobalDamage,
+        GlobalAttackSpeed,
+        GlobalProjectile,
+        GlobalArea,
+        GlobalSpeed,
+        GlobalDuration,
+        GlobalPierce,
+        GlobalCritChance,
+        GlobalLifeSteal,
 
+        // Player
         Heal,
-        MaxHealth,            
-        Size,      
-        Knockback             
+        MaxHealth
     }
 
     public UpgradeType type;
+
+    [Tooltip("Indice del arma a la que aplica este upgrade. -1 = global")]
+    public int weaponIndex = -1;
 
     public float value = 1f;
 }

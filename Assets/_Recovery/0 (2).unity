@@ -4355,7 +4355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeButton
   title: {fileID: 88882390}
   desc: {fileID: 88882390}
-  icon: {fileID: 1071953768}
+  upgradeIcon: {fileID: 0}
+  weaponIcon: {fileID: 0}
 --- !u!1 &659329141
 GameObject:
   m_ObjectHideFlags: 0
@@ -4410,7 +4411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeButton
   title: {fileID: 670138517}
   desc: {fileID: 670138517}
-  icon: {fileID: 1401399652}
+  upgradeIcon: {fileID: 0}
+  weaponIcon: {fileID: 0}
 --- !u!114 &659329144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5427,14 +5429,14 @@ MonoBehaviour:
   stats:
     damageMultiplier: 1
     cooldownMultiplier: 1
-    sizeMultiplier: 1
+    areaMultiplier: 1
     speedMultiplier: 1
+    durationMultiplier: 1
     extraProjectiles: 0
     pierceBonus: 0
     critChance: 0
     critMultiplier: 2
     lifeSteal: 0
-    areaMultiplier: 1
 --- !u!1 &780157136
 GameObject:
   m_ObjectHideFlags: 0
@@ -8067,7 +8069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b78ac26b6ba2c2b0a89cb3da1eddc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponUpgradeSystem
-  player: {fileID: 1352700343}
+  weaponController: {fileID: 0}
+  weaponIndex: 0
 --- !u!114 &1185025505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8852,17 +8855,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2219512595602369150, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
   m_PrefabInstance: {fileID: 5114003235895855612}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1352700343 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
-  m_PrefabInstance: {fileID: 5114003235895855612}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4d281d38cc83cae9bc7737784b1aa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponController
 --- !u!1 &1368496646
 GameObject:
   m_ObjectHideFlags: 0
@@ -10134,7 +10126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeButton
   title: {fileID: 1252894799}
   desc: {fileID: 1252894799}
-  icon: {fileID: 605014297}
+  upgradeIcon: {fileID: 0}
+  weaponIcon: {fileID: 0}
 --- !u!114 &1634950294
 MonoBehaviour:
   m_ObjectHideFlags: 0

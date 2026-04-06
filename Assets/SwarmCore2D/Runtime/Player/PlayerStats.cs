@@ -7,6 +7,8 @@ public class PlayerStats : MonoBehaviour
 
     public int kills;
 
+    public PlayerStatsRuntime stats = new PlayerStatsRuntime();
+
     public event Action OnKillsChanged;
 
     void Awake()

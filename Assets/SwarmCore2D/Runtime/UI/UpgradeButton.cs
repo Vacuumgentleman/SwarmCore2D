@@ -7,7 +7,8 @@ public class UpgradeButton : MonoBehaviour
 {
     public TextMeshProUGUI title;
     public TextMeshProUGUI desc;
-    public Image icon;
+    public Image upgradeIcon;
+    public Image weaponIcon;
 
     UpgradeData data;
 
@@ -21,8 +22,41 @@ public class UpgradeButton : MonoBehaviour
         title.text = upgrade.upgradeName;
         desc.text = upgrade.description;
 
-        if (icon != null)
-            icon.sprite = upgrade.icon;
+        if (upgradeIcon != null)
+            upgradeIcon.sprite = upgrade.icon;
+
+        UpdateWeaponIcon(upgrade);
+    }
+
+    void UpdateWeaponIcon(UpgradeData upgrade)
+    {
+        if (weaponIcon == null)
+            return;
+
+        if (upgrade.weaponIndex < 0)
+        {
+            weaponIcon.gameObject.SetActive(false);
+            return;
+        }
+
+        var weaponController = FindFirstObjectByType<PlayerWeaponController>();
+
+        if (weaponController == null || upgrade.weaponIndex >= weaponController.weapons.Count)
+        {
+            weaponIcon.gameObject.SetActive(false);
+            return;
+        }
+
+        var weapon = weaponController.weapons[upgrade.weaponIndex];
+
+        if (weapon == null || weapon.frames == null || weapon.frames.Length == 0)
+        {
+            weaponIcon.gameObject.SetActive(false);
+            return;
+        }
+
+        weaponIcon.sprite = weapon.frames[0];
+        weaponIcon.gameObject.SetActive(true);
     }
 
     public void OnClick()
@@ -42,40 +76,89 @@ public class UpgradeButton : MonoBehaviour
     {
         var weaponController = FindFirstObjectByType<PlayerWeaponController>();
         var player = FindFirstObjectByType<PlayerHealth>();
-
-        if (weaponController == null)
-            return;
-
-        var runtime = weaponController.runtime;
+        var global = PlayerStats.Instance != null ? PlayerStats.Instance.stats : null;
 
         switch (data.type)
         {
+            // Weapon specific
             case UpgradeData.UpgradeType.Damage:
-                runtime.damage += data.value;
+                ApplyToWeapon(weaponController, r => r.damage += data.value);
                 break;
 
             case UpgradeData.UpgradeType.AttackSpeed:
-                runtime.cooldown *= (1f - data.value);
+                ApplyToWeapon(weaponController, r => r.cooldown *= (1f - data.value));
                 break;
 
-            case UpgradeData.UpgradeType.ProjectileCount:
-            runtime.amount += (int)data.value; 
-            break;
-
-            case UpgradeData.UpgradeType.AddDirectionRandom:
-                AddRandomDirection(runtime);
-                weaponController.RebuildDirections();
+            case UpgradeData.UpgradeType.ProjectileAmount:
+                ApplyToWeapon(weaponController, r => r.amount += (int)data.value);
                 break;
 
-            case UpgradeData.UpgradeType.Size: // 🔥 UNIFICADO
-                runtime.radius += data.value;          // melee
-                runtime.projectileSize += data.value;  // proyectiles
+            case UpgradeData.UpgradeType.Size:
+                ApplyToWeapon(weaponController, r =>
+                {
+                    r.hitRadius += data.value;
+                    r.projectileSize += data.value;
+                });
                 break;
 
             case UpgradeData.UpgradeType.Knockback:
-                runtime.knockback += data.value;
+                ApplyToWeapon(weaponController, r => r.knockback += data.value);
                 break;
 
+            case UpgradeData.UpgradeType.Pierce:
+                ApplyToWeapon(weaponController, r => r.pierceCount += (int)data.value);
+                break;
+
+            case UpgradeData.UpgradeType.AddDirectionRandom:
+                if (weaponController != null)
+                {
+                    var runtime = weaponController.GetRuntime(data.weaponIndex);
+                    if (runtime != null)
+                    {
+                        AddRandomDirection(runtime);
+                        weaponController.RebuildDirections(data.weaponIndex);
+                    }
+                }
+                break;
+
+            // Global
+            case UpgradeData.UpgradeType.GlobalDamage:
+                if (global != null) global.damageMultiplier += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalAttackSpeed:
+                if (global != null) global.cooldownMultiplier *= (1f - data.value);
+                break;
+
+            case UpgradeData.UpgradeType.GlobalProjectile:
+                if (global != null) global.extraProjectiles += (int)data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalArea:
+                if (global != null) global.areaMultiplier += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalSpeed:
+                if (global != null) global.speedMultiplier += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalDuration:
+                if (global != null) global.durationMultiplier += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalPierce:
+                if (global != null) global.pierceBonus += (int)data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalCritChance:
+                if (global != null) global.critChance += data.value;
+                break;
+
+            case UpgradeData.UpgradeType.GlobalLifeSteal:
+                if (global != null) global.lifeSteal += data.value;
+                break;
+
+            // Player
             case UpgradeData.UpgradeType.MaxHealth:
                 if (player != null)
                 {
@@ -86,34 +169,43 @@ public class UpgradeButton : MonoBehaviour
 
             case UpgradeData.UpgradeType.Heal:
                 if (player != null)
-                {
-                    player.currentHealth += data.value;
-                    player.currentHealth = Mathf.Min(player.currentHealth, player.maxHealth);
-                }
+                    player.currentHealth = Mathf.Min(player.currentHealth + data.value, player.maxHealth);
                 break;
+        }
+    }
+
+    void ApplyToWeapon(PlayerWeaponController weaponController, System.Action<WeaponRuntimeStats> action)
+    {
+        if (weaponController == null)
+            return;
+
+        if (data.weaponIndex < 0)
+        {
+            for (int i = 0; i < weaponController.WeaponCount; i++)
+            {
+                var r = weaponController.GetRuntime(i);
+                if (r != null) action(r);
+            }
+        }
+        else
+        {
+            var r = weaponController.GetRuntime(data.weaponIndex);
+            if (r != null) action(r);
         }
     }
 
     void AddRandomDirection(WeaponRuntimeStats runtime)
     {
-        List<System.Action> possible = new List<System.Action>();
+        var possible = new List<System.Action>();
 
-        if (!runtime.attackUp)
-            possible.Add(() => runtime.attackUp = true);
-
-        if (!runtime.attackDown)
-            possible.Add(() => runtime.attackDown = true);
-
-        if (!runtime.attackLeft)
-            possible.Add(() => runtime.attackLeft = true);
-
-        if (!runtime.attackRight)
-            possible.Add(() => runtime.attackRight = true);
+        if (!runtime.attackUp)    possible.Add(() => runtime.attackUp = true);
+        if (!runtime.attackDown)  possible.Add(() => runtime.attackDown = true);
+        if (!runtime.attackLeft)  possible.Add(() => runtime.attackLeft = true);
+        if (!runtime.attackRight) possible.Add(() => runtime.attackRight = true);
 
         if (possible.Count == 0)
             return;
 
-        int index = Random.Range(0, possible.Count);
-        possible[index].Invoke();
+        possible[Random.Range(0, possible.Count)].Invoke();
     }
 }

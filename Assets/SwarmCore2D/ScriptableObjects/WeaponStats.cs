@@ -6,73 +6,10 @@ public class WeaponStats : ScriptableObject
     public enum AttackType
     {
         Melee,
-        Ranged
+        Projectile,
+        Area,
+        Orbit
     }
-
-    [Header("Type")]
-    public AttackType attackType = AttackType.Melee;
-
-    // =========================
-    // BASE STATS (VS STYLE)
-    // =========================
-
-    [Header("Base Stats")]
-    public float damage = 4f;
-    public float cooldown = 0.7f;
-
-    [Tooltip("Cantidad de proyectiles por disparo")]
-    public int amount = 1;
-
-    [Tooltip("Duración del ataque (vida del proyectil o efecto)")]
-    public float duration = 2f;
-
-    [Tooltip("Velocidad del proyectil")]
-    public float speed = 12f;
-
-    [Tooltip("Área / tamaño del hitbox")]
-    public float area = 1f;
-
-    [Tooltip("Cuántos enemigos puede atravesar")]
-    public int pierce = 1;
-
-    [Tooltip("Tiempo entre impactos al mismo enemigo")]
-    public float hitCooldown = 0.2f;
-
-    // =========================
-    // MELEE
-    // =========================
-
-    [Header("Melee")]
-    public float radius = 2.5f;
-
-    // =========================
-    // RANGED
-    // =========================
-
-    [Header("Ranged")]
-    [Tooltip("Distancia máxima (0 = infinito)")]
-    public float maxDistance = 0f;
-
-    [Tooltip("Tiempo máximo de vida")]
-    public float maxLifetime = 5f;
-
-    [Tooltip("Tamaño del proyectil")]
-    public float projectileSize = 0.5f;
-
-    [Tooltip("Si atraviesa enemigos infinitamente")]
-    public bool pierceEnemies = false;
-
-    // =========================
-    // DIRECCIÓN
-    // =========================
-
-    [Header("Direction")]
-    public bool attackUp = false;
-    public bool attackDown = false;
-    public bool attackLeft = true;
-    public bool attackRight = true;
-
-    public bool allowDiagonals = true;
 
     public enum AttackDirectionMode
     {
@@ -80,22 +17,49 @@ public class WeaponStats : ScriptableObject
         Alternating
     }
 
+    [Header("Type")]
+    public AttackType attackType = AttackType.Projectile;
+
+    [Header("Base Stats")]
+    public float damage = 4f;
+    public float cooldown = 0.7f;
+    public int amount = 1;
+
+    [Header("Projectile")]
+    public float projectileSpeed = 12f;
+    public float projectileSize = 0.5f;
+    public float maxRange = 0f;
+
+    [Header("Area / Melee")]
+    public float hitRadius = 2.5f;
+
+    [Header("Duration")]
+    public float effectDuration = 2f;
+
+    [Header("Pierce")]
+    public int pierceCount = 0;
+
+    [Header("Knockback")]
+    public float knockback = 2f;
+
+    [Header("Direction")]
+    public bool attackUp = false;
+    public bool attackDown = false;
+    public bool attackLeft = true;
+    public bool attackRight = true;
+    public bool allowDiagonals = true;
     public AttackDirectionMode directionMode = AttackDirectionMode.Clockwise;
 
     [Header("Arc")]
     [Range(10, 360)]
     public float attackAngle = 180f;
 
-    // =========================
-    // EFECTOS
-    // =========================
-
-    [Header("Effects")]
-    public float knockback = 2f;
-
-    // =========================
-    // VISUAL
-    // =========================
+    [Header("Scaling Flags")]
+    public bool scaledByMight = true;
+    public bool scaledByArea = true;
+    public bool scaledBySpeed = true;
+    public bool scaledByDuration = true;
+    public bool scaledByAmount = true;
 
     [Header("Visual")]
     public GameObject attackVisualPrefab;

@@ -6,27 +6,23 @@ using System.Collections.Generic;
 
 public class PlayerWeaponController : MonoBehaviour
 {
-    public WeaponStats weapon;
+    [Header("Weapon Slots")]
+    public int maxWeaponSlots = 6;
+    public List<WeaponStats> weapons = new List<WeaponStats>();
 
-    public WeaponRuntimeStats runtime;
-
+    [Header("References")]
     public SwarmSimulationController simulation;
+
+    List<WeaponRuntimeStats> runtimes = new List<WeaponRuntimeStats>();
+    List<float> timers = new List<float>();
+    List<List<Vector2>> directionLists = new List<List<Vector2>>();
+    List<int> lastDirIndexes = new List<int>();
 
     PlayerMeleeAttackSystem meleeSystem;
     ProjectileSystem projectileSystem;
 
-    float timer;
-
-    List<Vector2> directions = new List<Vector2>();
-    int lastDirIndex = 0;
-
     void Start()
     {
-        if (runtime == null)
-            runtime = GetComponent<WeaponRuntimeStats>();
-
-        runtime.LoadFrom(weapon);
-
         if (simulation == null)
             simulation = FindFirstObjectByType<SwarmSimulationController>();
 
@@ -37,18 +33,37 @@ public class PlayerWeaponController : MonoBehaviour
             return;
         }
 
-        if (runtime.attackType == WeaponStats.AttackType.Melee)
-            meleeSystem = new PlayerMeleeAttackSystem(simulation.WorldState);
+        meleeSystem = new PlayerMeleeAttackSystem(simulation.WorldState);
+        projectileSystem = simulation.ProjectileSystem;
 
-        if (runtime.attackType == WeaponStats.AttackType.Ranged)
-            projectileSystem = simulation.ProjectileSystem;
-
-        BuildDirectionList();
+        InitializeWeapons();
     }
 
-    void BuildDirectionList()
+    void InitializeWeapons()
     {
-        directions.Clear();
+        runtimes.Clear();
+        timers.Clear();
+        directionLists.Clear();
+        lastDirIndexes.Clear();
+
+        for (int i = 0; i < weapons.Count && i < maxWeaponSlots; i++)
+        {
+            if (weapons[i] == null)
+                continue;
+
+            var runtime = new WeaponRuntimeStats();
+            runtime.LoadFrom(weapons[i]);
+
+            runtimes.Add(runtime);
+            timers.Add(0f);
+            directionLists.Add(BuildDirectionList(runtime));
+            lastDirIndexes.Add(0);
+        }
+    }
+
+    List<Vector2> BuildDirectionList(WeaponRuntimeStats runtime)
+    {
+        var directions = new List<Vector2>();
 
         if (runtime.attackUp) directions.Add(Vector2.up);
 
@@ -72,6 +87,8 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (directions.Count == 0)
             directions.Add(Vector2.right);
+
+        return directions;
     }
 
     void Update()
@@ -79,107 +96,143 @@ public class PlayerWeaponController : MonoBehaviour
         if (SwarmTime.Paused)
             return;
 
-        if (runtime == null)
-            return;
+        var global = PlayerStats.Instance != null ? PlayerStats.Instance.stats : null;
 
-        timer -= Time.deltaTime;
-
-        if (timer > 0)
-            return;
-
-        timer = runtime.cooldown;
-
-        FireAttack();
-    }
-
-    void FireAttack()
-    {
-        if (runtime.attackType == WeaponStats.AttackType.Melee)
-            FireMelee();
-        else
-            FireRanged();
-    }
-
-    void FireMelee()
-    {
-        if (meleeSystem == null)
-            return;
-
-        Vector2 playerPos = transform.position;
-
-        int dirCount = directions.Count;
-
-        for (int p = 0; p < runtime.amount; p++)
+        for (int i = 0; i < runtimes.Count; i++)
         {
-            int dirIndex =
-                runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
-                ? p % dirCount
-                : lastDirIndex++ % dirCount;
+            timers[i] -= Time.deltaTime;
 
-            Vector2 dir = directions[dirIndex];
+            if (timers[i] > 0f)
+                continue;
 
-            meleeSystem.Attack(playerPos, ConvertToWeaponStats(), dir);
+            float cooldown = runtimes[i].cooldown;
 
-            SpawnAttackVisual(playerPos, dir);
+            if (global != null)
+                cooldown *= global.cooldownMultiplier;
+
+            timers[i] = cooldown;
+
+            FireWeapon(i, global);
         }
     }
 
-    void FireRanged()
+    void FireWeapon(int index, PlayerStatsRuntime global)
     {
-        if (projectileSystem == null)
-            return;
+        var runtime = runtimes[index];
 
+        switch (runtime.attackType)
+        {
+            case WeaponStats.AttackType.Melee:
+                FireMelee(index, runtime, global);
+                break;
+
+            case WeaponStats.AttackType.Projectile:
+                FireProjectile(index, runtime, global);
+                break;
+        }
+    }
+
+    void FireMelee(int index, WeaponRuntimeStats runtime, PlayerStatsRuntime global)
+    {
         Vector2 playerPos = transform.position;
 
+        int total = runtime.amount;
+        if (global != null && weapons[index].scaledByAmount)
+            total += global.extraProjectiles;
+
+        var directions = directionLists[index];
         int dirCount = directions.Count;
 
-        for (int p = 0; p < runtime.amount; p++)
+        for (int p = 0; p < total; p++)
         {
-            int dirIndex =
-                runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise
-                ? p % dirCount
-                : lastDirIndex++ % dirCount;
-
+            int dirIndex = GetDirIndex(index, runtime, p, dirCount);
             Vector2 dir = directions[dirIndex];
+
+            float dmg = runtime.damage;
+            float radius = runtime.hitRadius;
+            float knockback = runtime.knockback;
+
+            if (global != null)
+            {
+                if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
+                if (weapons[index].scaledByArea) radius *= global.areaMultiplier;
+            }
+
+            meleeSystem.Attack(
+                playerPos,
+                dir,
+                radius,
+                runtime.attackAngle,
+                dmg,
+                knockback
+            );
+
+            SpawnAttackVisual(playerPos, dir, runtime);
+        }
+    }
+
+    void FireProjectile(int index, WeaponRuntimeStats runtime, PlayerStatsRuntime global)
+    {
+        Vector2 playerPos = transform.position;
+
+        int total = runtime.amount;
+        if (global != null && weapons[index].scaledByAmount)
+            total += global.extraProjectiles;
+
+        var directions = directionLists[index];
+        int dirCount = directions.Count;
+
+        for (int p = 0; p < total; p++)
+        {
+            int dirIndex = GetDirIndex(index, runtime, p, dirCount);
+            Vector2 dir = directions[dirIndex];
+
+            float dmg = runtime.damage;
+            float size = runtime.projectileSize;
+            float speed = runtime.projectileSpeed;
+            float duration = runtime.effectDuration;
+            float range = runtime.maxRange;
+            bool pierce = runtime.pierceCount > 0;
+
+            if (global != null)
+            {
+                if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
+                if (weapons[index].scaledByArea) size *= global.areaMultiplier;
+                if (weapons[index].scaledBySpeed) speed *= global.speedMultiplier;
+                if (weapons[index].scaledByDuration) duration *= global.durationMultiplier;
+                if (global.pierceBonus > 0) pierce = true;
+            }
 
             projectileSystem.Spawn(
                 playerPos,
                 dir,
-                ConvertToWeaponStats()
+                speed,
+                dmg,
+                duration,
+                range,
+                pierce,
+                size
             );
         }
     }
 
-    WeaponStats ConvertToWeaponStats()
+    int GetDirIndex(int weaponIndex, WeaponRuntimeStats runtime, int projectileIndex, int dirCount)
     {
-        weapon.damage = runtime.damage;
-        weapon.radius = runtime.radius;
-        weapon.cooldown = runtime.cooldown;
+        if (runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise)
+            return projectileIndex % dirCount;
 
-        weapon.amount = runtime.amount;
-
-        weapon.knockback = runtime.knockback;
-        weapon.attackAngle = runtime.attackAngle;
-
-        weapon.maxDistance = runtime.maxDistance;
-        weapon.maxLifetime = runtime.maxLifetime;
-        weapon.projectileSize = runtime.projectileSize;
-        weapon.pierceEnemies = runtime.pierceEnemies;
-
-        return weapon;
+        int idx = lastDirIndexes[weaponIndex]++ % dirCount;
+        return idx;
     }
 
-    void SpawnAttackVisual(Vector2 playerPos, Vector2 dir)
+    void SpawnAttackVisual(Vector2 playerPos, Vector2 dir, WeaponRuntimeStats runtime)
     {
         if (runtime.attackVisualPrefab == null)
             return;
 
-        float offset = runtime.radius * 0.5f;
-
+        float offset = runtime.hitRadius * 0.5f;
         Vector3 spawnPos = playerPos + dir * offset;
-
-        float angle =
-            Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         GameObject obj = Instantiate(
             runtime.attackVisualPrefab,
@@ -188,15 +241,46 @@ public class PlayerWeaponController : MonoBehaviour
         );
 
         AttackVisual visual = obj.GetComponent<AttackVisual>();
-
         if (visual != null)
-        {
             visual.Init(runtime.frames, runtime.frameRate);
-        }
     }
 
-    public void RebuildDirections()
+    public bool AddWeapon(WeaponStats weapon)
     {
-        BuildDirectionList();
+        if (weapon == null)
+            return false;
+
+        if (runtimes.Count >= maxWeaponSlots)
+            return false;
+
+        weapons.Add(weapon);
+
+        var runtime = new WeaponRuntimeStats();
+        runtime.LoadFrom(weapon);
+
+        runtimes.Add(runtime);
+        timers.Add(0f);
+        directionLists.Add(BuildDirectionList(runtime));
+        lastDirIndexes.Add(0);
+
+        return true;
+    }
+
+    public WeaponRuntimeStats GetRuntime(int index)
+    {
+        if (index < 0 || index >= runtimes.Count)
+            return null;
+
+        return runtimes[index];
+    }
+
+    public int WeaponCount => runtimes.Count;
+
+    public void RebuildDirections(int index)
+    {
+        if (index < 0 || index >= runtimes.Count)
+            return;
+
+        directionLists[index] = BuildDirectionList(runtimes[index]);
     }
 }
