@@ -1,4 +1,5 @@
 using UnityEngine;
+using SwarmCore2D.Core;
 
 public class UpgradeSystem : MonoBehaviour
 {
@@ -19,8 +20,7 @@ public class UpgradeSystem : MonoBehaviour
 
     void OpenSelection()
     {
-        if (simulation != null)
-            simulation.SetPaused(true);
+        SetPausedState(true);
 
         if (upgradePanel != null)
             upgradePanel.SetActive(true);
@@ -31,10 +31,25 @@ public class UpgradeSystem : MonoBehaviour
 
     public void CloseSelection()
     {
-        if (simulation != null)
-            simulation.SetPaused(false);
+        SetPausedState(false);
 
         if (upgradePanel != null)
             upgradePanel.SetActive(false);
+    }
+
+    void SetPausedState(bool paused)
+    {
+        if (simulation != null)
+            simulation.SetPaused(paused);
+
+        SwarmTime.Paused = paused;
+
+        if (GameTimer.Instance != null)
+        {
+            if (paused)
+                GameTimer.Instance.StopTimer();
+            else
+                GameTimer.Instance.StartTimer();
+        }
     }
 }

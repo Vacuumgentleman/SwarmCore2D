@@ -17,6 +17,7 @@ public class PlayerWeaponController : MonoBehaviour
     List<float> timers = new List<float>();
     List<List<Vector2>> directionLists = new List<List<Vector2>>();
     List<int> lastDirIndexes = new List<int>();
+    List<float[]> orbitAngles = new List<float[]>();
 
     PlayerMeleeAttackSystem meleeSystem;
     ProjectileSystem projectileSystem;
@@ -45,6 +46,7 @@ public class PlayerWeaponController : MonoBehaviour
         timers.Clear();
         directionLists.Clear();
         lastDirIndexes.Clear();
+        orbitAngles.Clear();
 
         for (int i = 0; i < weapons.Count && i < maxWeaponSlots; i++)
         {
@@ -58,7 +60,20 @@ public class PlayerWeaponController : MonoBehaviour
             timers.Add(0f);
             directionLists.Add(BuildDirectionList(runtime));
             lastDirIndexes.Add(0);
+            orbitAngles.Add(BuildOrbitAngles(runtime.amount));
         }
+    }
+
+    float[] BuildOrbitAngles(int amount)
+    {
+        int count = Mathf.Max(1, amount);
+        float[] angles = new float[count];
+        float step = 360f / count;
+
+        for (int i = 0; i < count; i++)
+            angles[i] = i * step;
+
+        return angles;
     }
 
     List<Vector2> BuildDirectionList(WeaponRuntimeStats runtime)
@@ -100,13 +115,20 @@ public class PlayerWeaponController : MonoBehaviour
 
         for (int i = 0; i < runtimes.Count; i++)
         {
+            var runtime = runtimes[i];
+
+            if (runtime.attackType == WeaponStats.AttackType.Orbit)
+            {
+                UpdateOrbit(i, runtime, global);
+                continue;
+            }
+
             timers[i] -= Time.deltaTime;
 
             if (timers[i] > 0f)
                 continue;
 
-            float cooldown = runtimes[i].cooldown;
-
+            float cooldown = runtime.cooldown;
             if (global != null)
                 cooldown *= global.cooldownMultiplier;
 
@@ -128,6 +150,10 @@ public class PlayerWeaponController : MonoBehaviour
 
             case WeaponStats.AttackType.Projectile:
                 FireProjectile(index, runtime, global);
+                break;
+
+            case WeaponStats.AttackType.Area:
+                FireArea(index, runtime, global);
                 break;
         }
     }
@@ -158,14 +184,7 @@ public class PlayerWeaponController : MonoBehaviour
                 if (weapons[index].scaledByArea) radius *= global.areaMultiplier;
             }
 
-            meleeSystem.Attack(
-                playerPos,
-                dir,
-                radius,
-                runtime.attackAngle,
-                dmg,
-                knockback
-            );
+            meleeSystem.Attack(playerPos, dir, radius, runtime.attackAngle, dmg, knockback);
 
             SpawnAttackVisual(playerPos, dir, runtime);
         }
@@ -203,16 +222,63 @@ public class PlayerWeaponController : MonoBehaviour
                 if (global.pierceBonus > 0) pierce = true;
             }
 
-            projectileSystem.Spawn(
-                playerPos,
-                dir,
-                speed,
-                dmg,
-                duration,
-                range,
-                pierce,
-                size
-            );
+            projectileSystem.Spawn(playerPos, dir, speed, dmg, duration, range, pierce, size);
+        }
+    }
+
+    void FireArea(int index, WeaponRuntimeStats runtime, PlayerStatsRuntime global)
+    {
+        Vector2 playerPos = transform.position;
+
+        float dmg = runtime.damage;
+        float radius = runtime.hitRadius;
+
+        if (global != null)
+        {
+            if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
+            if (weapons[index].scaledByArea) radius *= global.areaMultiplier;
+        }
+
+        meleeSystem.Attack(playerPos, Vector2.up, radius, 360f, dmg, runtime.knockback);
+
+        SpawnAttackVisual(playerPos, Vector2.zero, runtime);
+    }
+
+    void UpdateOrbit(int index, WeaponRuntimeStats runtime, PlayerStatsRuntime global)
+    {
+        Vector2 playerPos = transform.position;
+
+        float orbitRadius = runtime.hitRadius;
+        float dmg = runtime.damage;
+        float hitSize = runtime.projectileSize;
+
+        if (global != null)
+        {
+            if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
+            if (weapons[index].scaledByArea) orbitRadius *= global.areaMultiplier;
+            if (weapons[index].scaledBySpeed)
+            {
+                // orbitSpeed se almacena en projectileSpeed
+            }
+        }
+
+        float orbitSpeed = runtime.projectileSpeed;
+        if (global != null && weapons[index].scaledBySpeed)
+            orbitSpeed *= global.speedMultiplier;
+
+        var angles = orbitAngles[index];
+
+        int count = Mathf.Min(angles.Length, runtime.amount);
+
+        for (int p = 0; p < count; p++)
+        {
+            angles[p] += orbitSpeed * Time.deltaTime;
+            if (angles[p] >= 360f) angles[p] -= 360f;
+
+            float rad = angles[p] * Mathf.Deg2Rad;
+            Vector2 orbitPos = playerPos + new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * orbitRadius;
+
+            meleeSystem.Attack(orbitPos, Vector2.up, hitSize, 360f, dmg, 0f);
         }
     }
 
@@ -230,9 +296,9 @@ public class PlayerWeaponController : MonoBehaviour
         if (runtime.attackVisualPrefab == null)
             return;
 
-        float offset = runtime.hitRadius * 0.5f;
+        float offset = dir == Vector2.zero ? 0f : runtime.hitRadius * 0.5f;
         Vector3 spawnPos = playerPos + dir * offset;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = dir == Vector2.zero ? 0f : Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         GameObject obj = Instantiate(
             runtime.attackVisualPrefab,
@@ -262,6 +328,7 @@ public class PlayerWeaponController : MonoBehaviour
         timers.Add(0f);
         directionLists.Add(BuildDirectionList(runtime));
         lastDirIndexes.Add(0);
+        orbitAngles.Add(BuildOrbitAngles(runtime.amount));
 
         return true;
     }
@@ -282,5 +349,13 @@ public class PlayerWeaponController : MonoBehaviour
             return;
 
         directionLists[index] = BuildDirectionList(runtimes[index]);
+    }
+
+    public void RebuildOrbitAngles(int index)
+    {
+        if (index < 0 || index >= runtimes.Count)
+            return;
+
+        orbitAngles[index] = BuildOrbitAngles(runtimes[index].amount);
     }
 }

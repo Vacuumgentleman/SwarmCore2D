@@ -49,13 +49,13 @@ public class UpgradeButton : MonoBehaviour
 
         var weapon = weaponController.weapons[upgrade.weaponIndex];
 
-        if (weapon == null || weapon.frames == null || weapon.frames.Length == 0)
+        if (weapon == null || weapon.weaponIcon == null)
         {
             weaponIcon.gameObject.SetActive(false);
             return;
         }
 
-        weaponIcon.sprite = weapon.frames[0];
+        weaponIcon.sprite = weapon.weaponIcon;
         weaponIcon.gameObject.SetActive(true);
     }
 
@@ -80,7 +80,6 @@ public class UpgradeButton : MonoBehaviour
 
         switch (data.type)
         {
-            // Weapon specific
             case UpgradeData.UpgradeType.Damage:
                 ApplyToWeapon(weaponController, r => r.damage += data.value);
                 break;
@@ -121,7 +120,6 @@ public class UpgradeButton : MonoBehaviour
                 }
                 break;
 
-            // Global
             case UpgradeData.UpgradeType.GlobalDamage:
                 if (global != null) global.damageMultiplier += data.value;
                 break;
@@ -158,7 +156,6 @@ public class UpgradeButton : MonoBehaviour
                 if (global != null) global.lifeSteal += data.value;
                 break;
 
-            // Player
             case UpgradeData.UpgradeType.MaxHealth:
                 if (player != null)
                 {

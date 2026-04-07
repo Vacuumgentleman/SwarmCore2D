@@ -62,6 +62,8 @@ public class WeaponStats : ScriptableObject
     public bool scaledByAmount = true;
 
     [Header("Visual")]
+    [Tooltip("Icono del arma para la UI de upgrades")]
+    public Sprite weaponIcon;
     public GameObject attackVisualPrefab;
     public Sprite[] frames;
     public float frameRate = 12f;
