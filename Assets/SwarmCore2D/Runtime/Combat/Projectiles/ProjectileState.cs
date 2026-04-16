@@ -69,6 +69,7 @@ namespace SwarmCore2D.Combat
             maxDistance[id] = maxDistance[last];
             startPos[id] = startPos[last];
             pierce[id] = pierce[last];
+            size[id] = size[last];
 
             count--;
         }

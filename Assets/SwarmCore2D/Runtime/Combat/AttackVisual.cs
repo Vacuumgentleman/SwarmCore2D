@@ -6,21 +6,23 @@ public class AttackVisual : MonoBehaviour
 
     Sprite[] frames;
     float frameRate;
+    bool loop;
 
     int frame;
     float timer;
 
-    public void Init(Sprite[] frames, float frameRate)
+    public void Init(Sprite[] frames, float frameRate, bool loop = false)
     {
         this.frames = frames;
         this.frameRate = frameRate;
+        this.loop = loop;
 
         sr = GetComponent<SpriteRenderer>();
 
         frame = 0;
         timer = 0;
 
-        if (frames.Length > 0)
+        if (frames != null && frames.Length > 0)
             sr.sprite = frames[0];
     }
 
@@ -38,8 +40,15 @@ public class AttackVisual : MonoBehaviour
 
             if (frame >= frames.Length)
             {
-                Destroy(gameObject);
-                return;
+                if (loop)
+                {
+                    frame = 0;
+                }
+                else
+                {
+                    Destroy(gameObject);
+                    return;
+                }
             }
 
             sr.sprite = frames[frame];

@@ -29,6 +29,8 @@ public class WeaponStats : ScriptableObject
     public float projectileSpeed = 12f;
     public float projectileSize = 0.5f;
     public float maxRange = 0f;
+    [Tooltip("Ángulo entre proyectiles extra del mismo disparo (grados). 0 = sin separación.")]
+    public float spreadAngle = 0f;
 
     [Header("Area / Melee")]
     public float hitRadius = 2.5f;

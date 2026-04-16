@@ -22,6 +22,9 @@ public class PlayerWeaponController : MonoBehaviour
     List<int> lastDirIndexes = new List<int>();
     List<float[]> orbitAngles = new List<float[]>();
     List<List<GameObject>> orbitVisuals = new List<List<GameObject>>();
+    List<bool> orbitIsActive = new List<bool>();
+    List<float> orbitPhaseTimers = new List<float>();
+    List<float> orbitDamageTimers = new List<float>();
 
     PlayerMeleeAttackSystem meleeSystem;
     ProjectileSystem projectileSystem;
@@ -56,6 +59,9 @@ public class PlayerWeaponController : MonoBehaviour
         lastDirIndexes.Clear();
         orbitAngles.Clear();
         orbitVisuals.Clear();
+        orbitIsActive.Clear();
+        orbitPhaseTimers.Clear();
+        orbitDamageTimers.Clear();
 
         for (int i = 0; i < weapons.Count && i < maxWeaponSlots; i++)
         {
@@ -71,6 +77,9 @@ public class PlayerWeaponController : MonoBehaviour
             lastDirIndexes.Add(0);
             orbitAngles.Add(BuildOrbitAngles(runtime.amount));
             orbitVisuals.Add(SpawnOrbitVisuals(runtime));
+            orbitIsActive.Add(runtime.attackType == WeaponStats.AttackType.Orbit);
+            orbitPhaseTimers.Add(runtime.effectDuration);
+            orbitDamageTimers.Add(0f);
         }
 
         OnWeaponsChanged?.Invoke();
@@ -84,7 +93,16 @@ public class PlayerWeaponController : MonoBehaviour
 
         int count = Mathf.Max(1, runtime.amount);
         for (int i = 0; i < count; i++)
-            list.Add(Instantiate(runtime.attackVisualPrefab, transform.position, Quaternion.identity));
+        {
+            var obj = Instantiate(runtime.attackVisualPrefab, transform.position, Quaternion.identity);
+            if (runtime.frames != null && runtime.frames.Length > 0)
+            {
+                var visual = obj.GetComponent<AttackVisual>();
+                if (visual != null)
+                    visual.Init(runtime.frames, runtime.frameRate, loop: true);
+            }
+            list.Add(obj);
+        }
 
         return list;
     }
@@ -226,29 +244,65 @@ public class PlayerWeaponController : MonoBehaviour
         var directions = directionLists[index];
         int dirCount = directions.Count;
 
+        float dmg = runtime.damage;
+        float size = runtime.projectileSize;
+        float speed = runtime.projectileSpeed;
+        float duration = runtime.effectDuration;
+        float range = runtime.maxRange;
+        bool pierce = runtime.pierceCount > 0;
+
+        if (global != null)
+        {
+            if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
+            if (weapons[index].scaledByArea) size *= global.areaMultiplier;
+            if (weapons[index].scaledBySpeed) speed *= global.speedMultiplier;
+            if (weapons[index].scaledByDuration) duration *= global.durationMultiplier;
+            if (global.pierceBonus > 0) pierce = true;
+        }
+
+        // Calcular cuántos proyectiles van a cada dirección para aplicar spread
+        int startDir = runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating
+            ? lastDirIndexes[index]
+            : 0;
+
+        int[] slotCount = new int[dirCount];
+        int[] slotOf = new int[total];
+        int[] indexInSlot = new int[total];
+
         for (int p = 0; p < total; p++)
         {
-            int dirIndex = GetDirIndex(index, runtime, p, dirCount);
-            Vector2 dir = directions[dirIndex];
+            int slot = (startDir + p) % dirCount;
+            slotOf[p] = slot;
+            indexInSlot[p] = slotCount[slot]++;
+        }
 
-            float dmg = runtime.damage;
-            float size = runtime.projectileSize;
-            float speed = runtime.projectileSpeed;
-            float duration = runtime.effectDuration;
-            float range = runtime.maxRange;
-            bool pierce = runtime.pierceCount > 0;
+        // Avanzar lastDirIndexes para Alternating
+        if (runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating)
+            lastDirIndexes[index] += total;
 
-            if (global != null)
+        for (int p = 0; p < total; p++)
+        {
+            int slot = slotOf[p];
+            Vector2 dir = directions[slot];
+
+            int n = slotCount[slot];
+            if (n > 1 && runtime.spreadAngle > 0f)
             {
-                if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
-                if (weapons[index].scaledByArea) size *= global.areaMultiplier;
-                if (weapons[index].scaledBySpeed) speed *= global.speedMultiplier;
-                if (weapons[index].scaledByDuration) duration *= global.durationMultiplier;
-                if (global.pierceBonus > 0) pierce = true;
+                float totalArc = runtime.spreadAngle * (n - 1);
+                float angle = -totalArc * 0.5f + indexInSlot[p] * runtime.spreadAngle;
+                dir = RotateDirection(dir, angle);
             }
 
             projectileSystem.Spawn(playerPos, dir, speed, dmg, duration, range, pierce, size);
         }
+    }
+
+    static Vector2 RotateDirection(Vector2 dir, float angleDeg)
+    {
+        float rad = angleDeg * Mathf.Deg2Rad;
+        float cos = Mathf.Cos(rad);
+        float sin = Mathf.Sin(rad);
+        return new Vector2(dir.x * cos - dir.y * sin, dir.x * sin + dir.y * cos);
     }
 
     void FireArea(int index, WeaponRuntimeStats runtime, PlayerStatsRuntime global)
@@ -277,17 +331,36 @@ public class PlayerWeaponController : MonoBehaviour
         float dmg = runtime.damage;
         float hitSize = runtime.projectileSize;
         float orbitSpeed = runtime.projectileSpeed;
+        float activeDuration = runtime.effectDuration;
+        float cooldownDuration = runtime.cooldown;
 
         if (global != null)
         {
             if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
-            if (weapons[index].scaledByArea) orbitRadius *= global.areaMultiplier;
+            if (weapons[index].scaledByArea) { orbitRadius *= global.areaMultiplier; hitSize *= global.areaMultiplier; }
             if (weapons[index].scaledBySpeed) orbitSpeed *= global.speedMultiplier;
+            if (weapons[index].scaledByDuration) activeDuration *= global.durationMultiplier;
+            cooldownDuration *= global.cooldownMultiplier;
         }
 
+        // --- Sincronizar conteo de orbs con runtime.amount ---
+        SyncOrbitState(index, runtime);
+
+        // --- Ciclo activo / cooldown ---
+        orbitPhaseTimers[index] -= Time.deltaTime;
+        if (orbitPhaseTimers[index] <= 0f)
+        {
+            orbitIsActive[index] = !orbitIsActive[index];
+            orbitPhaseTimers[index] = orbitIsActive[index] ? activeDuration : cooldownDuration;
+            SetOrbitVisualsVisible(index, orbitIsActive[index]);
+        }
+
+        bool isActive = orbitIsActive[index];
+
+        // --- Posiciones orbitales (siempre se actualizan) ---
         var angles = orbitAngles[index];
-        var visuals = index < orbitVisuals.Count ? orbitVisuals[index] : null;
-        int count = Mathf.Min(angles.Length, runtime.amount);
+        var visuals = orbitVisuals[index];
+        int count = angles.Length;
 
         for (int p = 0; p < count; p++)
         {
@@ -297,10 +370,86 @@ public class PlayerWeaponController : MonoBehaviour
             float rad = angles[p] * Mathf.Deg2Rad;
             Vector2 orbitPos = playerPos + new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * orbitRadius;
 
-            meleeSystem.Attack(orbitPos, Vector2.up, hitSize, 360f, dmg, 0f);
-
-            if (visuals != null && p < visuals.Count && visuals[p] != null)
+            if (p < visuals.Count && visuals[p] != null)
+            {
                 visuals[p].transform.position = orbitPos;
+                visuals[p].transform.localScale = Vector3.one * hitSize;
+            }
+        }
+
+        // --- Daño: solo en fase activa, por ticks ---
+        if (!isActive) return;
+
+        orbitDamageTimers[index] -= Time.deltaTime;
+        if (orbitDamageTimers[index] > 0f) return;
+
+        orbitDamageTimers[index] = 0.3f;
+
+        for (int p = 0; p < count; p++)
+        {
+            float rad = angles[p] * Mathf.Deg2Rad;
+            Vector2 orbitPos = playerPos + new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * orbitRadius;
+            meleeSystem.Attack(orbitPos, Vector2.up, hitSize, 360f, dmg, 0f);
+        }
+    }
+
+    void SyncOrbitState(int index, WeaponRuntimeStats runtime)
+    {
+        int needed = Mathf.Max(1, runtime.amount);
+        var visuals = orbitVisuals[index];
+        float[] angles = orbitAngles[index];
+
+        // Sincronizar array de ángulos
+        if (angles.Length != needed)
+        {
+            float baseAngle = angles.Length > 0 ? angles[0] : 0f;
+            float step = 360f / needed;
+            float[] newAngles = new float[needed];
+            for (int i = 0; i < needed; i++)
+                newAngles[i] = baseAngle + i * step;
+            orbitAngles[index] = newAngles;
+        }
+
+        // Spawnear visuals que faltan
+        while (visuals.Count < needed)
+        {
+            if (runtime.attackVisualPrefab == null) { visuals.Add(null); continue; }
+
+            var obj = Instantiate(runtime.attackVisualPrefab, transform.position, Quaternion.identity);
+
+            if (runtime.frames != null && runtime.frames.Length > 0)
+            {
+                var visual = obj.GetComponent<AttackVisual>();
+                if (visual != null)
+                    visual.Init(runtime.frames, runtime.frameRate, loop: true);
+            }
+
+            if (!orbitIsActive[index])
+            {
+                var sr = obj.GetComponent<SpriteRenderer>();
+                if (sr != null) sr.enabled = false;
+            }
+
+            visuals.Add(obj);
+        }
+
+        // Destruir visuals sobrantes
+        while (visuals.Count > needed)
+        {
+            int last = visuals.Count - 1;
+            if (visuals[last] != null) Destroy(visuals[last]);
+            visuals.RemoveAt(last);
+        }
+    }
+
+    void SetOrbitVisualsVisible(int index, bool visible)
+    {
+        if (index >= orbitVisuals.Count) return;
+        foreach (var obj in orbitVisuals[index])
+        {
+            if (obj == null) continue;
+            var sr = obj.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.enabled = visible;
         }
     }
 
@@ -352,6 +501,9 @@ public class PlayerWeaponController : MonoBehaviour
         lastDirIndexes.Add(0);
         orbitAngles.Add(BuildOrbitAngles(runtime.amount));
         orbitVisuals.Add(SpawnOrbitVisuals(runtime));
+        orbitIsActive.Add(runtime.attackType == WeaponStats.AttackType.Orbit);
+        orbitPhaseTimers.Add(runtime.effectDuration);
+        orbitDamageTimers.Add(0f);
 
         OnWeaponsChanged?.Invoke();
 

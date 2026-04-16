@@ -10,6 +10,7 @@ public class WeaponRuntimeStats
     public float projectileSpeed;
     public float projectileSize;
     public float maxRange;
+    public float spreadAngle;
 
     public float hitRadius;
     public float effectDuration;
@@ -40,6 +41,7 @@ public class WeaponRuntimeStats
         projectileSpeed = baseStats.projectileSpeed;
         projectileSize = baseStats.projectileSize;
         maxRange = baseStats.maxRange;
+        spreadAngle = baseStats.spreadAngle;
 
         hitRadius = baseStats.hitRadius;
         effectDuration = baseStats.effectDuration;
