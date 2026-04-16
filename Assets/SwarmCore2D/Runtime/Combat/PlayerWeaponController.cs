@@ -21,6 +21,7 @@ public class PlayerWeaponController : MonoBehaviour
     List<List<Vector2>> directionLists = new List<List<Vector2>>();
     List<int> lastDirIndexes = new List<int>();
     List<float[]> orbitAngles = new List<float[]>();
+    List<List<GameObject>> orbitVisuals = new List<List<GameObject>>();
 
     PlayerMeleeAttackSystem meleeSystem;
     ProjectileSystem projectileSystem;
@@ -45,11 +46,16 @@ public class PlayerWeaponController : MonoBehaviour
 
     void InitializeWeapons()
     {
+        foreach (var list in orbitVisuals)
+            foreach (var obj in list)
+                if (obj != null) Destroy(obj);
+
         runtimes.Clear();
         timers.Clear();
         directionLists.Clear();
         lastDirIndexes.Clear();
         orbitAngles.Clear();
+        orbitVisuals.Clear();
 
         for (int i = 0; i < weapons.Count && i < maxWeaponSlots; i++)
         {
@@ -64,9 +70,23 @@ public class PlayerWeaponController : MonoBehaviour
             directionLists.Add(BuildDirectionList(runtime));
             lastDirIndexes.Add(0);
             orbitAngles.Add(BuildOrbitAngles(runtime.amount));
+            orbitVisuals.Add(SpawnOrbitVisuals(runtime));
         }
 
         OnWeaponsChanged?.Invoke();
+    }
+
+    List<GameObject> SpawnOrbitVisuals(WeaponRuntimeStats runtime)
+    {
+        var list = new List<GameObject>();
+        if (runtime.attackType != WeaponStats.AttackType.Orbit || runtime.attackVisualPrefab == null)
+            return list;
+
+        int count = Mathf.Max(1, runtime.amount);
+        for (int i = 0; i < count; i++)
+            list.Add(Instantiate(runtime.attackVisualPrefab, transform.position, Quaternion.identity));
+
+        return list;
     }
 
     float[] BuildOrbitAngles(int amount)
@@ -266,6 +286,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
 
         var angles = orbitAngles[index];
+        var visuals = index < orbitVisuals.Count ? orbitVisuals[index] : null;
         int count = Mathf.Min(angles.Length, runtime.amount);
 
         for (int p = 0; p < count; p++)
@@ -277,6 +298,9 @@ public class PlayerWeaponController : MonoBehaviour
             Vector2 orbitPos = playerPos + new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * orbitRadius;
 
             meleeSystem.Attack(orbitPos, Vector2.up, hitSize, 360f, dmg, 0f);
+
+            if (visuals != null && p < visuals.Count && visuals[p] != null)
+                visuals[p].transform.position = orbitPos;
         }
     }
 
@@ -327,6 +351,7 @@ public class PlayerWeaponController : MonoBehaviour
         directionLists.Add(BuildDirectionList(runtime));
         lastDirIndexes.Add(0);
         orbitAngles.Add(BuildOrbitAngles(runtime.amount));
+        orbitVisuals.Add(SpawnOrbitVisuals(runtime));
 
         OnWeaponsChanged?.Invoke();
 

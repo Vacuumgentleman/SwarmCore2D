@@ -35,6 +35,7 @@ MonoBehaviour:
   scaledBySpeed: 1
   scaledByDuration: 0
   scaledByAmount: 0
+  weaponIcon: {fileID: 5550521924697024619, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}
   attackVisualPrefab: {fileID: 518884929496358011, guid: d0398a01e8d819995843873fca351bbf, type: 3}
   frames:
   - {fileID: 5550521924697024619, guid: e7c83aaddd6b0478fb400db032b5ca48, type: 3}

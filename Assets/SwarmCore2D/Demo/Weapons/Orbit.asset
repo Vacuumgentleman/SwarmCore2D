@@ -15,16 +15,16 @@ MonoBehaviour:
   attackType: 3
   damage: 4
   cooldown: 0.7
-  amount: 1
+  amount: 5
   projectileSpeed: 12
   projectileSize: 0.5
-  maxRange: 0
+  maxRange: 5
   hitRadius: 2.5
   effectDuration: 2
   pierceCount: 0
   knockback: 2
   attackUp: 1
-  attackDown: 0
+  attackDown: 1
   attackLeft: 1
   attackRight: 1
   allowDiagonals: 1
@@ -35,6 +35,9 @@ MonoBehaviour:
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
-  attackVisualPrefab: {fileID: 2526173303498499291, guid: 0f3d5798c74ea15ffbcdd52966e799f3, type: 3}
-  frames: []
+  weaponIcon: {fileID: 8475008236743639273, guid: ba430653969a14c1cb2a49d9256d0260, type: 3}
+  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
+  frames:
+  - {fileID: -8932154214229173346, guid: ba430653969a14c1cb2a49d9256d0260, type: 3}
+  - {fileID: 2073371222263828158, guid: ba430653969a14c1cb2a49d9256d0260, type: 3}
   frameRate: 12

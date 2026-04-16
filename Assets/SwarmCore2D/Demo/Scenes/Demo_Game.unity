@@ -18208,21 +18208,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 134599281}
     - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
-      propertyPath: weapons.Array.size
+      propertyPath: maxWeaponSlots
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
+      propertyPath: weapons.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
       propertyPath: 'weapons.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 9e5511e2ae34aab5cb650b60137145a2, type: 2}
+      objectReference: {fileID: 11400000, guid: 2c555184548871d4ca0450401c326197, type: 2}
     - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
       propertyPath: 'weapons.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 69bf6b7353a043562bd619a772ea1a9f, type: 2}
+      objectReference: {fileID: 11400000, guid: 2c555184548871d4ca0450401c326197, type: 2}
     - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
       propertyPath: 'weapons.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 2c555184548871d4ca0450401c326197, type: 2}
+      objectReference: {fileID: 11400000, guid: 9e5511e2ae34aab5cb650b60137145a2, type: 2}
     - target: {fileID: 2033224510865945811, guid: ab0f8c10fad48eae28d2b2df3a4b395b, type: 3}
       propertyPath: 'weapons.Array.data[3]'
       value: 
