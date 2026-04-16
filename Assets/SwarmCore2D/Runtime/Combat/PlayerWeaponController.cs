@@ -3,6 +3,7 @@ using SwarmCore2D.Simulation;
 using SwarmCore2D.Core;
 using SwarmCore2D.Combat;
 using System.Collections.Generic;
+using System;
 
 public class PlayerWeaponController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     [Header("References")]
     public SwarmSimulationController simulation;
+
+    public event Action OnWeaponsChanged;
 
     List<WeaponRuntimeStats> runtimes = new List<WeaponRuntimeStats>();
     List<float> timers = new List<float>();
@@ -62,6 +65,8 @@ public class PlayerWeaponController : MonoBehaviour
             lastDirIndexes.Add(0);
             orbitAngles.Add(BuildOrbitAngles(runtime.amount));
         }
+
+        OnWeaponsChanged?.Invoke();
     }
 
     float[] BuildOrbitAngles(int amount)
@@ -251,23 +256,16 @@ public class PlayerWeaponController : MonoBehaviour
         float orbitRadius = runtime.hitRadius;
         float dmg = runtime.damage;
         float hitSize = runtime.projectileSize;
+        float orbitSpeed = runtime.projectileSpeed;
 
         if (global != null)
         {
             if (weapons[index].scaledByMight) dmg *= global.damageMultiplier;
             if (weapons[index].scaledByArea) orbitRadius *= global.areaMultiplier;
-            if (weapons[index].scaledBySpeed)
-            {
-                // orbitSpeed se almacena en projectileSpeed
-            }
+            if (weapons[index].scaledBySpeed) orbitSpeed *= global.speedMultiplier;
         }
 
-        float orbitSpeed = runtime.projectileSpeed;
-        if (global != null && weapons[index].scaledBySpeed)
-            orbitSpeed *= global.speedMultiplier;
-
         var angles = orbitAngles[index];
-
         int count = Mathf.Min(angles.Length, runtime.amount);
 
         for (int p = 0; p < count; p++)
@@ -329,6 +327,8 @@ public class PlayerWeaponController : MonoBehaviour
         directionLists.Add(BuildDirectionList(runtime));
         lastDirIndexes.Add(0);
         orbitAngles.Add(BuildOrbitAngles(runtime.amount));
+
+        OnWeaponsChanged?.Invoke();
 
         return true;
     }

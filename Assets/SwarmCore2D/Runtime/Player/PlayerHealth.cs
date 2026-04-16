@@ -50,7 +50,6 @@ public class PlayerHealth : MonoBehaviour
         if (invulTimer > 0f)
         {
             invulTimer -= Time.deltaTime;
-
             if (sprite != null)
                 sprite.color = hitColor;
         }
@@ -67,17 +66,27 @@ public class PlayerHealth : MonoBehaviour
             return;
 
         currentHealth -= dmg;
-
         currentHealth = Mathf.Max(currentHealth, 0f);
-
         invulTimer = invulnerabilityTime;
 
         PlayDamageSound();
-
         OnHealthChanged?.Invoke();
 
         if (currentHealth <= 0f)
             Die();
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        OnHealthChanged?.Invoke();
+    }
+
+    public void AddMaxHealth(float amount)
+    {
+        maxHealth += amount;
+        currentHealth += amount;
+        OnHealthChanged?.Invoke();
     }
 
     public float GetHealthPercent()
@@ -95,14 +104,11 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-
         if (deathParticles != null)
             Instantiate(deathParticles, transform.position, Quaternion.identity);
 
         if (screenFade != null)
-        {
             screenFade.FadeToMenu();
-        }
 
         gameObject.SetActive(false);
     }

@@ -36,8 +36,11 @@ public class UpgradeData : ScriptableObject
 
     public UpgradeType type;
 
-    [Tooltip("Indice del arma a la que aplica este upgrade. -1 = global")]
-    public int weaponIndex = -1;
+    [Tooltip("Si es true, aplica a todos los stats globales del jugador. Si es false, aplica al arma en weaponIndex.")]
+    public bool isGlobal = false;
+
+    [Tooltip("Indice del arma a la que aplica este upgrade. Solo relevante si isGlobal es false.")]
+    public int weaponIndex = 0;
 
     public float value = 1f;
 }

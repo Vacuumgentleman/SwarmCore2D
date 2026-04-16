@@ -33,7 +33,7 @@ public class UpgradeButton : MonoBehaviour
         if (weaponIcon == null)
             return;
 
-        if (upgrade.weaponIndex < 0)
+        if (upgrade.isGlobal)
         {
             weaponIcon.gameObject.SetActive(false);
             return;
@@ -67,7 +67,6 @@ public class UpgradeButton : MonoBehaviour
         ApplyUpgrade();
 
         var system = FindFirstObjectByType<UpgradeSystem>();
-
         if (system != null)
             system.CloseSelection();
     }
@@ -158,15 +157,12 @@ public class UpgradeButton : MonoBehaviour
 
             case UpgradeData.UpgradeType.MaxHealth:
                 if (player != null)
-                {
-                    player.maxHealth += data.value;
-                    player.currentHealth += data.value;
-                }
+                    player.AddMaxHealth(data.value);
                 break;
 
             case UpgradeData.UpgradeType.Heal:
                 if (player != null)
-                    player.currentHealth = Mathf.Min(player.currentHealth + data.value, player.maxHealth);
+                    player.Heal(data.value);
                 break;
         }
     }
@@ -176,7 +172,7 @@ public class UpgradeButton : MonoBehaviour
         if (weaponController == null)
             return;
 
-        if (data.weaponIndex < 0)
+        if (data.isGlobal)
         {
             for (int i = 0; i < weaponController.WeaponCount; i++)
             {

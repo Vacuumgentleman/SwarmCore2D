@@ -18,12 +18,20 @@ public class UIHealth : MonoBehaviour
         }
 
         player.OnHealthChanged += UpdateUI;
-
         UpdateUI();
+    }
+
+    void OnDestroy()
+    {
+        if (player != null)
+            player.OnHealthChanged -= UpdateUI;
     }
 
     void UpdateUI()
     {
+        if (player == null || healthBar == null)
+            return;
+
         healthBar.fillAmount = player.GetHealthPercent();
     }
 }
