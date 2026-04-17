@@ -11,10 +11,14 @@ public class UpgradeButton : MonoBehaviour
     public Image weaponIcon;
 
     UpgradeData data;
+    int resolvedWeaponIndex;
 
-    public void Setup(UpgradeData upgrade)
+    public void Setup(UpgradeData upgrade, int weaponIndexOverride = -1)
     {
         data = upgrade;
+        resolvedWeaponIndex = (!upgrade.isGlobal && weaponIndexOverride >= 0)
+            ? weaponIndexOverride
+            : upgrade.weaponIndex;
 
         if (upgrade == null)
             return;
@@ -25,15 +29,15 @@ public class UpgradeButton : MonoBehaviour
         if (upgradeIcon != null)
             upgradeIcon.sprite = upgrade.icon;
 
-        UpdateWeaponIcon(upgrade);
+        UpdateWeaponIcon(resolvedWeaponIndex);
     }
 
-    void UpdateWeaponIcon(UpgradeData upgrade)
+    void UpdateWeaponIcon(int wIndex)
     {
         if (weaponIcon == null)
             return;
 
-        if (upgrade.isGlobal)
+        if (data.isGlobal)
         {
             weaponIcon.gameObject.SetActive(false);
             return;
@@ -41,13 +45,13 @@ public class UpgradeButton : MonoBehaviour
 
         var weaponController = FindFirstObjectByType<PlayerWeaponController>();
 
-        if (weaponController == null || upgrade.weaponIndex >= weaponController.weapons.Count)
+        if (weaponController == null || wIndex >= weaponController.weapons.Count)
         {
             weaponIcon.gameObject.SetActive(false);
             return;
         }
 
-        var weapon = weaponController.weapons[upgrade.weaponIndex];
+        var weapon = weaponController.weapons[wIndex];
 
         if (weapon == null || weapon.weaponIcon == null)
         {
@@ -110,11 +114,11 @@ public class UpgradeButton : MonoBehaviour
             case UpgradeData.UpgradeType.AddDirectionRandom:
                 if (weaponController != null)
                 {
-                    var runtime = weaponController.GetRuntime(data.weaponIndex);
+                    var runtime = weaponController.GetRuntime(resolvedWeaponIndex);
                     if (runtime != null)
                     {
                         AddRandomDirection(runtime);
-                        weaponController.RebuildDirections(data.weaponIndex);
+                        weaponController.RebuildDirections(resolvedWeaponIndex);
                     }
                 }
                 break;
@@ -182,7 +186,7 @@ public class UpgradeButton : MonoBehaviour
         }
         else
         {
-            var r = weaponController.GetRuntime(data.weaponIndex);
+            var r = weaponController.GetRuntime(resolvedWeaponIndex);
             if (r != null) action(r);
         }
     }

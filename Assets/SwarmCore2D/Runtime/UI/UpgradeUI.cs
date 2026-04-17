@@ -6,7 +6,7 @@ public class UpgradeUI : MonoBehaviour
 
     public UpgradeButton[] buttons;
 
-    public UpgradeSystem system; 
+    public UpgradeSystem system;
 
     void Awake()
     {
@@ -15,10 +15,18 @@ public class UpgradeUI : MonoBehaviour
 
     public void GenerateOptions()
     {
+        var weaponController = FindFirstObjectByType<PlayerWeaponController>();
+        int weaponCount = weaponController != null ? weaponController.WeaponCount : 1;
+
         for (int i = 0; i < buttons.Length; i++)
         {
             UpgradeData data = UpgradeDatabase.Instance.GetRandom();
-            buttons[i].Setup(data);
+
+            int weaponIndex = -1;
+            if (data != null && !data.isGlobal)
+                weaponIndex = Random.Range(0, weaponCount);
+
+            buttons[i].Setup(data, weaponIndex);
         }
     }
 }
