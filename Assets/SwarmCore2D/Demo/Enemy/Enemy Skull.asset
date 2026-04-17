@@ -20,4 +20,5 @@ MonoBehaviour:
   frameCount: 6
   animSpeed: 12
   material: {fileID: 2100000, guid: 407f51449852ba2728a324d2322a35dd, type: 2}
+  visualScale: 3
   behavior: 0

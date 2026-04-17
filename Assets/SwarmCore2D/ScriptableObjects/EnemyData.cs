@@ -18,6 +18,8 @@ public class EnemyData : ScriptableObject
 
     [Header("Rendering")]
     public Material material;
+    [Tooltip("Tamaño visual en unidades de mundo. Independiente del radio de colisión.")]
+    public float visualScale = 1f;
 
     [Header("Behavior")]
     public EnemyBehaviorType behavior;

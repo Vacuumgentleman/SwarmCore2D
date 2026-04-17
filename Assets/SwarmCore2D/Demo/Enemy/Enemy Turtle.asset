@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Enemy Turtle
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   maxHealth: 20
-  speed: 1
+  speed: 2
   damage: 2
   radius: 0.8
   xpReward: 10
   frameCount: 7
   animSpeed: 12
   material: {fileID: 2100000, guid: acb423c4bf0fd3812abbd1bd8ca018da, type: 2}
+  visualScale: 3
   behavior: 0

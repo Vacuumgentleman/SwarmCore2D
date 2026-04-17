@@ -46,7 +46,7 @@ namespace SwarmCore2D.Simulation
                 state.facingLeft[i] = dir.x < 0f;
 
                 float t = Time.time + state.animOffset[i];
-                state.frame[i] = (int)(t * data.animSpeed) % 7;
+                state.frame[i] = (int)(t * data.animSpeed) % Mathf.Max(1, data.frameCount);
             }
         }
     }

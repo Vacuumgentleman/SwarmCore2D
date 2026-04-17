@@ -55,13 +55,13 @@ namespace SwarmCore2D.Rendering
                 if (data == null)
                     continue;
 
-                float r = state.radius[i];
+                float scale = data.visualScale > 0f ? data.visualScale : state.radius[i];
 
                 matrices[count] =
                     Matrix4x4.TRS(
                         new Vector3(pos.x, pos.y, 0),
                         Quaternion.identity,
-                        new Vector3(r, r, 1f)
+                        new Vector3(scale, scale, 1f)
                     );
 
                 frames[count] = state.frame[i];

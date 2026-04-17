@@ -15,7 +15,11 @@ namespace SwarmCore2D.Rendering
         SwarmState state;
         SwarmRenderProfile renderProfile;
 
+        // Pre-allocated buffers — no GC per frame
         Matrix4x4[] matrices;
+        float[] frameBuffer;
+        float[] flipBuffer;
+        Vector4[] tintBuffer;
         MaterialPropertyBlock props;
 
         Dictionary<Material, List<int>> groups;
@@ -26,11 +30,15 @@ namespace SwarmCore2D.Rendering
             this.renderProfile = profile;
 
             int batchSize = profile != null ? profile.batchSize : 1023;
+            int maxCap = profile != null ? profile.maxVisibleEntities : SwarmCore2D.Core.SwarmConstants.MaxEntities;
 
             renderData = new RenderData();
             batcher = new InstancedBatcher(mesh, batchSize);
 
-            matrices = new Matrix4x4[10000];
+            matrices    = new Matrix4x4[maxCap];
+            frameBuffer = new float[maxCap];
+            flipBuffer  = new float[maxCap];
+            tintBuffer  = new Vector4[maxCap];
             props = new MaterialPropertyBlock();
 
             groups = new Dictionary<Material, List<int>>();
@@ -48,7 +56,6 @@ namespace SwarmCore2D.Rendering
             renderData.Build(state, maxVisible, cull, bounds);
 
             GroupByMaterial();
-
             DrawGroups();
         }
 
@@ -89,44 +96,18 @@ namespace SwarmCore2D.Rendering
             {
                 Material mat = pair.Key;
                 var list = pair.Value;
-
                 int count = list.Count;
 
                 for (int i = 0; i < count; i++)
                 {
-                    int index = list[i];
-
-                    Vector3 pos = renderData.matrices[index].GetColumn(3);
-
-                    matrices[i].SetTRS(
-                        pos,
-                        Quaternion.identity,
-                        Vector3.one
-                    );
-                }
-
-                float[] frames = new float[count];
-                float[] flips = new float[count];
-                Vector4[] tint = new Vector4[count];
-
-                for (int i = 0; i < count; i++)
-                {
                     int idx = list[i];
-
-                    frames[i] = renderData.frames[idx];
-                    flips[i] = renderData.flips[idx];
-                    tint[i] = renderData.tint[idx];
+                    matrices[i]    = renderData.matrices[idx];  // includes position + scale
+                    frameBuffer[i] = renderData.frames[idx];
+                    flipBuffer[i]  = renderData.flips[idx];
+                    tintBuffer[i]  = renderData.tint[idx];
                 }
 
-                batcher.Draw(
-                    mat,
-                    matrices,
-                    frames,
-                    flips,
-                    tint,
-                    count,
-                    props
-                );
+                batcher.Draw(mat, matrices, frameBuffer, flipBuffer, tintBuffer, count, props);
             }
         }
     }
