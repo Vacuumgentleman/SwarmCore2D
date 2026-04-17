@@ -8,10 +8,12 @@ namespace SwarmCore2D.Simulation
         public SwarmState state;
         public EntityAllocator allocator;
 
-        public SwarmWorld()
+        public SwarmWorld() : this(SwarmConstants.MaxEntities) { }
+
+        public SwarmWorld(int capacity)
         {
-            state = new SwarmState();
-            allocator = new EntityAllocator();
+            state = new SwarmState(capacity);
+            allocator = new EntityAllocator(capacity);
         }
 
         public SwarmEntity Spawn(Vector2 position, int type = 0)
@@ -30,6 +32,8 @@ namespace SwarmCore2D.Simulation
             state.mass[id] = 1f;
 
             state.type[id] = type;
+
+            state.speedMultiplier[id] = 1f;
 
             state.Activate(id);
 

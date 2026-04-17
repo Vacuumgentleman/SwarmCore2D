@@ -19,6 +19,7 @@ MonoBehaviour:
   projectileSpeed: 12
   projectileSize: 1
   maxRange: 0
+  spreadAngle: 0
   hitRadius: 2.5
   effectDuration: 2
   pierceCount: 0
@@ -35,6 +36,7 @@ MonoBehaviour:
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
+  allowedWeaponUpgrades: 00000000010000000200000003000000040000000600000005000000
   weaponIcon: {fileID: 7178713093860209260, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
   attackVisualPrefab: {fileID: 2526173303498499291, guid: 3c192fb39c866ddd2b56e83e7b0eaa39, type: 3}
   frames:

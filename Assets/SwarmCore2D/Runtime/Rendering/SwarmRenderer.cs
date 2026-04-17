@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using SwarmCore2D.Simulation;
+using SwarmCore2D.ScriptableObjects;
 
 namespace SwarmCore2D.Rendering
 {
@@ -12,18 +13,22 @@ namespace SwarmCore2D.Rendering
         InstancedBatcher batcher;
 
         SwarmState state;
+        SwarmRenderProfile renderProfile;
 
         Matrix4x4[] matrices;
         MaterialPropertyBlock props;
 
         Dictionary<Material, List<int>> groups;
 
-        public void Initialize(SwarmState state)
+        public void Initialize(SwarmState state, SwarmRenderProfile profile = null)
         {
             this.state = state;
+            this.renderProfile = profile;
+
+            int batchSize = profile != null ? profile.batchSize : 1023;
 
             renderData = new RenderData();
-            batcher = new InstancedBatcher(mesh);
+            batcher = new InstancedBatcher(mesh, batchSize);
 
             matrices = new Matrix4x4[10000];
             props = new MaterialPropertyBlock();
@@ -36,11 +41,27 @@ namespace SwarmCore2D.Rendering
             if (state == null)
                 return;
 
-            renderData.Build(state);
+            int maxVisible = renderProfile != null ? renderProfile.maxVisibleEntities : int.MaxValue;
+            bool cull = renderProfile != null && renderProfile.useFrustumCulling;
+            Rect bounds = cull ? GetCameraBounds() : default;
+
+            renderData.Build(state, maxVisible, cull, bounds);
 
             GroupByMaterial();
 
             DrawGroups();
+        }
+
+        Rect GetCameraBounds(float padding = 1.5f)
+        {
+            var cam = Camera.main;
+            if (cam == null) return default;
+
+            float halfH = cam.orthographicSize + padding;
+            float halfW = halfH * cam.aspect + padding;
+            Vector2 camPos = cam.transform.position;
+
+            return new Rect(camPos.x - halfW, camPos.y - halfH, halfW * 2f, halfH * 2f);
         }
 
         void GroupByMaterial()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InstancedBatcher
 {
-    const int BATCH_SIZE = 1023;
+    readonly int batchSize;
 
     Mesh mesh;
 
@@ -11,14 +11,15 @@ public class InstancedBatcher
     float[] batchFlips;
     Vector4[] batchTint;
 
-    public InstancedBatcher(Mesh mesh)
+    public InstancedBatcher(Mesh mesh, int batchSize = 1023)
     {
         this.mesh = mesh;
+        this.batchSize = Mathf.Clamp(batchSize, 1, 1023);
 
-        batchMatrices = new Matrix4x4[BATCH_SIZE];
-        batchFrames = new float[BATCH_SIZE];
-        batchFlips = new float[BATCH_SIZE];
-        batchTint = new Vector4[BATCH_SIZE];
+        batchMatrices = new Matrix4x4[this.batchSize];
+        batchFrames = new float[this.batchSize];
+        batchFlips = new float[this.batchSize];
+        batchTint = new Vector4[this.batchSize];
     }
 
     public void Draw(
@@ -35,7 +36,7 @@ public class InstancedBatcher
 
         while (index < count)
         {
-            int batchCount = Mathf.Min(BATCH_SIZE, count - index);
+            int batchCount = Mathf.Min(batchSize, count - index);
 
             for (int i = 0; i < batchCount; i++)
             {

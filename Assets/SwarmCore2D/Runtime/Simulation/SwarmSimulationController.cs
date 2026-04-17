@@ -3,6 +3,7 @@ using SwarmCore2D.Core;
 using SwarmCore2D.Rendering;
 using SwarmCore2D.Combat;
 using SwarmCore2D.World;
+using SwarmCore2D.ScriptableObjects;
 
 namespace SwarmCore2D.Simulation
 {
@@ -16,6 +17,11 @@ namespace SwarmCore2D.Simulation
 
         [Header("World")]
         public BiomeData[] biomes;
+
+        [Header("Configuration")]
+        [SerializeField] SwarmProfile simulationProfile;
+        [SerializeField] SwarmDifficultyProfile difficultyProfile;
+        [SerializeField] SwarmRenderProfile renderProfile;
 
         SwarmWorld world;
 
@@ -39,7 +45,6 @@ namespace SwarmCore2D.Simulation
         public SwarmState WorldState => world.state;
         public ProjectileSystem ProjectileSystem => projectileSystem;
 
-        // 🔥 NUEVO: acceso limpio al estado de pausa
         public bool IsPaused()
         {
             return isPaused;
@@ -47,10 +52,14 @@ namespace SwarmCore2D.Simulation
 
         void Awake()
         {
-            world = new SwarmWorld();
+            int capacity = simulationProfile != null
+                ? simulationProfile.maxEntities
+                : SwarmConstants.MaxEntities;
 
-            spawner = new EnemySpawnerSystem();
-            chase = new EnemyChaseSystem();
+            world = new SwarmWorld(capacity);
+
+            spawner = new EnemySpawnerSystem(difficultyProfile);
+            chase = new EnemyChaseSystem(difficultyProfile);
             separation = new EnemySeparationSystem();
 
             grid = new SpatialHashGrid(1.2f);
@@ -70,7 +79,7 @@ namespace SwarmCore2D.Simulation
                 worldRenderer.Initialize(chunkSystem);
 
             if (swarmRenderer != null)
-                swarmRenderer.Initialize(world.state);
+                swarmRenderer.Initialize(world.state, renderProfile);
 
             if (projectileRenderer == null)
                 projectileRenderer = FindFirstObjectByType<ProjectileRenderer>();

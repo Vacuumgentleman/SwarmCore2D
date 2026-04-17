@@ -12,24 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c350c3e05f49601ee8e0ea4e2a7ed981, type: 3}
   m_Name: SwarmDifficultyProfile
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.ScriptableObjects.SwarmDifficultyProfile
-  spawnRate: 2
-  maxEnemies: 500
-  spawnMultiplier:
+  phases:
+  - startTime: 1
+    enemyPool:
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    spawnInterval: 1
+  - startTime: 60
+    enemyPool:
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+    spawnInterval: 0.8
+  - startTime: 120
+    enemyPool:
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    spawnInterval: 0.5
+  healthMultiplier:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
       inSlope: 0
-      outSlope: 0.06666667
+      outSlope: 0.006666667
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 30
+      time: 300
       value: 3
-      inSlope: 0.06666667
+      inSlope: 0.006666667
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
@@ -45,39 +59,15 @@ MonoBehaviour:
       time: 0
       value: 1
       inSlope: 0
-      outSlope: 0.016666668
+      outSlope: 0.0033333334
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 30
-      value: 1.5
-      inSlope: 0.016666668
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  healthMultiplier:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0.033333335
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 30
+      time: 300
       value: 2
-      inSlope: 0.033333335
+      inSlope: 0.0033333334
       outSlope: 0
       tangentMode: 0
       weightedMode: 0

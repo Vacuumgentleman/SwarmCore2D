@@ -2,35 +2,66 @@ using UnityEngine;
 
 namespace SwarmCore2D.ScriptableObjects
 {
+    [System.Serializable]
+    public class SpawnPhase
+    {
+        [Tooltip("Segundos desde el inicio de la partida en que esta fase se activa.")]
+        public float startTime = 0f;
+
+        [Tooltip("Enemigos que pueden spawnear en esta fase. Se elige uno al azar.")]
+        public EnemyData[] enemyPool;
+
+        [Min(0.1f)]
+        [Tooltip("Segundos entre cada spawn. Mínimo 0.1s.")]
+        public float spawnInterval = 2f;
+    }
+
     /// <summary>
-    /// Controls enemy scaling and spawn difficulty over time.
+    /// Define las fases de dificultad de la partida.
+    /// Cada fase controla qué enemigos spawnean y con qué frecuencia.
+    /// Los multiplicadores de stats escalan globalmente con el tiempo mediante curvas.
     /// </summary>
     [CreateAssetMenu(
-        fileName = "SwarmDifficultyProfile",
+        fileName = "DifficultyProfile",
         menuName = "SwarmCore2D/Configuration/Difficulty Profile"
     )]
     public class SwarmDifficultyProfile : ScriptableObject
     {
-        [Header("Spawn")]
+        [Tooltip("Fases ordenadas por startTime. La fase activa es la última cuyo startTime <= tiempo transcurrido.")]
+        public SpawnPhase[] phases;
 
-        [Tooltip("Base spawn rate per second.")]
-        public float spawnRate = 2f;
+        [Header("Stat Scaling Over Time")]
+        [Tooltip("Multiplicador de vida de los enemigos. Eje X = segundos de partida, eje Y = multiplicador.")]
+        public AnimationCurve healthMultiplier = AnimationCurve.Linear(0, 1, 300, 3);
 
-        [Tooltip("Maximum enemies alive at once.")]
-        public int maxEnemies = 500;
+        [Tooltip("Multiplicador de velocidad de los enemigos. Eje X = segundos de partida, eje Y = multiplicador.")]
+        public AnimationCurve speedMultiplier = AnimationCurve.Linear(0, 1, 300, 2);
 
-        [Header("Scaling")]
+        /// <summary>
+        /// Devuelve la fase activa según el tiempo transcurrido en segundos.
+        /// </summary>
+        public SpawnPhase GetActivePhase(float elapsedSeconds)
+        {
+            if (phases == null || phases.Length == 0)
+                return null;
 
-        [Tooltip("Spawn multiplier over time.")]
-        public AnimationCurve spawnMultiplier =
-            AnimationCurve.Linear(0, 1, 30, 3);
+            SpawnPhase active = phases[0];
+            foreach (var phase in phases)
+            {
+                if (elapsedSeconds >= phase.startTime)
+                    active = phase;
+            }
+            return active;
+        }
 
-        [Tooltip("Enemy speed scaling.")]
-        public AnimationCurve speedMultiplier =
-            AnimationCurve.Linear(0, 1, 30, 1.5f);
+        public float GetHealthMultiplier(float elapsedSeconds)
+        {
+            return healthMultiplier != null ? Mathf.Max(0.01f, healthMultiplier.Evaluate(elapsedSeconds)) : 1f;
+        }
 
-        [Tooltip("Enemy health scaling.")]
-        public AnimationCurve healthMultiplier =
-            AnimationCurve.Linear(0, 1, 30, 2);
+        public float GetSpeedMultiplier(float elapsedSeconds)
+        {
+            return speedMultiplier != null ? Mathf.Max(0.01f, speedMultiplier.Evaluate(elapsedSeconds)) : 1f;
+        }
     }
 }

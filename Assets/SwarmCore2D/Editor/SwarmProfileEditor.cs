@@ -12,55 +12,53 @@ namespace SwarmCore2D.Editor
             SwarmProfile profile = (SwarmProfile)target;
 
             EditorGUILayout.Space();
-
-            EditorGUILayout.LabelField(
-                "SwarmCore2D Simulation Profile",
-                EditorStyles.boldLabel
-            );
-
+            EditorGUILayout.LabelField("SwarmCore2D — Simulation Profile", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "This profile controls the core simulation parameters of the swarm system.",
+                "Fuente única de tick rate y capacidad de entidades.\n" +
+                "Asigna este SO en FixedTickBehaviour y SwarmSimulationController.",
                 MessageType.Info
             );
-
             EditorGUILayout.Space();
 
             DrawDefaultInspector();
 
             EditorGUILayout.Space();
-
             DrawPerformanceInfo(profile);
-
             EditorGUILayout.Space();
 
             if (GUILayout.Button("Open Documentation"))
-            {
                 DocumentationLink.OpenDocs();
-            }
         }
 
         void DrawPerformanceInfo(SwarmProfile profile)
         {
-            EditorGUILayout.LabelField(
-                "Estimated Performance",
-                EditorStyles.boldLabel
-            );
+            EditorGUILayout.LabelField("Estimated Performance Tier", EditorStyles.boldLabel);
 
             int entities = profile.maxEntities;
-            float tickRate = profile.tickRate;
+            int tickRate = profile.tickRate;
 
-            string estimate;
+            string tier;
+            MessageType msgType;
 
             if (entities <= 500)
-                estimate = "Low load – Mobile/WebGL friendly";
+            {
+                tier = "Bajo — apto para móvil y WebGL";
+                msgType = MessageType.Info;
+            }
             else if (entities <= 1500)
-                estimate = "Medium load – Desktop/WebGL";
+            {
+                tier = "Medio — Desktop / WebGL potente";
+                msgType = MessageType.Info;
+            }
             else
-                estimate = "High load – Desktop recommended";
+            {
+                tier = "Alto — Desktop recomendado";
+                msgType = MessageType.Warning;
+            }
 
             EditorGUILayout.HelpBox(
-                $"Entities: {entities}\nTick Rate: {tickRate}\nPerformance Tier: {estimate}",
-                MessageType.None
+                $"Entidades: {entities}    Tick Rate: {tickRate} Hz\nRendimiento estimado: {tier}",
+                msgType
             );
         }
     }

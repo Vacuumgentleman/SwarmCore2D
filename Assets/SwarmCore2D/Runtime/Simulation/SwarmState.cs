@@ -20,6 +20,8 @@ namespace SwarmCore2D.Simulation
         public float[] health;
         public float[] hitFlash;
 
+        public float[] speedMultiplier;
+
         public int[] frame;
         public bool[] facingLeft;
         public float[] animOffset;
@@ -29,9 +31,11 @@ namespace SwarmCore2D.Simulation
         public int[] activeList;
         public int activeCount;
 
-        public SwarmState()
+        public SwarmState() : this(SwarmConstants.MaxEntities) { }
+
+        public SwarmState(int capacity)
         {
-            Capacity = SwarmConstants.MaxEntities;
+            Capacity = capacity;
 
             positions = new Vector2[Capacity];
             velocities = new Vector2[Capacity];
@@ -39,11 +43,14 @@ namespace SwarmCore2D.Simulation
             radius = new float[Capacity];
             mass = new float[Capacity];
 
-            type = new int[Capacity];     
-            enemyType = new int[Capacity];   
+            type = new int[Capacity];
+            enemyType = new int[Capacity];
 
             health = new float[Capacity];
             hitFlash = new float[Capacity];
+
+            speedMultiplier = new float[Capacity];
+            for (int i = 0; i < Capacity; i++) speedMultiplier[i] = 1f;
 
             frame = new int[Capacity];
             facingLeft = new bool[Capacity];
@@ -108,11 +115,13 @@ namespace SwarmCore2D.Simulation
             System.Array.Clear(radius, 0, Capacity);
             System.Array.Clear(mass, 0, Capacity);
 
-            System.Array.Clear(type, 0, Capacity);        
-            System.Array.Clear(enemyType, 0, Capacity);   
+            System.Array.Clear(type, 0, Capacity);
+            System.Array.Clear(enemyType, 0, Capacity);
 
             System.Array.Clear(health, 0, Capacity);
             System.Array.Clear(hitFlash, 0, Capacity);
+
+            for (int i = 0; i < Capacity; i++) speedMultiplier[i] = 1f;
 
             System.Array.Clear(frame, 0, Capacity);
             System.Array.Clear(facingLeft, 0, Capacity);

@@ -1422,6 +1422,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4dd0fef71389e59dfb97888b9898961b, type: 2}
   - {fileID: 11400000, guid: ad2dd45aea87bb3618e705002a66f31e, type: 2}
   - {fileID: 11400000, guid: bd543e5c2c82040e6a7b18055de5f6c9, type: 2}
+  simulationProfile: {fileID: 11400000, guid: d6afec58e3b65d2c2ac15a6a9b71ed36, type: 2}
+  difficultyProfile: {fileID: 11400000, guid: 452d9d87badc332bf91c95968bb7de06, type: 2}
+  renderProfile: {fileID: 11400000, guid: 4d3f1d0c2b64f5ed38b80c6aaaeb2754, type: 2}
 --- !u!114 &134599282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,7 +1437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2026bf4ce228b35389838c1cf5b66ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Core.FixedTickBehaviour
-  tickRate: 60
+  profile: {fileID: 11400000, guid: d6afec58e3b65d2c2ac15a6a9b71ed36, type: 2}
 --- !u!4 &134599283
 Transform:
   m_ObjectHideFlags: 0
@@ -5422,7 +5425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDatabase
   enemies:
-  - {fileID: 11400000, guid: 189ee6619344268da9d0bd6c92e1afae, type: 2}
+  - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+  - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+  - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
 --- !u!1 &579813650
 GameObject:
   m_ObjectHideFlags: 0

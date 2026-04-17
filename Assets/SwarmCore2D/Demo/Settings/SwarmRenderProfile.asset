@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828d53dac102b83d8a0378ae1238e906, type: 3}
   m_Name: SwarmRenderProfile
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.ScriptableObjects.SwarmRenderProfile
-  useInstancing: 1
+  maxVisibleEntities: 1024
   batchSize: 1023
-  entityMesh: {fileID: 0}
-  entityMaterial: {fileID: 0}
   useFrustumCulling: 1
-  maxVisibleEntities: 2000

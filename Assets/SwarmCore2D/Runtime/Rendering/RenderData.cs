@@ -31,7 +31,7 @@ namespace SwarmCore2D.Rendering
             count = 0;
         }
 
-        public void Build(SwarmState state)
+        public void Build(SwarmState state, int maxVisible = int.MaxValue, bool cull = false, Rect cullingBounds = default)
         {
             count = 0;
 
@@ -39,7 +39,15 @@ namespace SwarmCore2D.Rendering
 
             for (int a = 0; a < activeCount; a++)
             {
+                if (count >= maxVisible)
+                    break;
+
                 int i = state.activeList[a];
+
+                Vector2 pos = state.positions[i];
+
+                if (cull && !cullingBounds.Contains(pos))
+                    continue;
 
                 int type = state.enemyType[i];
                 var data = EnemyDatabase.Instance.Get(type);
@@ -47,7 +55,6 @@ namespace SwarmCore2D.Rendering
                 if (data == null)
                     continue;
 
-                Vector2 pos = state.positions[i];
                 float r = state.radius[i];
 
                 matrices[count] =

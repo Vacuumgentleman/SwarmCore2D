@@ -1,12 +1,24 @@
 using UnityEngine;
 using SwarmCore2D.Core;
+using SwarmCore2D.ScriptableObjects;
 
 namespace SwarmCore2D.Simulation
 {
     public class EnemyChaseSystem
     {
+        SwarmDifficultyProfile profile;
+
+        public EnemyChaseSystem(SwarmDifficultyProfile profile = null)
+        {
+            this.profile = profile;
+        }
+
         public void Update(SwarmState state, Vector2 playerPos)
         {
+            float speedMult = profile != null
+                ? profile.GetSpeedMultiplier(SwarmTime.Time)
+                : 1f;
+
             int count = state.activeCount;
 
             for (int a = 0; a < count; a++)
@@ -28,7 +40,7 @@ namespace SwarmCore2D.Simulation
                 Vector2 dir = playerPos - pos;
                 dir = SwarmMath.SafeNormalize(dir);
 
-                state.velocities[i] = dir * data.speed;
+                state.velocities[i] = dir * data.speed * state.speedMultiplier[i] * speedMult;
                 state.positions[i] += state.velocities[i] * SwarmTime.FixedDelta;
 
                 state.facingLeft[i] = dir.x < 0f;

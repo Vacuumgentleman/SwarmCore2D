@@ -17,16 +17,20 @@ namespace SwarmCore2D.Simulation
 
         bool[] alive;
 
-        public int Capacity => SwarmConstants.MaxEntities;
+        readonly int capacity;
+
+        public int Capacity => capacity;
 
         public int AliveCount => aliveCount;
 
-        public EntityAllocator()
-        {
-            int cap = SwarmConstants.MaxEntities;
+        public EntityAllocator() : this(SwarmConstants.MaxEntities) { }
 
-            freeStack = new int[cap];
-            alive = new bool[cap];
+        public EntityAllocator(int cap)
+        {
+            capacity = cap;
+
+            freeStack = new int[capacity];
+            alive = new bool[capacity];
 
             freeTop = 0;
             nextId = 0;

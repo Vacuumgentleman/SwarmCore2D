@@ -1,10 +1,11 @@
+using SwarmCore2D.ScriptableObjects;
 using UnityEngine;
 
 namespace SwarmCore2D.Core
 {
     public class FixedTickBehaviour : MonoBehaviour
     {
-        public float tickRate = 60f;
+        [SerializeField] SwarmProfile profile;
 
         private FixedTickRunner runner;
 
@@ -12,7 +13,8 @@ namespace SwarmCore2D.Core
 
         void Awake()
         {
-            runner = new FixedTickRunner(tickRate);
+            float rate = (profile != null) ? profile.tickRate : 60f;
+            runner = new FixedTickRunner(rate);
         }
 
         void Update()
