@@ -1417,6 +1417,7 @@ MonoBehaviour:
   swarmRenderer: {fileID: 1716173060}
   projectileRenderer: {fileID: 1716173057}
   worldRenderer: {fileID: 1716173059}
+  dropRenderer: {fileID: 0}
   biomes:
   - {fileID: 11400000, guid: 3eeb584ad340b395aa4896cfa956042a, type: 2}
   - {fileID: 11400000, guid: 4dd0fef71389e59dfb97888b9898961b, type: 2}
@@ -1457,6 +1458,7 @@ Transform:
   - {fileID: 567458002}
   - {fileID: 1185025503}
   - {fileID: 1055523418}
+  - {fileID: 1890202894}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &140832324
@@ -13978,6 +13980,7 @@ GameObject:
   - component: {fileID: 1716173059}
   - component: {fileID: 1716173058}
   - component: {fileID: 1716173057}
+  - component: {fileID: 1716173061}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -14054,6 +14057,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e057d09a083fd2eb7f794964524f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Rendering.SwarmRenderer
+  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1716173061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716173054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeef409db9b0626cbb90b5c39ec62176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Drops.DropRenderer
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1721273989
 GameObject:
@@ -16182,6 +16198,50 @@ SpriteRenderer:
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1890202893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1890202894}
+  - component: {fileID: 1890202895}
+  m_Layer: 0
+  m_Name: Drops
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1890202894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890202893}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 134599283}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1890202895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890202893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1f199007a39f689f636b897f22ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.Drops.DropSystem
 --- !u!1 &1893941766
 GameObject:
   m_ObjectHideFlags: 0

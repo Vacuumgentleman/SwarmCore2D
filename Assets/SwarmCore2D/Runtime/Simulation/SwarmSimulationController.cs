@@ -4,6 +4,7 @@ using SwarmCore2D.Rendering;
 using SwarmCore2D.Combat;
 using SwarmCore2D.World;
 using SwarmCore2D.ScriptableObjects;
+using SwarmCore2D.Drops;
 
 namespace SwarmCore2D.Simulation
 {
@@ -14,6 +15,7 @@ namespace SwarmCore2D.Simulation
         public SwarmRenderer swarmRenderer;
         public ProjectileRenderer projectileRenderer;
         public WorldRenderer worldRenderer;
+        public DropRenderer dropRenderer;
 
         [Header("World")]
         public BiomeData[] biomes;
@@ -132,6 +134,8 @@ namespace SwarmCore2D.Simulation
             }
 
             projectileSystem.Update(world.state);
+
+            DropSystem.Instance?.UpdateDrops(playerPos, playerHealth);
         }
 
         void UpdateHitFlash(SwarmState state)

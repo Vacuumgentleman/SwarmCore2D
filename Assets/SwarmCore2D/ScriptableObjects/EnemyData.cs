@@ -23,6 +23,9 @@ public class EnemyData : ScriptableObject
 
     [Header("Behavior")]
     public EnemyBehaviorType behavior;
+
+    [Header("Drops")]
+    public EnemyDropEntry[] dropTable;
 }
 
 public enum EnemyBehaviorType
