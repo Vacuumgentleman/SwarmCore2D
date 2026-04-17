@@ -15,10 +15,15 @@ MonoBehaviour:
   maxHealth: 5
   speed: 5
   damage: 2
-  radius: 0.8
+  radius: 1
   xpReward: 2
   frameCount: 8
   animSpeed: 12
   material: {fileID: 2100000, guid: 9d267ea4aeed257218e50d988d8f94cb, type: 2}
   visualScale: 3
   behavior: 0
+  dropTable:
+  - drop: {fileID: 11400000, guid: 878b409f1f7807cb08abeb590cae2efa, type: 2}
+    chance: 0.1
+    minCount: 1
+    maxCount: 3

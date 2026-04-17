@@ -1,18 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class PlayerInventoryUI : MonoBehaviour
 {
     [Header("Referencias")]
-    [Tooltip("RectTransform del panel de inventario en la esquina")]
     public RectTransform container;
-
-    [Header("Slot Config")]
-    [Tooltip("Prefab del slot: debe tener un Image como componente raiz o hijo directo para el icono")]
     public GameObject slotPrefab;
-    public float slotSize = 40f;
-    public float slotSpacing = 4f;
 
     PlayerWeaponController weaponController;
     List<GameObject> activeSlots = new List<GameObject>();
@@ -28,7 +21,6 @@ public class PlayerInventoryUI : MonoBehaviour
         }
 
         weaponController.OnWeaponsChanged += Refresh;
-
         Refresh();
     }
 
@@ -45,39 +37,13 @@ public class PlayerInventoryUI : MonoBehaviour
         if (weaponController == null || container == null || slotPrefab == null)
             return;
 
-        int count = weaponController.weapons.Count;
-
-        if (count == 0)
-            return;
-
-        float cellSize = slotSize + slotSpacing;
-        float containerWidth = container.rect.width;
-
-        int columns = Mathf.Max(1, Mathf.FloorToInt((containerWidth + slotSpacing) / cellSize));
-
-        for (int i = 0; i < count; i++)
+        foreach (var weapon in weaponController.weapons)
         {
-            var weapon = weaponController.weapons[i];
-
-            if (weapon == null)
-                continue;
-
-            int col = i % columns;
-            int row = i / columns;
-
-            float xPos = col * cellSize + slotSize * 0.5f;
-            float yPos = -(row * cellSize + slotSize * 0.5f);
+            if (weapon == null) continue;
 
             GameObject slot = Instantiate(slotPrefab, container);
-            RectTransform slotRect = slot.GetComponent<RectTransform>();
 
-            slotRect.anchorMin = new Vector2(0f, 1f);
-            slotRect.anchorMax = new Vector2(0f, 1f);
-            slotRect.pivot = new Vector2(0.5f, 0.5f);
-            slotRect.sizeDelta = new Vector2(slotSize, slotSize);
-            slotRect.anchoredPosition = new Vector2(xPos, yPos);
-
-            Image icon = slot.GetComponentInChildren<Image>();
+            SpriteRenderer icon = slot.GetComponentInChildren<SpriteRenderer>();
             if (icon != null && weapon.weaponIcon != null)
                 icon.sprite = weapon.weaponIcon;
 
@@ -88,10 +54,7 @@ public class PlayerInventoryUI : MonoBehaviour
     void ClearSlots()
     {
         foreach (var slot in activeSlots)
-        {
-            if (slot != null)
-                Destroy(slot);
-        }
+            if (slot != null) Destroy(slot);
 
         activeSlots.Clear();
     }

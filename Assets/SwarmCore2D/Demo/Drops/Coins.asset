@@ -16,8 +16,8 @@ MonoBehaviour:
   value: 1
   duration: 0
   collectRadius: 1.5
-  material: {fileID: 0}
-  frameCount: 1
-  frameRate: 8
-  visualScale: 0.5
+  material: {fileID: 2100000, guid: 8d1324a36ea2ab6d185d280a849cc280, type: 2}
+  frameCount: 6
+  frameRate: 12
+  visualScale: 2
   tint: {r: 1, g: 1, b: 1, a: 1}
