@@ -20,13 +20,11 @@ public class UpgradeUI : MonoBehaviour
 
         for (int i = 0; i < buttons.Length; i++)
         {
-            UpgradeData data = UpgradeDatabase.Instance.GetRandom();
-
-            int weaponIndex = -1;
-            if (data != null && !data.isGlobal)
-                weaponIndex = Random.Range(0, weaponCount);
-
-            buttons[i].Setup(data, weaponIndex);
+            int weaponIndex = Random.Range(0, weaponCount);
+            WeaponStats stats = weaponController != null ? weaponController.weapons[weaponIndex] : null;
+            UpgradeData data = UpgradeDatabase.Instance.GetRandomForWeapon(stats);
+            int resolvedIndex = (data != null && !data.isGlobal) ? weaponIndex : -1;
+            buttons[i].Setup(data, resolvedIndex);
         }
     }
 }

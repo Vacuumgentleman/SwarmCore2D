@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Swarm/Weapon Stats")]
@@ -62,6 +63,10 @@ public class WeaponStats : ScriptableObject
     public bool scaledBySpeed = true;
     public bool scaledByDuration = true;
     public bool scaledByAmount = true;
+
+    [Header("Upgrades")]
+    [Tooltip("Upgrade types offered when this weapon is selected for an upgrade. Leave empty to allow all weapon-specific upgrades.")]
+    public List<UpgradeData.UpgradeType> allowedWeaponUpgrades = new List<UpgradeData.UpgradeType>();
 
     [Header("Visual")]
     [Tooltip("Icono del arma para la UI de upgrades")]
