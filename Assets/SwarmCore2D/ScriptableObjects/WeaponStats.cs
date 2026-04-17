@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Swarm/Weapon Stats")]
+[CreateAssetMenu(fileName = "WeaponStats", menuName = "SwarmCore2D/Combat/Weapon Stats")]
 public class WeaponStats : ScriptableObject
 {
     public enum AttackType

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Swarm/Upgrade")]
+[CreateAssetMenu(fileName = "UpgradeData", menuName = "SwarmCore2D/Combat/Upgrade")]
 public class UpgradeData : ScriptableObject
 {
     public string upgradeName;

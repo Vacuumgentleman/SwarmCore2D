@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Swarm/Enemy")]
+[CreateAssetMenu(fileName = "EnemyData", menuName = "SwarmCore2D/World/Enemy")]
 public class EnemyData : ScriptableObject
 {
     [Header("Stats")]

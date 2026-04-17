@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Swarm/Biome")]
+[CreateAssetMenu(fileName = "BiomeData", menuName = "SwarmCore2D/World/Biome")]
 public class BiomeData : ScriptableObject
 {
     [Header("General")]

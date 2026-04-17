@@ -8,7 +8,7 @@ namespace SwarmCore2D.ScriptableObjects
     /// </summary>
     [CreateAssetMenu(
         fileName = "SwarmProfile",
-        menuName = "SwarmCore2D/Swarm Profile"
+        menuName = "SwarmCore2D/Configuration/Swarm Profile"
     )]
     public class SwarmProfile : ScriptableObject
     {

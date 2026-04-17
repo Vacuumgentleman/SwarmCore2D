@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bee001da7c5206d9bcc38229f3e5ad, type: 3}
+  m_Name: SwarmProfile
+  m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.ScriptableObjects.SwarmProfile
+  tickRate: 60
+  maxEntities: 1024
+  maxVelocity: 20
+  drag: 0
+  defaultRadius: 0.4
+  solverIterations: 2
+  cellSize: 1.5
+  maxCellCapacity: 64

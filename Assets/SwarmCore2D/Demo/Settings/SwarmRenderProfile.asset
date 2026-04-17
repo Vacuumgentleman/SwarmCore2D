@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828d53dac102b83d8a0378ae1238e906, type: 3}
+  m_Name: SwarmRenderProfile
+  m_EditorClassIdentifier: Assembly-CSharp::SwarmCore2D.ScriptableObjects.SwarmRenderProfile
+  useInstancing: 1
+  batchSize: 1023
+  entityMesh: {fileID: 0}
+  entityMaterial: {fileID: 0}
+  useFrustumCulling: 1
+  maxVisibleEntities: 2000

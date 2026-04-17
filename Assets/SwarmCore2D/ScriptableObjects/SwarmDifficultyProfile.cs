@@ -7,7 +7,7 @@ namespace SwarmCore2D.ScriptableObjects
     /// </summary>
     [CreateAssetMenu(
         fileName = "SwarmDifficultyProfile",
-        menuName = "SwarmCore2D/Difficulty Profile"
+        menuName = "SwarmCore2D/Configuration/Difficulty Profile"
     )]
     public class SwarmDifficultyProfile : ScriptableObject
     {

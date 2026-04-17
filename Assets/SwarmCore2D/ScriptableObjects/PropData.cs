@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SwarmCore2D/Prop")]
+[CreateAssetMenu(fileName = "PropData", menuName = "SwarmCore2D/World/Prop")]
 public class PropData : ScriptableObject
 {
     [Header("Rendering")]
