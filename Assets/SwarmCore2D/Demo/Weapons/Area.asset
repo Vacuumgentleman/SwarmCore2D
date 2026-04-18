@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileSize: 0.5
   maxRange: 3
   spreadAngle: 0
-  hitRadius: 2.5
+  hitRadius: 3
   effectDuration: 2
   pierceCount: 0
   knockback: 2
@@ -38,15 +38,7 @@ MonoBehaviour:
   scaledByAmount: 1
   allowedWeaponUpgrades: 00000000010000000300000004000000
   weaponIcon: {fileID: 1886888942263279123, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
-  frames:
-  - {fileID: 4961222395048539785, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: 3017861845273201357, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: -5400490987891379302, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: 1886888942263279123, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: -4081241762736764596, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: -5015953332150706078, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: 7266659170131305138, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: 5644502175022139857, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  - {fileID: -2377754740967091073, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
-  frameRate: 24
+  attackVisualMaterial: {fileID: 2100000, guid: 913c9f246e8e3b5eb95107818fc0301d, type: 2}
+  attackVisualFrameCount: 9
+  attackVisualFrameRate: 12
+  attackVisualScale: 3

@@ -1,88 +1,121 @@
 using UnityEngine;
+using System.Collections.Generic;
 using SwarmCore2D.Combat;
+using SwarmCore2D.Simulation;
 
 namespace SwarmCore2D.Rendering
 {
     public class ProjectileRenderer : MonoBehaviour
     {
-        public Mesh quadMesh;
-        public Material material;
-
-        [Header("Animation")]
-        public int frameCount = 4;
-        public float frameRate = 12f;
+        Mesh quadMesh;
 
         const int MaxBatch = 1023;
-        Matrix4x4[] matrices = new Matrix4x4[MaxBatch];
+        Matrix4x4[] matrices    = new Matrix4x4[MaxBatch];
+        float[]     frameBuffer = new float[MaxBatch];
+        MaterialPropertyBlock props;
+
+        Dictionary<Material, List<int>> groups     = new Dictionary<Material, List<int>>();
+        Dictionary<Material, float>     animTimers = new Dictionary<Material, float>();
 
         ProjectileSystem projectileSystem;
-
-        float animTimer;
 
         public void Initialize(ProjectileSystem system)
         {
             projectileSystem = system;
+            EnsureMesh();
+        }
 
-            if (quadMesh == null)
+        void Start()
+        {
+            props = new MaterialPropertyBlock();
+            EnsureMesh();
+
+            if (projectileSystem == null)
             {
-                GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                quadMesh = temp.GetComponent<MeshFilter>().sharedMesh;
-                Destroy(temp);
+                var sim = FindFirstObjectByType<SwarmSimulationController>();
+                if (sim != null)
+                    Initialize(sim.ProjectileSystem);
             }
+        }
+
+        void EnsureMesh()
+        {
+            if (quadMesh != null) return;
+            var temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            quadMesh = temp.GetComponent<MeshFilter>().sharedMesh;
+            Destroy(temp);
         }
 
         void LateUpdate()
         {
-            if (projectileSystem == null || material == null)
-                return;
+            if (projectileSystem == null || quadMesh == null) return;
 
             var state = projectileSystem.State;
             int count = state.count;
+            if (count == 0) return;
 
-            if (count == 0)
-                return;
+            if (props == null) props = new MaterialPropertyBlock();
 
-            animTimer += Time.deltaTime;
+            // Group indices by material
+            foreach (var list in groups.Values) list.Clear();
 
-            int frame = 0;
-            if (frameCount > 1)
-                frame = (int)(animTimer * frameRate) % frameCount;
-
-            material.SetFloat("_Frame", frame);
-
-            int index = 0;
-
-            while (index < count)
+            for (int i = 0; i < count; i++)
             {
-                int batchCount = Mathf.Min(MaxBatch, count - index);
+                var mat = state.material[i];
+                if (mat == null) continue;
 
-                for (int i = 0; i < batchCount; i++)
+                if (!groups.TryGetValue(mat, out var list))
                 {
-                    int p = index + i;
-
-                    Vector2 pos = state.position[p];
-                    Vector2 dir = state.direction[p];
-
-                    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-                    float size = state.size[p];
-
-                    matrices[i] = Matrix4x4.TRS(
-                        new Vector3(pos.x, pos.y, -1f),
-                        Quaternion.Euler(0, 0, angle),
-                        Vector3.one * size 
-                    );
+                    list = new List<int>();
+                    groups[mat] = list;
                 }
+                list.Add(i);
+            }
 
-                Graphics.DrawMeshInstanced(
-                    quadMesh,
-                    0,
-                    material,
-                    matrices,
-                    batchCount
-                );
+            float dt = Time.deltaTime;
 
-                index += batchCount;
+            foreach (var kvp in groups)
+            {
+                var mat = kvp.Key;
+                var ids = kvp.Value;
+                if (ids.Count == 0) continue;
+
+                // Advance shared animation timer for this material
+                if (!animTimers.TryGetValue(mat, out float t)) t = 0f;
+                t += dt;
+                animTimers[mat] = t;
+
+                int processed = 0;
+                while (processed < ids.Count)
+                {
+                    int batchCount = Mathf.Min(MaxBatch, ids.Count - processed);
+
+                    for (int b = 0; b < batchCount; b++)
+                    {
+                        int i = ids[processed + b];
+
+                        Vector2 pos   = state.position[i];
+                        Vector2 dir   = state.direction[i];
+                        float   angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                        float   sz    = state.size[i];
+
+                        matrices[b] = Matrix4x4.TRS(
+                            new Vector3(pos.x, pos.y, -1f),
+                            Quaternion.Euler(0f, 0f, angle),
+                            Vector3.one * sz);
+
+                        int fc = state.frameCount[i];
+                        int frame = fc > 1
+                            ? (int)(t * state.frameRate[i]) % fc
+                            : 0;
+                        frameBuffer[b] = frame;
+                    }
+
+                    props.SetFloatArray("_Frame", frameBuffer);
+                    Graphics.DrawMeshInstanced(quadMesh, 0, mat, matrices, batchCount, props);
+
+                    processed += batchCount;
+                }
             }
         }
     }

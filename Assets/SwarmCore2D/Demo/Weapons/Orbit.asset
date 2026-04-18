@@ -38,8 +38,7 @@ MonoBehaviour:
   scaledByAmount: 1
   allowedWeaponUpgrades: 0000000001000000020000000300000004000000
   weaponIcon: {fileID: -9098179098987060170, guid: ed1635f0f98c64ed0a84200cc7ad0daf, type: 3}
-  attackVisualPrefab: {fileID: 518884929496358011, guid: 23449ad7289324203bcd9f42716d91f1, type: 3}
-  frames:
-  - {fileID: 738320296715068171, guid: ed1635f0f98c64ed0a84200cc7ad0daf, type: 3}
-  - {fileID: -9098179098987060170, guid: ed1635f0f98c64ed0a84200cc7ad0daf, type: 3}
-  frameRate: 12
+  attackVisualMaterial: {fileID: 2100000, guid: ffc9fc9b50971c111838025b112f9640, type: 2}
+  attackVisualFrameCount: 3
+  attackVisualFrameRate: 12
+  attackVisualScale: 3

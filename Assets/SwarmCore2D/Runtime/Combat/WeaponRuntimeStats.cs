@@ -28,9 +28,10 @@ public class WeaponRuntimeStats
     public WeaponStats.AttackType attackType;
     public WeaponStats.AttackDirectionMode directionMode;
 
-    public Sprite[] frames;
-    public float frameRate;
-    public GameObject attackVisualPrefab;
+    public Material attackVisualMaterial;
+    public int attackVisualFrameCount;
+    public float attackVisualFrameRate;
+    public float attackVisualScale;
 
     public void LoadFrom(WeaponStats baseStats)
     {
@@ -59,8 +60,9 @@ public class WeaponRuntimeStats
         attackType = baseStats.attackType;
         directionMode = baseStats.directionMode;
 
-        frames = baseStats.frames;
-        frameRate = baseStats.frameRate;
-        attackVisualPrefab = baseStats.attackVisualPrefab;
+        attackVisualMaterial   = baseStats.attackVisualMaterial;
+        attackVisualFrameCount = baseStats.attackVisualFrameCount;
+        attackVisualFrameRate  = baseStats.attackVisualFrameRate;
+        attackVisualScale      = baseStats.attackVisualScale;
     }
 }

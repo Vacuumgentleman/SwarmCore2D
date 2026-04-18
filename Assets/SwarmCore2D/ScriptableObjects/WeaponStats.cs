@@ -71,7 +71,11 @@ public class WeaponStats : ScriptableObject
     [Header("Visual")]
     [Tooltip("Icono del arma para la UI de upgrades")]
     public Sprite weaponIcon;
-    public GameObject attackVisualPrefab;
-    public Sprite[] frames;
-    public float frameRate = 12f;
+
+    [Header("Attack Visual")]
+    [Tooltip("Material con SwarmSpriteInstanced shader. Enable GPU Instancing debe estar ON.")]
+    public Material attackVisualMaterial;
+    public int attackVisualFrameCount = 1;
+    public float attackVisualFrameRate = 12f;
+    public float attackVisualScale = 1f;
 }

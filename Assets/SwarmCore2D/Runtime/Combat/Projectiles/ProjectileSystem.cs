@@ -21,14 +21,17 @@ namespace SwarmCore2D.Combat
         }
 
         public void Spawn(
-            Vector2 pos,
-            Vector2 dir,
-            float speed,
-            float damage,
-            float duration,
-            float maxRange,
-            bool pierce,
-            float size)
+            Vector2  pos,
+            Vector2  dir,
+            float    speed,
+            float    damage,
+            float    duration,
+            float    maxRange,
+            bool     pierce,
+            float    size,
+            Material material   = null,
+            int      frameCount = 1,
+            float    frameRate  = 8f)
         {
             if (projectiles.count >= maxProjectiles)
                 return;
@@ -38,10 +41,13 @@ namespace SwarmCore2D.Combat
                 dir.normalized,
                 speed,
                 damage,
-                duration,
+                duration <= 0f ? Mathf.Infinity : duration,
                 maxRange <= 0f ? Mathf.Infinity : maxRange,
                 pierce,
-                size
+                size,
+                material,
+                frameCount,
+                frameRate
             );
         }
 

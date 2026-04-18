@@ -95,9 +95,10 @@ public class WeaponStatsEditor : Editor
         // ── Visual (always) ──────────────────────────────────────────────
         DrawHeader("Visual");
         EditorGUILayout.PropertyField(serializedObject.FindProperty("weaponIcon"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualPrefab"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("frames"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("frameRate"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualMaterial"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualFrameCount"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualFrameRate"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualScale"));
 
         // ── Upgrades ─────────────────────────────────────────────────────
         DrawHeader("Upgrades");
