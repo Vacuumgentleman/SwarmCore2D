@@ -48,13 +48,24 @@ All renderers use **pre-allocated buffers** (zero GC per frame) with `Graphics.D
 
 The `InstancedBatcher` handles batching into chunks of 1023 (Unity DrawMeshInstanced limit).
 
+### Attack Visuals & Projectile Rendering
+
+All attack visuals (melee slash, area AoE, orbit, projectile sprites) use `AttackVisualSystem` + `AttackVisualRenderer` — no GameObjects, no `Instantiate`/`Destroy`.
+
+- `AttackVisualState` (cap 64): parallel arrays with free-stack allocator, same pattern as `DropPool`
+- `AttackVisualSystem`: created in `PlayerWeaponController.Awake()` (not `Start()`) so renderers can find it
+- `AttackVisualRenderer`: MonoBehaviour in scene, lazy-finds the system in `LateUpdate()`
+- **Orbit visibility**: use `state.scales[id] = 0f` to hide — never call `Deactivate()` on orbit IDs, or they get recycled and cross-contaminate other visuals
+- `WeaponStats` fields: `attackVisualMaterial`, `attackVisualFrameCount`, `attackVisualFrameRate`, `attackVisualScale` — existing assets serialize new float/int fields as 0, not the C# default; `EffectiveVisualScale()` in `PlayerWeaponController` returns `1f` when `attackVisualScale == 0f`
+- `ProjectileRenderer` groups by `state.material[i]` per projectile (same DrawMeshInstanced pattern) — no manually-assigned material needed; each projectile carries its own material from `WeaponStats`
+
 ### ScriptableObject Configuration
 
 All balancing is data-driven. Key SOs:
 - `SwarmProfile` — tick rate, max entities
 - `SwarmDifficultyProfile` — spawn phases, stat curves
 - `EnemyData` — per-type stats, drop table (`EnemyDropEntry[]`)
-- `WeaponStats` — weapon type, attack pattern, projectile config
+- `WeaponStats` — weapon type, attack pattern, projectile config, attack visual (material/frameCount/frameRate/scale)
 - `DropData` — type (Coin/Heal/DamageBoost/SpeedBoost), value, duration, material, visual scale
 
 ### Singleton Access Pattern
@@ -69,5 +80,7 @@ All balancing is data-driven. Key SOs:
 
 - **Item Prefab** uses `SpriteRenderer`, not UI `Image` — use `GetComponentInChildren<SpriteRenderer>()` for slot icons.
 - **GridLayoutGroup** handles inventory slot positioning automatically; don't compute column counts manually (`container.rect.width` is 0 before layout runs).
-- **DropPool capacity** is 256. **SwarmState capacity** is set by `SwarmProfile.maxEntities` (default `SwarmConstants.MaxEntities = 2048`).
+- **DropPool capacity** is 256. **AttackVisualState capacity** is 64. **SwarmState capacity** is set by `SwarmProfile.maxEntities` (default `SwarmConstants.MaxEntities = 2048`).
 - Scene setup for drops: `DropSystem` and `DropRenderer` as separate GameObjects; `DropRenderer` needs a `Mesh` assigned (same quad as SwarmRenderer).
+- Scene setup for attack visuals: `AttackVisualRenderer` as a separate GameObject with `Mesh` assigned; auto-finds `AttackVisualSystem` via `PlayerWeaponController` at runtime.
+- `ProjectileSystem.Spawn()`: `duration <= 0f` and `maxRange <= 0f` are treated as `Infinity` — don't pass 0 expecting "no limit" without this being intentional.

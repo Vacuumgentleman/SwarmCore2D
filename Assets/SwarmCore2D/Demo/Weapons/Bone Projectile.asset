@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
   damage: 6
-  cooldown: 0.63
+  cooldown: 0.6
   amount: 1
   projectileSpeed: 12
   projectileSize: 1
-  maxRange: 0
+  maxRange: 10
   spreadAngle: 0
   hitRadius: 2.5
   effectDuration: 2

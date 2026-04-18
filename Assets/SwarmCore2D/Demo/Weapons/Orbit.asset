@@ -39,6 +39,6 @@ MonoBehaviour:
   allowedWeaponUpgrades: 0000000001000000020000000300000004000000
   weaponIcon: {fileID: -9098179098987060170, guid: ed1635f0f98c64ed0a84200cc7ad0daf, type: 3}
   attackVisualMaterial: {fileID: 2100000, guid: ffc9fc9b50971c111838025b112f9640, type: 2}
-  attackVisualFrameCount: 3
+  attackVisualFrameCount: 9
   attackVisualFrameRate: 12
   attackVisualScale: 3
