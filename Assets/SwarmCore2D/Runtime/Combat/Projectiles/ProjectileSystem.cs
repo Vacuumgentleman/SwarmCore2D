@@ -27,11 +27,12 @@ namespace SwarmCore2D.Combat
             float    damage,
             float    duration,
             float    maxRange,
-            bool     pierce,
+            int      pierce,
             float    size,
-            Material material   = null,
-            int      frameCount = 1,
-            float    frameRate  = 8f)
+            Material material        = null,
+            int      frameCount      = 1,
+            float    frameRate       = 8f,
+            bool     rotateToDir     = true)
         {
             if (projectiles.count >= maxProjectiles)
                 return;
@@ -47,7 +48,8 @@ namespace SwarmCore2D.Combat
                 size,
                 material,
                 frameCount,
-                frameRate
+                frameRate,
+                rotateToDir
             );
         }
 
@@ -95,11 +97,12 @@ namespace SwarmCore2D.Combat
                 {
                     healthSystem.Damage(state, id, projectiles.damage[p]);
 
-                    if (!projectiles.pierce[p])
+                    if (projectiles.pierce[p] <= 0)
                     {
                         projectiles.Remove(p);
                         return true;
                     }
+                    projectiles.pierce[p]--;
                 }
             }
 

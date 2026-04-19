@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHealth: 10
   speed: 3
   damage: 5
-  radius: 1
+  radius: 0.5
   xpReward: 5
   frameCount: 6
   animSpeed: 12

@@ -252,7 +252,7 @@ public class PlayerWeaponController : MonoBehaviour
         float speed    = runtime.projectileSpeed;
         float duration = runtime.effectDuration;
         float range    = runtime.maxRange;
-        bool  pierce   = runtime.pierceCount > 0;
+        int   pierce   = runtime.pierceCount;
 
         if (global != null)
         {
@@ -260,25 +260,38 @@ public class PlayerWeaponController : MonoBehaviour
             if (weapons[index].scaledByArea)     size     *= global.areaMultiplier;
             if (weapons[index].scaledBySpeed)    speed    *= global.speedMultiplier;
             if (weapons[index].scaledByDuration) duration *= global.durationMultiplier;
-            if (global.pierceBonus > 0)          pierce    = true;
+            if (global.pierceBonus > 0)          pierce   += global.pierceBonus;
         }
-
-        int startDir = runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating
-            ? lastDirIndexes[index] : 0;
 
         int[] slotCount   = new int[dirCount];
         int[] slotOf      = new int[total];
         int[] indexInSlot = new int[total];
 
-        for (int p = 0; p < total; p++)
+        if (runtime.directionMode == WeaponStats.AttackDirectionMode.Volley)
         {
-            int slot = (startDir + p) % dirCount;
-            slotOf[p]      = slot;
-            indexInSlot[p] = slotCount[slot]++;
+            int volleySlot = lastDirIndexes[index] % dirCount;
+            for (int p = 0; p < total; p++)
+            {
+                slotOf[p]      = volleySlot;
+                indexInSlot[p] = slotCount[volleySlot]++;
+            }
+            lastDirIndexes[index] += 1;
         }
+        else
+        {
+            int startDir = runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating
+                ? lastDirIndexes[index] : 0;
 
-        if (runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating)
-            lastDirIndexes[index] += total;
+            for (int p = 0; p < total; p++)
+            {
+                int slot = (startDir + p) % dirCount;
+                slotOf[p]      = slot;
+                indexInSlot[p] = slotCount[slot]++;
+            }
+
+            if (runtime.directionMode == WeaponStats.AttackDirectionMode.Alternating)
+                lastDirIndexes[index] += total;
+        }
 
         for (int p = 0; p < total; p++)
         {
@@ -294,7 +307,8 @@ public class PlayerWeaponController : MonoBehaviour
             }
 
             projectileSystem.Spawn(playerPos, dir, speed, dmg, duration, range, pierce, size,
-                runtime.attackVisualMaterial, runtime.attackVisualFrameCount, runtime.attackVisualFrameRate);
+                runtime.attackVisualMaterial, runtime.attackVisualFrameCount, runtime.attackVisualFrameRate,
+                runtime.rotateProjectile);
         }
     }
 
@@ -431,6 +445,9 @@ public class PlayerWeaponController : MonoBehaviour
     {
         if (runtime.directionMode == WeaponStats.AttackDirectionMode.Clockwise)
             return projectileIndex % dirCount;
+
+        if (runtime.directionMode == WeaponStats.AttackDirectionMode.Volley)
+            return lastDirIndexes[weaponIndex]++ / Mathf.Max(1, runtime.amount) % dirCount;
 
         return lastDirIndexes[weaponIndex]++ % dirCount;
     }

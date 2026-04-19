@@ -32,6 +32,7 @@ public class WeaponRuntimeStats
     public int attackVisualFrameCount;
     public float attackVisualFrameRate;
     public float attackVisualScale;
+    public bool rotateProjectile;
 
     public void LoadFrom(WeaponStats baseStats)
     {
@@ -64,5 +65,6 @@ public class WeaponRuntimeStats
         attackVisualFrameCount = baseStats.attackVisualFrameCount;
         attackVisualFrameRate  = baseStats.attackVisualFrameRate;
         attackVisualScale      = baseStats.attackVisualScale;
+        rotateProjectile       = baseStats.rotateProjectile;
     }
 }

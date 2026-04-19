@@ -46,6 +46,8 @@ public class WeaponStatsEditor : Editor
                 new GUIContent("Orb Visual Size"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("hitRadius"),
                 new GUIContent("Orb Hit Radius"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("projectileSpeed"),
+                new GUIContent("Orbit Speed (deg/sec)"));
         }
 
         if (isMelee || isArea)
@@ -99,6 +101,7 @@ public class WeaponStatsEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualFrameCount"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualFrameRate"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("attackVisualScale"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("rotateProjectile"));
 
         // ── Upgrades ─────────────────────────────────────────────────────
         DrawHeader("Upgrades");

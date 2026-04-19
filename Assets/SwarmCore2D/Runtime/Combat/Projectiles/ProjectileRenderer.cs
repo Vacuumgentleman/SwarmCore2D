@@ -95,9 +95,10 @@ namespace SwarmCore2D.Rendering
                         int i = ids[processed + b];
 
                         Vector2 pos   = state.position[i];
-                        Vector2 dir   = state.direction[i];
-                        float   angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                         float   sz    = state.size[i];
+                        float   angle = state.rotateToDirection[i]
+                            ? Mathf.Atan2(state.direction[i].y, state.direction[i].x) * Mathf.Rad2Deg
+                            : 0f;
 
                         matrices[b] = Matrix4x4.TRS(
                             new Vector3(pos.x, pos.y, -1f),

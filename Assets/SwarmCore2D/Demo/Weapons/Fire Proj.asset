@@ -10,35 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
-  m_Name: Melee
+  m_Name: Fire Proj
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
-  attackType: 0
-  damage: 5
-  cooldown: 0.7
-  amount: 1
-  projectileSpeed: 12
-  projectileSize: 0
-  maxRange: 0
-  spreadAngle: 0
+  attackType: 1
+  damage: 1
+  cooldown: 2
+  amount: 2
+  projectileSpeed: 7
+  projectileSize: 1
+  maxRange: 4
+  spreadAngle: 5
   hitRadius: 2.5
-  effectDuration: 2
-  pierceCount: 0
-  knockback: 1
-  attackUp: 0
-  attackDown: 0
+  effectDuration: 3
+  pierceCount: 1
+  knockback: 0
+  attackUp: 1
+  attackDown: 1
   attackLeft: 1
   attackRight: 1
   allowDiagonals: 0
-  directionMode: 1
+  directionMode: 2
   attackAngle: 40
   scaledByMight: 1
   scaledByArea: 1
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
-  allowedWeaponUpgrades: 000000000100000003000000040000000600000005000000
-  weaponIcon: {fileID: 21300000, guid: 23450567bedfb472eb6f8efd4ad515da, type: 3}
-  attackVisualMaterial: {fileID: 2100000, guid: 14d724233280c1e5bbdab392ce0136e1, type: 2}
-  attackVisualFrameCount: 5
+  allowedWeaponUpgrades: 00000000010000000200000003000000040000000600000005000000
+  weaponIcon: {fileID: -4039194791835125348, guid: 16386dc28e16143d6a8131b104024556, type: 3}
+  attackVisualMaterial: {fileID: 2100000, guid: 64f3d43386a347fb5bbc6147e7a96853, type: 2}
+  attackVisualFrameCount: 8
   attackVisualFrameRate: 12
   attackVisualScale: 1
+  rotateProjectile: 0

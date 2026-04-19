@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9017e585016aa15a19807409813a68e8, type: 3}
   m_Name: Enemy Snake
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  maxHealth: 5
+  maxHealth: 6
   speed: 5
   damage: 2
   radius: 1

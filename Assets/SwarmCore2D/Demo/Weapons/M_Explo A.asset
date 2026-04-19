@@ -10,35 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
-  m_Name: Bone Projectile
+  m_Name: M_Explo A
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
-  attackType: 1
+  attackType: 2
   damage: 6
-  cooldown: 0.6
+  cooldown: 2
   amount: 1
   projectileSpeed: 12
-  projectileSize: 1
-  maxRange: 10
+  projectileSize: 0.5
+  maxRange: 3
   spreadAngle: 0
-  hitRadius: 2.5
+  hitRadius: 3
   effectDuration: 2
   pierceCount: 0
-  knockback: 5
-  attackUp: 1
-  attackDown: 1
-  attackLeft: 0
-  attackRight: 0
-  allowDiagonals: 0
-  directionMode: 1
-  attackAngle: 40
+  knockback: 2
+  attackUp: 0
+  attackDown: 0
+  attackLeft: 1
+  attackRight: 1
+  allowDiagonals: 1
+  directionMode: 0
+  attackAngle: 180
   scaledByMight: 1
   scaledByArea: 1
   scaledBySpeed: 1
   scaledByDuration: 1
   scaledByAmount: 1
-  allowedWeaponUpgrades: 00000000010000000200000003000000040000000600000005000000
-  weaponIcon: {fileID: 7178713093860209260, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
-  attackVisualMaterial: {fileID: 2100000, guid: 0f6a064de60899dab9a708b792e521d3, type: 2}
-  attackVisualFrameCount: 4
+  allowedWeaponUpgrades: 00000000010000000300000004000000
+  weaponIcon: {fileID: 1886888942263279123, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
+  attackVisualMaterial: {fileID: 2100000, guid: 913c9f246e8e3b5eb95107818fc0301d, type: 2}
+  attackVisualFrameCount: 9
   attackVisualFrameRate: 12
-  attackVisualScale: 1
+  attackVisualScale: 4
+  rotateProjectile: 1

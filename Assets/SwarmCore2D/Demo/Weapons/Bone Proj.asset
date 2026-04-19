@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
+  m_Name: Bone Proj
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  attackType: 1
+  damage: 6
+  cooldown: 0.6
+  amount: 1
+  projectileSpeed: 12
+  projectileSize: 1
+  maxRange: 10
+  spreadAngle: 0
+  hitRadius: 2.5
+  effectDuration: 2
+  pierceCount: 0
+  knockback: 5
+  attackUp: 1
+  attackDown: 1
+  attackLeft: 0
+  attackRight: 0
+  allowDiagonals: 0
+  directionMode: 1
+  attackAngle: 40
+  scaledByMight: 1
+  scaledByArea: 1
+  scaledBySpeed: 1
+  scaledByDuration: 1
+  scaledByAmount: 1
+  allowedWeaponUpgrades: 00000000010000000200000003000000040000000600000005000000
+  weaponIcon: {fileID: 7178713093860209260, guid: bb6eb52991e8943eb9a259081ecbf2ca, type: 3}
+  attackVisualMaterial: {fileID: 2100000, guid: 0f6a064de60899dab9a708b792e521d3, type: 2}
+  attackVisualFrameCount: 4
+  attackVisualFrameRate: 12
+  attackVisualScale: 1
