@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Bone Proj
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
-  damage: 6
-  cooldown: 0.6
+  damage: 3
+  cooldown: 0.3
   amount: 1
-  projectileSpeed: 12
+  projectileSpeed: 15
   projectileSize: 1
-  maxRange: 10
+  maxRange: 5
   spreadAngle: 0
   hitRadius: 2.5
   effectDuration: 2
   pierceCount: 0
-  knockback: 5
+  knockback: 1
   attackUp: 1
   attackDown: 1
   attackLeft: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
   attackVisualFrameCount: 4
   attackVisualFrameRate: 12
   attackVisualScale: 1
+  rotateProjectile: 1

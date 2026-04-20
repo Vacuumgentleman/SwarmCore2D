@@ -16,7 +16,7 @@ MonoBehaviour:
   damage: 4
   cooldown: 3
   amount: 3
-  projectileSpeed: 60
+  projectileSpeed: 120
   projectileSize: 1
   maxRange: 5
   spreadAngle: 0
@@ -42,3 +42,4 @@ MonoBehaviour:
   attackVisualFrameCount: 9
   attackVisualFrameRate: 12
   attackVisualScale: 3
+  rotateProjectile: 1

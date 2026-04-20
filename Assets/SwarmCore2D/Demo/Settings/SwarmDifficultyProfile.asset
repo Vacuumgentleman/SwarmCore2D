@@ -20,13 +20,13 @@ MonoBehaviour:
   - startTime: 60
     enemyPool:
     - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
-    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
     spawnInterval: 0.8
   - startTime: 120
     enemyPool:
     - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
-    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
     - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
     spawnInterval: 0.5
   healthMultiplier:
     serializedVersion: 2
@@ -41,13 +41,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 300
-      value: 3
-      inSlope: 0.006666667
-      outSlope: 0.006666667
+      time: 1000.68677
+      value: 2.0785217
+      inSlope: 0.0035292346
+      outSlope: 0.0035292346
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.063824445
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -65,13 +65,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 300
-      value: 3
-      inSlope: 0.006666667
-      outSlope: 0.006666667
+      time: 1000.68677
+      value: 2.0785217
+      inSlope: 0.0035292346
+      outSlope: 0.0035292346
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.063824445
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

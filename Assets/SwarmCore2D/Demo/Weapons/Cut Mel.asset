@@ -20,7 +20,7 @@ MonoBehaviour:
   projectileSize: 0
   maxRange: 0
   spreadAngle: 0
-  hitRadius: 2.5
+  hitRadius: 4
   effectDuration: 2
   pierceCount: 0
   knockback: 1
@@ -41,4 +41,5 @@ MonoBehaviour:
   attackVisualMaterial: {fileID: 2100000, guid: 14d724233280c1e5bbdab392ce0136e1, type: 2}
   attackVisualFrameCount: 5
   attackVisualFrameRate: 12
-  attackVisualScale: 1
+  attackVisualScale: 2
+  rotateProjectile: 1

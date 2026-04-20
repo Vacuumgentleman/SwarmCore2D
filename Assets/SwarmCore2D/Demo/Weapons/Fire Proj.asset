@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Fire Proj
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
-  damage: 1
+  damage: 2
   cooldown: 2
-  amount: 2
+  amount: 3
   projectileSpeed: 7
   projectileSize: 1
   maxRange: 4
   spreadAngle: 5
   hitRadius: 2.5
   effectDuration: 3
-  pierceCount: 1
+  pierceCount: 3
   knockback: 0
   attackUp: 1
   attackDown: 1

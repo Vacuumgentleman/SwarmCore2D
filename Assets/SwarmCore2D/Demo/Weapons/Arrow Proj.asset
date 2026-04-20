@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Arrow Proj
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
-  damage: 15
-  cooldown: 1.5
+  damage: 10
+  cooldown: 2
   amount: 1
   projectileSpeed: 15
   projectileSize: 1
