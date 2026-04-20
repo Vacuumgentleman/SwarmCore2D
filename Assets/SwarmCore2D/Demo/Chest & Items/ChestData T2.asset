@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e009a8425a69ff8bb1c0f9733f0fb51, type: 3}
+  m_Name: ChestData T2
+  m_EditorClassIdentifier: Assembly-CSharp::ChestData
+  tierName: Silver
+  prefab: {fileID: 3833024646367047562, guid: 5b6e70fd72c1c8d9d9a9160ad3f5d274, type: 3}
+  interactRadius: 1.5
+  lootTable:
+  - drop: {fileID: 11400000, guid: 878b409f1f7807cb08abeb590cae2efa, type: 2}
+    chance: 0.3
+    minCount: 8
+    maxCount: 10
+  - drop: {fileID: 11400000, guid: 9f29cb49283ae097fa94efab3f39907f, type: 2}
+    chance: 0.3
+    minCount: 1
+    maxCount: 3
+  - drop: {fileID: 11400000, guid: f65fb0bc5c66d3c4f9cec5c3223ecde5, type: 2}
+    chance: 0.2
+    minCount: 1
+    maxCount: 1
+  - drop: {fileID: 11400000, guid: 03cfdc3174b6a34db8f8a0d4694f864f, type: 2}
+    chance: 0.2
+    minCount: 1
+    maxCount: 1
+  - drop: {fileID: 0}
+    chance: 0
+    minCount: 0
+    maxCount: 0

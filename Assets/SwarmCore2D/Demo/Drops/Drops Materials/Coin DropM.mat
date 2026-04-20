@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Coin Material
+  m_Name: Coin DropM
   m_Shader: {fileID: 4800000, guid: e95f6060af69894a393e07dc9d265e79, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

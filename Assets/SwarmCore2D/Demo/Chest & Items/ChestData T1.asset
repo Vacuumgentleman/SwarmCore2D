@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e009a8425a69ff8bb1c0f9733f0fb51, type: 3}
+  m_Name: ChestData T1
+  m_EditorClassIdentifier: Assembly-CSharp::ChestData
+  tierName: Wood
+  prefab: {fileID: 6383070242212085128, guid: 2b98d33165f78837b852f7fc95b1d703, type: 3}
+  interactRadius: 1.5
+  lootTable:
+  - drop: {fileID: 11400000, guid: 878b409f1f7807cb08abeb590cae2efa, type: 2}
+    chance: 0.5
+    minCount: 5
+    maxCount: 8
+  - drop: {fileID: 11400000, guid: 9f29cb49283ae097fa94efab3f39907f, type: 2}
+    chance: 0.5
+    minCount: 1
+    maxCount: 2

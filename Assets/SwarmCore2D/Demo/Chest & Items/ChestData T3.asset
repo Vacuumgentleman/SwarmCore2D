@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e009a8425a69ff8bb1c0f9733f0fb51, type: 3}
+  m_Name: ChestData T3
+  m_EditorClassIdentifier: Assembly-CSharp::ChestData
+  tierName: Gold
+  prefab: {fileID: 1003233658049254142, guid: 89f417587680984af9ddf67d2084c724, type: 3}
+  interactRadius: 1.5
+  lootTable:
+  - drop: {fileID: 11400000, guid: 878b409f1f7807cb08abeb590cae2efa, type: 2}
+    chance: 1
+    minCount: 10
+    maxCount: 20

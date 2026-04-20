@@ -27,6 +27,10 @@ namespace SwarmCore2D.Simulation
             GiveXP(state, id);
             AddKill();
             TriggerDrops(state, id);
+            ChestSpawner.Instance?.TrySpawnChest(
+                state.positions[id],
+                (uint)(SwarmTime.Tick ^ (uint)(id * 2654435761u))
+            );
         }
 
         void TriggerDrops(SwarmState state, int id)

@@ -18,10 +18,16 @@ namespace SwarmCore2D.Drops
         public void SpawnDrops(Vector2 position, EnemyData enemyData, uint rngSeed)
         {
             if (enemyData?.dropTable == null) return;
+            SpawnFromTable(position, enemyData.dropTable, rngSeed);
+        }
+
+        public void SpawnFromTable(Vector2 position, EnemyDropEntry[] table, uint rngSeed)
+        {
+            if (table == null) return;
 
             var rng = new DeterministicRNG(rngSeed);
 
-            foreach (var entry in enemyData.dropTable)
+            foreach (var entry in table)
             {
                 if (entry.drop == null) continue;
 

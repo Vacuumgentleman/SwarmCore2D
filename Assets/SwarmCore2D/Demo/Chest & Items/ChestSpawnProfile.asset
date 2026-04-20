@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b91151158cef15c842efea7f065d34, type: 3}
+  m_Name: ChestSpawnProfile
+  m_EditorClassIdentifier: Assembly-CSharp::ChestSpawnProfile
+  baseSpawnChance: 0.05
+  tiers:
+  - data: {fileID: 11400000, guid: 23485ca0ccc8b22758a258dc181c4b72, type: 2}
+    weight: 0.4
+  - data: {fileID: 11400000, guid: eb42b09b187539a25849a418df903519, type: 2}
+    weight: 0.3
+  - data: {fileID: 11400000, guid: f6797c82bea406df888ea156c8057987, type: 2}
+    weight: 0.2
+  - data: {fileID: 11400000, guid: fdb3c41b3c8ff1c129a2456d063b3a6e, type: 2}
+    weight: 0.1
