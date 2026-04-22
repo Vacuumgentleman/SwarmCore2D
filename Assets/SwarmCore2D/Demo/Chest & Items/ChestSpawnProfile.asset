@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b91151158cef15c842efea7f065d34, type: 3}
   m_Name: ChestSpawnProfile
   m_EditorClassIdentifier: Assembly-CSharp::ChestSpawnProfile
-  baseSpawnChance: 0.05
+  baseSpawnChance: 0
   tiers:
   - data: {fileID: 11400000, guid: 23485ca0ccc8b22758a258dc181c4b72, type: 2}
     weight: 0.4

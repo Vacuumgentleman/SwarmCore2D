@@ -28,6 +28,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
     - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
     spawnInterval: 0.5
+  - startTime: 180
+    enemyPool:
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 0.8
   healthMultiplier:
     serializedVersion: 2
     m_Curve:

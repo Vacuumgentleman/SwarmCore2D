@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9017e585016aa15a19807409813a68e8, type: 3}
+  m_Name: Enemy Bear
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  maxHealth: 20
+  speed: 3
+  damage: 5
+  radius: 1
+  xpReward: 20
+  frameCount: 5
+  animSpeed: 12
+  material: {fileID: 2100000, guid: b29c1e93a1eec11ecb189d29d8be2cf7, type: 2}
+  visualScale: 3
+  behavior: 0
+  dropTable:
+  - drop: {fileID: 11400000, guid: 878b409f1f7807cb08abeb590cae2efa, type: 2}
+    chance: 0.2
+    minCount: 2
+    maxCount: 5
