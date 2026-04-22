@@ -16,8 +16,9 @@ MonoBehaviour:
   value: 5
   duration: 30
   collectRadius: 1.5
+  weaponToUnlock: {fileID: 0}
   material: {fileID: 2100000, guid: e70a84974a63b29ce8ccf4bdf0ee49b6, type: 2}
   frameCount: 1
   frameRate: 1
-  visualScale: 2
+  visualScale: 1
   tint: {r: 1, g: 1, b: 1, a: 1}

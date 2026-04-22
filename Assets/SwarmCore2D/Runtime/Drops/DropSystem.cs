@@ -77,6 +77,10 @@ namespace SwarmCore2D.Drops
                 case DropType.SpeedBoost:
                     PlayerStats.Instance?.AddBuff(DropType.SpeedBoost, d.value, d.duration);
                     break;
+                case DropType.WeaponUnlock:
+                    if (d.weaponToUnlock != null)
+                        PlayerWeaponController.Instance?.AddWeapon(d.weaponToUnlock);
+                    break;
             }
         }
     }

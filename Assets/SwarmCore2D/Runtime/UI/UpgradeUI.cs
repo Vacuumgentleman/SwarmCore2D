@@ -1,17 +1,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class TierDefinition
+{
+    public string tierName  = "Common";
+    [Range(0f, 1f)] public float weight = 0.4f;
+    public float multiplier = 1.0f;
+    public Sprite background;
+}
+
 public class UpgradeUI : MonoBehaviour
 {
     public static UpgradeUI Instance;
 
-    public UpgradeButton[] buttons;
-
+    [Header("Buttons")]
+    public UpgradeCardUI[] buttons;
     public UpgradeSystem system;
+
+    [Header("Tiers")]
+    public TierDefinition[] tiers;
 
     void Awake()
     {
         Instance = this;
+    }
+
+    // Called by Unity when the component is first added in the Inspector
+    void Reset()
+    {
+        tiers = new TierDefinition[]
+        {
+            new TierDefinition { tierName = "Common",    weight = 0.40f, multiplier = 1.0f },
+            new TierDefinition { tierName = "Uncommon",  weight = 0.30f, multiplier = 1.3f },
+            new TierDefinition { tierName = "Rare",      weight = 0.20f, multiplier = 1.6f },
+            new TierDefinition { tierName = "Epic",      weight = 0.08f, multiplier = 2.0f },
+            new TierDefinition { tierName = "Legendary", weight = 0.02f, multiplier = 3.0f },
+        };
+    }
+
+    public TierDefinition RollTier()
+    {
+        if (tiers == null || tiers.Length == 0) return null;
+
+        float total = 0f;
+        foreach (var t in tiers) total += t.weight;
+
+        float roll       = Random.value * total;
+        float cumulative = 0f;
+
+        foreach (var t in tiers)
+        {
+            cumulative += t.weight;
+            if (roll < cumulative) return t;
+        }
+
+        return tiers[0];
     }
 
     public void GenerateOptions()
@@ -24,19 +68,19 @@ public class UpgradeUI : MonoBehaviour
 
         for (int i = 0; i < buttons.Length; i++)
         {
-            UpgradeData data        = null;
+            UpgradeData data          = null;
             int         resolvedIndex = -1;
 
             for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                int        candidateWeapon = Random.Range(0, weaponCount);
-                WeaponStats stats          = weaponController != null ? weaponController.weapons[candidateWeapon] : null;
-                UpgradeData candidate      = UpgradeDatabase.Instance.GetRandomForWeapon(stats);
+                int         candidateWeapon = Random.Range(0, weaponCount);
+                WeaponStats stats           = weaponController != null ? weaponController.weapons[candidateWeapon] : null;
+                UpgradeData candidate       = UpgradeDatabase.Instance.GetRandomForWeapon(stats);
 
                 if (candidate == null) break;
 
-                int  key        = candidate.isGlobal ? -1 : candidateWeapon;
-                var  combo      = (key, candidate.type);
+                int key   = candidate.isGlobal ? -1 : candidateWeapon;
+                var combo = (key, candidate.type);
 
                 if (seen.Contains(combo)) continue;
 

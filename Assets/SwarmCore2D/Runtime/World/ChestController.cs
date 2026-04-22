@@ -53,5 +53,11 @@ public class ChestController : MonoBehaviour
             uint seed = (uint)(SwarmTime.Tick ^ (uint)(GetInstanceID() * 2654435761u));
             DropSystem.Instance.SpawnFromTable(transform.position, data.lootTable, seed);
         }
+
+        string label = string.IsNullOrEmpty(data.tierName) ? "Cofre" : data.tierName;
+        FloatingTextSpawner.Instance?.Spawn(
+            (Vector2)transform.position + Vector2.up * 0.8f,
+            $"¡{label} abierto!",
+            Color.yellow);
     }
 }

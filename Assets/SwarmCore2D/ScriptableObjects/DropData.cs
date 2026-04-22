@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum DropType { Coin, Heal, DamageBoost, SpeedBoost }
+public enum DropType { Coin, Heal, DamageBoost, SpeedBoost, WeaponUnlock }
 
 [System.Serializable]
 public class EnemyDropEntry
@@ -24,6 +24,10 @@ public class DropData : ScriptableObject
     [Header("Collection")]
     [Tooltip("Radio en unidades en el que el jugador recoge automáticamente")]
     public float collectRadius = 1.5f;
+
+    [Header("Weapon Unlock")]
+    [Tooltip("Arma a desbloquear al recoger (solo cuando type = WeaponUnlock)")]
+    public WeaponStats weaponToUnlock;
 
     [Header("Visual")]
     public Material material;

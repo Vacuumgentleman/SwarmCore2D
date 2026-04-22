@@ -33,9 +33,17 @@ public class PlayerWeaponController : MonoBehaviour
     ProjectileSystem        projectileSystem;
     AttackVisualSystem      attackVisualSystem;
 
+    public static PlayerWeaponController Instance { get; private set; }
+
     void Awake()
     {
+        Instance = this;
         attackVisualSystem = new AttackVisualSystem();
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     void Start()
