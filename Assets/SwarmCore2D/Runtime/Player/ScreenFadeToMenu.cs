@@ -48,7 +48,11 @@ public class ScreenFadeToMenu : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.2f); 
+        yield return new WaitForSeconds(0.2f);
+
+        SwarmCore2D.Core.SwarmTime.Reset();
+        SwarmCore2D.Core.SwarmTime.Paused = false;
+        UpgradeCardUI.ClearAllLevels();
 
         int current = SceneManager.GetActiveScene().buildIndex;
         int previous = Mathf.Max(0, current - 1);

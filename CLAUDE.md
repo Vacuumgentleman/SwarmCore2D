@@ -44,7 +44,7 @@ SwarmCore2D.MultiplayerReady — LockstepValidator, SimulationChecksum
 SwarmCore2D.ScriptableObjects — (files here have no namespace)
 ```
 
-**No-namespace (global) MonoBehaviours** — intentionally ungrouped: `PlayerController`, `PlayerStats`, `PlayerStatsRuntime`, `PlayerHealth`, `PlayerCurrencySystem`, `PlayerProgress`, `PlayerWeaponController`, `UpgradeSystem`, `UpgradeUI`, `UpgradeButton`, `UpgradeDatabase`, `FloatingTextSpawner`, `ChestController`, and all UI components.
+**No-namespace (global) MonoBehaviours** — intentionally ungrouped: `PlayerController`, `PlayerStats`, `PlayerStatsRuntime`, `PlayerHealth`, `PlayerCurrencySystem`, `PlayerProgress`, `PlayerWeaponController`, `UpgradeSystem`, `UpgradeUI`, `UpgradeCardUI`, `UpgradeDatabase`, `FloatingTextSpawner`, `ChestController`, and all UI components.
 
 `ProjectileSystem` and `ProjectileRenderer` live in `Runtime/Combat/Projectiles/`, not `Runtime/Rendering/`.
 
@@ -76,7 +76,11 @@ All attack visuals (melee slash, area AoE, orbit, projectile sprites) use `Attac
 
 ### Progression & Upgrade System
 
-`PlayerProgress` (XP/level) fires `OnLevelUp` → `UpgradeSystem.OpenSelection()` pauses simulation and shows the upgrade panel → `UpgradeUI.GenerateOptions()` pulls random options from `UpgradeDatabase.Instance` → player picks → `UpgradeButton` applies stat changes to `PlayerStatsRuntime` or mutates a `WeaponRuntimeStats`. `UpgradeData` SO: `isGlobal` (vs per-weapon), `type` enum, stat delta.
+`PlayerProgress` (XP/level) fires `OnLevelUp` → `UpgradeSystem.OpenSelection()` pauses simulation and shows the upgrade panel → `UpgradeUI.GenerateOptions()` pulls random options from `UpgradeDatabase.Instance` → player picks → `UpgradeCardUI.OnClick()` applies stat changes to `PlayerStatsRuntime` or mutates a `WeaponRuntimeStats`. `UpgradeData` SO: `isGlobal` (vs per-weapon), `type` enum, stat delta.
+
+**Tier/Rarity system** lives in `UpgradeUI`: `TierDefinition[]` tiers (Common 40%×1.0 → Legendary 2%×3.0). `UpgradeUI.RollTier()` does weighted random selection; `UpgradeCardUI.Setup()` calls it and multiplies `upgrade.value * tier.multiplier` for the effective upgrade value. Per-upgrade level tracking is a static `Dictionary<(UpgradeData, weaponIndex), int>` in `UpgradeCardUI`; global upgrades use `weaponIndex = -1`. Call `UpgradeCardUI.ClearAllLevels()` on game reset.
+
+The upgrade card button hierarchy uses a `SpriteRenderer` (Draw Mode = Tiled) for the background — not a UI `Image`. `UpgradeCardUI.Awake()` adds a transparent `Image` component at runtime and assigns it as the `Button.targetGraphic` to satisfy Unity's Button color-transition requirement.
 
 ### Drop & Chest System
 
