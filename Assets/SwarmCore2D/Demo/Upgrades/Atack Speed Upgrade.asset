@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
   upgradeName: Atack Speed
   description: 'More Atack Speed '
-  icon: {fileID: 5238786112167760410, guid: 9696a4404bda440039614b64f50102a3, type: 3}
+  icon: {fileID: 1435813858662126931, guid: f14d034ef5d7140fd97bc02541c6db83, type: 3}
   type: 1
+  isGlobal: 0
+  weaponIndex: 0
   value: 0.1

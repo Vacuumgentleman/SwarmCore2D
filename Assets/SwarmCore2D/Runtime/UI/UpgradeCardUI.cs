@@ -18,7 +18,7 @@ public class UpgradeCardUI : MonoBehaviour
     public Image upgradeIcon;   // wire to Image Weapon Button A
 
     [Header("Background")]
-    public SpriteRenderer cardBackground;  // wire to Fondo SpriteRenderer
+    public Image cardBackground;
 
     UpgradeData data;
     int         resolvedWeaponIndex;
@@ -26,11 +26,21 @@ public class UpgradeCardUI : MonoBehaviour
 
     void Awake()
     {
-        var img = gameObject.AddComponent<Image>();
-        img.color = Color.clear;
-        img.raycastTarget = false;
         var btn = GetComponent<Button>();
-        if (btn != null) btn.targetGraphic = img;
+        if (btn == null) return;
+
+        if (cardBackground != null)
+        {
+            btn.targetGraphic = cardBackground;
+        }
+        else
+        {
+            // Reuse an existing Image if present (e.g., default Button Image), or add one.
+            var img = GetComponent<Image>() ?? gameObject.AddComponent<Image>();
+            img.color = Color.clear;
+            img.raycastTarget = true;
+            btn.targetGraphic = img;
+        }
     }
 
     public void Setup(UpgradeData upgrade, int weaponIndexOverride = -1)

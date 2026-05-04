@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
+  m_Name: Explo 2
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  attackType: 2
+  damage: 12
+  cooldown: 2
+  amount: 1
+  projectileSpeed: 12
+  projectileSize: 0.5
+  maxRange: 3
+  spreadAngle: 0
+  hitRadius: 3
+  effectDuration: 2
+  pierceCount: 0
+  knockback: 4
+  attackUp: 0
+  attackDown: 0
+  attackLeft: 1
+  attackRight: 1
+  allowDiagonals: 1
+  directionMode: 0
+  attackAngle: 180
+  scaledByMight: 1
+  scaledByArea: 1
+  scaledBySpeed: 1
+  scaledByDuration: 1
+  scaledByAmount: 1
+  allowedWeaponUpgrades: 00000000010000000300000004000000
+  weaponIcon: {fileID: 1886888942263279123, guid: 5ed51c9b24a0b4d35ba62dadab19082f, type: 3}
+  attackVisualMaterial: {fileID: 2100000, guid: 913c9f246e8e3b5eb95107818fc0301d, type: 2}
+  attackVisualFrameCount: 10
+  attackVisualFrameRate: 12
+  attackVisualScale: 4
+  rotateProjectile: 1

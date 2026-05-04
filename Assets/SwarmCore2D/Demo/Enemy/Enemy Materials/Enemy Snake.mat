@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Bear Material
+  m_Name: Enemy Snake
   m_Shader: {fileID: 4800000, guid: e95f6060af69894a393e07dc9d265e79, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0803191ab1f1c4bf1b3d5ad10074666b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 312db2f3608864126917ff6df6896c77, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -59,7 +59,7 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnableExternalAlpha: 0
-    - _FrameCount: 5
+    - _FrameCount: 8
     - _QueueOffset: 0
     - _SampleGI: 0
     - _SrcBlend: 5

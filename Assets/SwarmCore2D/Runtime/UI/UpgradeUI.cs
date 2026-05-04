@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class TierDefinition
@@ -92,5 +94,32 @@ public class UpgradeUI : MonoBehaviour
 
             buttons[i].Setup(data, resolvedIndex);
         }
+
+        SetupCardNavigation();
+    }
+
+    void SetupCardNavigation()
+    {
+        var activeButtons = new List<Button>();
+        foreach (var card in buttons)
+        {
+            if (card == null || !card.gameObject.activeSelf) continue;
+            var btn = card.GetComponent<Button>();
+            if (btn != null) activeButtons.Add(btn);
+        }
+
+        for (int i = 0; i < activeButtons.Count; i++)
+        {
+            var nav = activeButtons[i].navigation;
+            nav.mode         = Navigation.Mode.Explicit;
+            nav.selectOnUp   = i > 0 ? activeButtons[i - 1] : activeButtons[activeButtons.Count - 1];
+            nav.selectOnDown = i < activeButtons.Count - 1 ? activeButtons[i + 1] : activeButtons[0];
+            nav.selectOnLeft  = null;
+            nav.selectOnRight = null;
+            activeButtons[i].navigation = nav;
+        }
+
+        if (activeButtons.Count > 0 && UIInputMode.Current == UIInputMode.Mode.Keyboard)
+            EventSystem.current?.SetSelectedGameObject(activeButtons[0].gameObject);
     }
 }

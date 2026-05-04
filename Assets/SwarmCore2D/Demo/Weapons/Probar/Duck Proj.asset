@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
+  m_Name: Duck Proj
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
+  attackType: 1
+  damage: 0
+  cooldown: 1
+  amount: 4
+  projectileSpeed: 15
+  projectileSize: 1
+  maxRange: 10
+  spreadAngle: 0
+  hitRadius: 2.5
+  effectDuration: 3
+  pierceCount: 1
+  knockback: 10
+  attackUp: 1
+  attackDown: 1
+  attackLeft: 1
+  attackRight: 1
+  allowDiagonals: 0
+  directionMode: 1
+  attackAngle: 40
+  scaledByMight: 1
+  scaledByArea: 1
+  scaledBySpeed: 1
+  scaledByDuration: 1
+  scaledByAmount: 1
+  allowedWeaponUpgrades: 01000000020000000300000004000000
+  weaponIcon: {fileID: 4530201800604801154, guid: 0453d95a2d6ff4cc8864de3956a9fb81, type: 3}
+  attackVisualMaterial: {fileID: 2100000, guid: eeb0b9436bd7fd4e185a1f8e6da2e694, type: 2}
+  attackVisualFrameCount: 3
+  attackVisualFrameRate: 12
+  attackVisualScale: 1
+  rotateProjectile: 1

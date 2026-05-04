@@ -27,7 +27,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
     - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
     - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
-    spawnInterval: 0.5
+    spawnInterval: 0.6
   - startTime: 180
     enemyPool:
     - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
@@ -35,26 +35,87 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
     - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
     spawnInterval: 0.8
+  - startTime: 240
+    enemyPool:
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 1
+  - startTime: 300
+    enemyPool:
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 0.8
+  - startTime: 360
+    enemyPool:
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: dd7277532883eeeb4b1a6c92d8cc89ad, type: 2}
+    - {fileID: 11400000, guid: 3f8654601bed2b492a35796039a06bdf, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 0.6
+  - startTime: 420
+    enemyPool:
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: dd7277532883eeeb4b1a6c92d8cc89ad, type: 2}
+    - {fileID: 11400000, guid: f34f14f439a8534a78c8a5a07702e194, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 0.8
+  - startTime: 480
+    enemyPool:
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: dd7277532883eeeb4b1a6c92d8cc89ad, type: 2}
+    - {fileID: 11400000, guid: f34f14f439a8534a78c8a5a07702e194, type: 2}
+    - {fileID: 11400000, guid: df3b0e9d0b97b55c6a3e20d70db28d46, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    spawnInterval: 1
+  - startTime: 540
+    enemyPool:
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: dd7277532883eeeb4b1a6c92d8cc89ad, type: 2}
+    - {fileID: 11400000, guid: f34f14f439a8534a78c8a5a07702e194, type: 2}
+    - {fileID: 11400000, guid: df3b0e9d0b97b55c6a3e20d70db28d46, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    - {fileID: 11400000, guid: 896b1030d1c968639a271c97b7b01a81, type: 2}
+    spawnInterval: 0.8
+  - startTime: 600
+    enemyPool:
+    - {fileID: 11400000, guid: 42776e1d6ea0690538296baad6813cba, type: 2}
+    - {fileID: 11400000, guid: b64be6cceba2344058814163031bd301, type: 2}
+    - {fileID: 11400000, guid: dd7277532883eeeb4b1a6c92d8cc89ad, type: 2}
+    - {fileID: 11400000, guid: f34f14f439a8534a78c8a5a07702e194, type: 2}
+    - {fileID: 11400000, guid: df3b0e9d0b97b55c6a3e20d70db28d46, type: 2}
+    - {fileID: 11400000, guid: b93e3be7bd1cf4659b52bd3dc6b29e6d, type: 2}
+    - {fileID: 11400000, guid: 4194a8fc3b17e1e3d9e19ab43490533b, type: 2}
+    - {fileID: 11400000, guid: c8cb7a63b7a10834eb55dd0f699383ba, type: 2}
+    - {fileID: 11400000, guid: 896b1030d1c968639a271c97b7b01a81, type: 2}
+    spawnInterval: 0.6
   healthMultiplier:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 98.75
+      time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 0.00033573812
+      outSlope: 0.00033573812
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1000.68677
-      value: 2.0785217
-      inSlope: 0.0035292346
-      outSlope: 0.0035292346
-      tangentMode: 0
+      time: 600.0237
+      value: 1.2014508
+      inSlope: 0.00033573812
+      outSlope: 0.00033573812
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.063824445
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -63,22 +124,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 98.75
+      time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 0.00033573812
+      outSlope: 0.00033573812
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1000.68677
-      value: 2.0785217
-      inSlope: 0.0035292346
-      outSlope: 0.0035292346
-      tangentMode: 0
+      time: 600.0237
+      value: 1.2014508
+      inSlope: 0.00033573812
+      outSlope: 0.00033573812
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.063824445
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

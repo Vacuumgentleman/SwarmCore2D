@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 2
   damage: 6
-  cooldown: 2
+  cooldown: 1.5
   amount: 1
   projectileSpeed: 12
   projectileSize: 0.5

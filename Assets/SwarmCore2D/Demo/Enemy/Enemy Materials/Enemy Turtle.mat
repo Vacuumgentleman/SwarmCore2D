@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Skull Material
+  m_Name: Enemy Turtle
   m_Shader: {fileID: 4800000, guid: e95f6060af69894a393e07dc9d265e79, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 96b607cc788cc4575b998fe06d61078c, type: 3}
+        m_Texture: {fileID: 2800000, guid: eec049525e8bf41429d9c479cff52295, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -59,7 +59,7 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnableExternalAlpha: 0
-    - _FrameCount: 6
+    - _FrameCount: 7
     - _QueueOffset: 0
     - _SampleGI: 0
     - _SrcBlend: 5

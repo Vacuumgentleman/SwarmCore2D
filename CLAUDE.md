@@ -44,7 +44,7 @@ SwarmCore2D.MultiplayerReady — LockstepValidator, SimulationChecksum
 SwarmCore2D.ScriptableObjects — (files here have no namespace)
 ```
 
-**No-namespace (global) MonoBehaviours** — intentionally ungrouped: `PlayerController`, `PlayerStats`, `PlayerStatsRuntime`, `PlayerHealth`, `PlayerCurrencySystem`, `PlayerProgress`, `PlayerWeaponController`, `UpgradeSystem`, `UpgradeUI`, `UpgradeCardUI`, `UpgradeDatabase`, `FloatingTextSpawner`, `ChestController`, and all UI components.
+**No-namespace (global) MonoBehaviours** — intentionally ungrouped: `PlayerController`, `PlayerStats`, `PlayerStatsRuntime`, `PlayerHealth`, `PlayerCurrencySystem`, `PlayerProgress`, `PlayerWeaponController`, `UpgradeSystem`, `UpgradeUI`, `UpgradeCardUI`, `UpgradeDatabase`, `FloatingTextSpawner`, `ChestController`, `PauseMenu`, `MenuNavigation`, `OptionsMenuNavigation`, `UIInputMode`, and all other UI components.
 
 `ProjectileSystem` and `ProjectileRenderer` live in `Runtime/Combat/Projectiles/`, not `Runtime/Rendering/`.
 
@@ -80,7 +80,7 @@ All attack visuals (melee slash, area AoE, orbit, projectile sprites) use `Attac
 
 **Tier/Rarity system** lives in `UpgradeUI`: `TierDefinition[]` tiers (Common 40%×1.0 → Legendary 2%×3.0). `UpgradeUI.RollTier()` does weighted random selection; `UpgradeCardUI.Setup()` calls it and multiplies `upgrade.value * tier.multiplier` for the effective upgrade value. Per-upgrade level tracking is a static `Dictionary<(UpgradeData, weaponIndex), int>` in `UpgradeCardUI`; global upgrades use `weaponIndex = -1`. Call `UpgradeCardUI.ClearAllLevels()` on game reset.
 
-The upgrade card button hierarchy uses a `SpriteRenderer` (Draw Mode = Tiled) for the background — not a UI `Image`. `UpgradeCardUI.Awake()` adds a transparent `Image` component at runtime and assigns it as the `Button.targetGraphic` to satisfy Unity's Button color-transition requirement.
+The upgrade card button uses a UI `Image` for the `cardBackground` field (assign in Inspector). `UpgradeCardUI.Awake()` sets that Image as `Button.targetGraphic`; if `cardBackground` is null it falls back to reusing or adding a transparent `Image` with `raycastTarget = true` — **the raycastTarget must be true or the GraphicRaycaster will never deliver clicks to the button**.
 
 ### Drop & Chest System
 
@@ -108,6 +108,21 @@ All balancing is data-driven. Key SOs:
 - `ChestSpawnProfile` — chest spawn rules for `ChestSpawner`
 - `BiomeData`, `PropData` — infinite world/biome configuration
 
+### UI Navigation System (Mouse + Keyboard/Gamepad)
+
+`UIInputMode` is a `DontDestroyOnLoad` singleton auto-created via `[RuntimeInitializeOnLoadMethod(AfterSceneLoad)]` — never place it in a scene manually. It detects the last active input device and fires `OnModeChanged` when switching. Navigation scripts subscribe to react:
+
+- **Mouse mode**: cursor visible, EventSystem selection is left completely untouched (pointer clicks work without a selected object).
+- **Keyboard/Gamepad mode**: cursor hidden, one button is always kept selected; arrow/WASD/dpad navigate; Space (keyboard) or A-button (gamepad) confirm.
+- `UIInputMode.SetMode()` must **never** call `EventSystem.SetSelectedGameObject()` — doing so can interrupt pointer click delivery in the same frame.
+
+**Scripts:**
+- `MenuNavigation` — attach to any menu root Canvas/panel. Subscribes to `OnModeChanged`; `Update()` restores selection if lost while in keyboard mode. In mouse mode it does nothing to the EventSystem.
+- `OptionsMenuNavigation` — for panels with `Slider[]` + a back `Button`. Explicit `Navigation.Mode` with `selectOnLeft/Right = null` so sliders change value on left/right instead of navigating. B/Escape always invoke back regardless of mode.
+- `UpgradeUI.SetupCardNavigation()` — sets up vertical Explicit navigation on upgrade cards; only `SetSelectedGameObject` if `UIInputMode.Current == Keyboard`.
+
+**InputSystem gotcha:** both Demo scenes reference the Unity package's `DefaultInputActions` (GUID `ca9f5fa95ffab41fb9a615ab714db018`), **not** the project's `InputSystem_Actions.inputactions`. Edits to the project's asset have no effect on those scenes. Space is not in DefaultInputActions Submit, so Space-to-confirm must always be handled manually in code.
+
 ### Singleton Access Pattern
 
 Always null-check before use (`Instance?.Method()`):
@@ -122,6 +137,7 @@ Always null-check before use (`Instance?.Method()`):
 | `EnemyDatabase.Instance` | |
 | `UpgradeUI.Instance` | |
 | `FloatingTextSpawner.Instance` | |
+| `UIInputMode.Current` / `UIInputMode.OnModeChanged` | static, no Instance field; auto-created at runtime |
 
 ### Time & Pausing
 

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3e612b4a73d2686cb135266e0554b1c, type: 3}
-  m_Name: Fire Proj
+  m_Name: Fire Proj 3
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   attackType: 1
-  damage: 2
+  damage: 4
   cooldown: 2
   amount: 3
   projectileSpeed: 7
@@ -23,7 +23,7 @@ MonoBehaviour:
   hitRadius: 2.5
   effectDuration: 3
   pierceCount: 3
-  knockback: 0
+  knockback: 1
   attackUp: 1
   attackDown: 1
   attackLeft: 1
@@ -39,7 +39,7 @@ MonoBehaviour:
   allowedWeaponUpgrades: 00000000010000000200000003000000040000000600000005000000
   weaponIcon: {fileID: -4039194791835125348, guid: 16386dc28e16143d6a8131b104024556, type: 3}
   attackVisualMaterial: {fileID: 2100000, guid: 64f3d43386a347fb5bbc6147e7a96853, type: 2}
-  attackVisualFrameCount: 8
+  attackVisualFrameCount: 12
   attackVisualFrameRate: 12
   attackVisualScale: 1
   rotateProjectile: 0

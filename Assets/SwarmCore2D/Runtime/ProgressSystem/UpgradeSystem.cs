@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using SwarmCore2D.Core;
 
 public class UpgradeSystem : MonoBehaviour
@@ -20,6 +23,7 @@ public class UpgradeSystem : MonoBehaviour
 
     void OpenSelection()
     {
+        isOpen = true;
         SetPausedState(true);
 
         if (upgradePanel != null)
@@ -29,9 +33,35 @@ public class UpgradeSystem : MonoBehaviour
             UpgradeUI.Instance.GenerateOptions();
     }
 
+    bool isOpen = false;
+
+    void Update()
+    {
+        if (!isOpen) return;
+        if (Keyboard.current == null) return;
+
+        if (UIInputMode.Current == UIInputMode.Mode.Keyboard &&
+            (Keyboard.current.spaceKey.wasPressedThisFrame ||
+             (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
+        {
+            InvokeSelected();
+        }
+    }
+
+    void InvokeSelected()
+    {
+        var go = EventSystem.current?.currentSelectedGameObject;
+        if (go == null) return;
+        var btn = go.GetComponent<Button>();
+        if (btn != null && btn.interactable)
+            btn.onClick.Invoke();
+    }
+
     public void CloseSelection()
     {
+        isOpen = false;
         SetPausedState(false);
+        EventSystem.current?.SetSelectedGameObject(null);
 
         if (upgradePanel != null)
             upgradePanel.SetActive(false);

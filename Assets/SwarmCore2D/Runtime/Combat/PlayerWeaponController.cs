@@ -11,6 +11,11 @@ public class PlayerWeaponController : MonoBehaviour
     public int maxWeaponSlots = 6;
     public List<WeaponStats> weapons = new List<WeaponStats>();
 
+    [Header("Random Starting Weapons")]
+    [Tooltip("Pool from which starting weapons are picked at random. If empty, 'weapons' is used as-is.")]
+    public List<WeaponStats> startingWeaponPool = new List<WeaponStats>();
+    public int startingWeaponCount = 2;
+
     [Header("References")]
     public SwarmSimulationController simulation;
 
@@ -60,6 +65,19 @@ public class PlayerWeaponController : MonoBehaviour
 
         meleeSystem      = new PlayerMeleeAttackSystem(simulation.WorldState);
         projectileSystem = simulation.ProjectileSystem;
+
+        if (startingWeaponPool.Count > 0)
+        {
+            weapons.Clear();
+            var pool  = new List<WeaponStats>(startingWeaponPool);
+            int count = Mathf.Min(startingWeaponCount, pool.Count);
+            for (int i = 0; i < count; i++)
+            {
+                int idx = UnityEngine.Random.Range(0, pool.Count);
+                weapons.Add(pool[idx]);
+                pool.RemoveAt(idx);
+            }
+        }
 
         InitializeWeapons();
     }

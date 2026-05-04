@@ -39,17 +39,29 @@ public class PlayerController : MonoBehaviour
 
     void ReadInput()
     {
-        if (Keyboard.current == null)
-            return;
-
         input = Vector2.zero;
 
-        if (Keyboard.current.wKey.isPressed) input.y += 1;
-        if (Keyboard.current.sKey.isPressed) input.y -= 1;
-        if (Keyboard.current.aKey.isPressed) input.x -= 1;
-        if (Keyboard.current.dKey.isPressed) input.x += 1;
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)    input.y += 1;
+            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)  input.y -= 1;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)  input.x -= 1;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) input.x += 1;
+        }
 
-        input = input.normalized;
+        if (Gamepad.current != null)
+        {
+            var stick = Gamepad.current.leftStick.ReadValue();
+            if (stick.sqrMagnitude > 0.1f)
+                input += stick;
+
+            if (Gamepad.current.dpad.up.isPressed)    input.y += 1;
+            if (Gamepad.current.dpad.down.isPressed)  input.y -= 1;
+            if (Gamepad.current.dpad.left.isPressed)  input.x -= 1;
+            if (Gamepad.current.dpad.right.isPressed) input.x += 1;
+        }
+
+        input = Vector2.ClampMagnitude(input, 1f);
     }
 
     void Move()
